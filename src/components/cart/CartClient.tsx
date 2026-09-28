@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
+import { EmptyState } from "@/components/shop/EmptyState";
 import { PriceDisplay } from "@/components/currency/PriceDisplay";
 import { useToast } from "@/components/ui/Toast";
 import { formatVes, round2 } from "@/lib/utils";
@@ -23,24 +24,21 @@ export function CartClient({
 
   if (items.length === 0) {
     return (
-      <div className="card p-10 text-center">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-ember-50 text-ember-600">
-          <ShoppingBag className="size-6" strokeWidth={1.5} />
-        </span>
-        <h2 className="mt-4 font-display text-3xl">Tu carrito está vacío</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-ink-600">
-          Mira el catálogo o cuéntanos qué quieres estampar: también hacemos
-          pedidos a medida desde una unidad.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/catalogo" className="btn btn-solid btn-lg">
-            Ver catálogo
-          </Link>
-          <Link href="/diseno-a-medida" className="btn btn-lg">
-            Diseño a medida
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={ShoppingBag}
+        title="Tu carrito está vacío"
+        description="Mira el catálogo o cuéntanos qué quieres estampar: también hacemos pedidos a medida desde una unidad."
+        actions={
+          <>
+            <Link href="/catalogo" className="btn btn-solid btn-lg">
+              Ver catálogo
+            </Link>
+            <Link href="/diseno-a-medida" className="btn btn-lg">
+              Diseño a medida
+            </Link>
+          </>
+        }
+      />
     );
   }
 
@@ -72,7 +70,7 @@ export function CartClient({
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     {item.collection && (
-                      <p className="font-mono text-[0.55rem] tracking-[0.16em] text-ink-400 uppercase">
+                      <p className="font-mono text-[0.55rem] tracking-[0.16em] text-ink-500 uppercase">
                         {item.collection}
                       </p>
                     )}
@@ -92,7 +90,7 @@ export function CartClient({
                       toast("Quitado del carrito", { detail: item.name });
                     }}
                     aria-label={`Quitar ${item.name}`}
-                    className="grid size-8 shrink-0 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-50 hover:text-ember-600"
+                    className="grid size-8 shrink-0 place-items-center rounded-full text-ink-500 transition-colors hover:bg-ink-50 hover:text-ember-600"
                   >
                     <Trash2 className="size-4" />
                   </button>
@@ -130,7 +128,7 @@ export function CartClient({
                       className="text-ember-600"
                     />
                     {item.quantity > 1 && (
-                      <p className="font-mono text-[0.58rem] text-ink-400">
+                      <p className="font-mono text-[0.58rem] text-ink-500">
                         {formatVes(item.unitPrice)} c/u
                       </p>
                     )}

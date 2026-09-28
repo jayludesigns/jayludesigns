@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Heart, X } from "lucide-react";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { EmptyState } from "@/components/shop/EmptyState";
 import { useWishlist } from "@/components/wishlist/WishlistContext";
 
 /** Lista de favoritos: lee del contexto (localStorage) y pinta tarjetas. */
@@ -11,19 +12,16 @@ export function FavoritesList() {
 
   if (items.length === 0) {
     return (
-      <div className="card flex flex-col items-center gap-3 p-10 text-center">
-        <span className="grid size-14 place-items-center rounded-full bg-ember-50 text-ember-600">
-          <Heart className="size-6" />
-        </span>
-        <h2 className="font-display text-2xl">Aún no guardaste nada</h2>
-        <p className="max-w-sm text-sm leading-relaxed text-ink-600">
-          Toca el corazón en cualquier tarjeta del catálogo y aquí se quedará
-          esperándote.
-        </p>
-        <Link href="/catalogo" className="btn btn-solid mt-2">
-          Ver el catálogo
-        </Link>
-      </div>
+      <EmptyState
+        icon={Heart}
+        title="Aún no guardaste nada"
+        description="Toca el corazón en cualquier tarjeta del catálogo y aquí se quedará esperándote."
+        actions={
+          <Link href="/catalogo" className="btn btn-solid btn-lg">
+            Ver el catálogo
+          </Link>
+        }
+      />
     );
   }
 

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { SearchX } from "lucide-react";
 import { getCatalog, getCatalogFacets, getCategories, getCollections } from "@/lib/data/catalog";
 import { ProductCard, toCardProduct } from "@/components/shop/ProductCard";
+import { EmptyState } from "@/components/shop/EmptyState";
 import { CatalogFilters } from "@/components/shop/CatalogFilters";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 
@@ -110,20 +112,22 @@ export default async function CatalogPage({
           ))}
         </div>
       ) : (
-        <div className="mt-10 card p-10 text-center">
-          <p className="font-display text-3xl">No encontramos nada con eso</p>
-          <p className="mx-auto mt-3 max-w-md text-sm text-ink-600">
-            Prueba quitando algún filtro. Si buscas algo puntual que no está en el
-            catálogo, pídelo a medida y lo hacemos.
-          </p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Link href="/catalogo" className="btn btn-solid">
-              Limpiar filtros
-            </Link>
-            <Link href="/diseno-a-medida" className="btn">
-              Pedir diseño a medida
-            </Link>
-          </div>
+        <div className="mt-10">
+          <EmptyState
+            icon={SearchX}
+            title="No encontramos nada con eso"
+            description="Prueba quitando algún filtro. Si buscas algo puntual que no está en el catálogo, pídelo a medida y lo hacemos."
+            actions={
+              <>
+                <Link href="/catalogo" className="btn btn-solid">
+                  Limpiar filtros
+                </Link>
+                <Link href="/diseno-a-medida" className="btn">
+                  Pedir diseño a medida
+                </Link>
+              </>
+            }
+          />
         </div>
       )}
     </div>

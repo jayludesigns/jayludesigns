@@ -85,7 +85,7 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
                       ? "border-ember-600 bg-ember-600 text-paper"
                       : done
                         ? "border-ink-300"
-                        : "border-ink-200 text-ink-400"
+                        : "border-ink-200 text-ink-500"
                   }`}
                 >
                   {ORDER_STATUS_LABELS[status]}

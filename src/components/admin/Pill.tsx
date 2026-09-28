@@ -20,7 +20,7 @@ export function Pill({
         tone === "solid" && "bg-ember-600 text-paper",
         tone === "outline" && "border border-ink-200 text-ink-700",
         tone === "plain" && "bg-ink-50 text-ink-700",
-        tone === "muted" && "text-ink-400",
+        tone === "muted" && "text-ink-500",
         className,
       )}
     >

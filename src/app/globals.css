@@ -129,6 +129,29 @@
     border-radius: 3px;
   }
 
+  /* Scrollbar fino y en la familia de la tinta: píldora suave que se
+     aviva en el acento al pasar el ratón. Firefox usa scrollbar-color;
+     el resto usa pseudo-elementos. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-300) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-200);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-canvas);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ember-600);
+  }
+
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 400;

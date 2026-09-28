@@ -16,6 +16,7 @@ import {
   User,
 } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
+import { EmptyState } from "@/components/shop/EmptyState";
 import { useToast } from "@/components/ui/Toast";
 import { PriceDisplay } from "@/components/currency/PriceDisplay";
 import { submitOrder, idleState, type FormState } from "@/lib/actions/store";
@@ -91,23 +92,21 @@ export function CheckoutClient({
 
   if (items.length === 0 && state.status !== "ok") {
     return (
-      <div className="card p-10 text-center">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-ember-50 text-ember-600">
-          <Package className="size-6" strokeWidth={1.5} />
-        </span>
-        <h2 className="mt-4 font-display text-3xl">No hay nada que cobrar</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-ink-600">
-          Tu carrito está vacío. Agrega algo del catálogo o pídelo a medida.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/catalogo" className="btn btn-solid btn-lg">
-            Ver catálogo
-          </Link>
-          <Link href="/diseno-a-medida" className="btn btn-lg">
-            Diseño a medida
-          </Link>
-        </div>
-      </div>
+      <EmptyState
+        icon={Package}
+        title="No hay nada que cobrar"
+        description="Tu carrito está vacío. Agrega algo del catálogo o pídelo a medida."
+        actions={
+          <>
+            <Link href="/catalogo" className="btn btn-solid btn-lg">
+              Ver catálogo
+            </Link>
+            <Link href="/diseno-a-medida" className="btn btn-lg">
+              Diseño a medida
+            </Link>
+          </>
+        }
+      />
     );
   }
 

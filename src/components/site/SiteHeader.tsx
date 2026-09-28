@@ -222,7 +222,7 @@ export function SiteHeader({
                 name="q"
                 type="search"
                 placeholder="Busca franelas, hoodies, uniformes…"
-                className="min-w-0 bg-transparent px-4 py-2.5 text-sm text-ink placeholder:text-ink-400 focus:outline-none"
+                className="min-w-0 bg-transparent px-4 py-2.5 text-sm text-ink placeholder:text-ink-500 focus:outline-none"
               />
               <button
                 type="submit"
@@ -263,7 +263,7 @@ export function SiteHeader({
                 href={item.href}
                 className="flex items-baseline gap-3 border-b border-ink-100 py-4 font-display text-3xl uppercase transition-colors hover:text-ember-600 last:border-0"
               >
-                <span className="font-mono text-[0.6rem] text-ink-400">
+                <span className="font-mono text-[0.6rem] text-ink-500">
                   0{index + 1}
                 </span>
                 {item.label}

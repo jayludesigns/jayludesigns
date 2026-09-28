@@ -22,7 +22,7 @@ export function WishlistHeart({ product, className }: { product: CardProduct; cl
       aria-pressed={saved}
       className={cn(
         "absolute top-3 right-3 z-10 grid size-9 place-items-center rounded-full bg-paper/95 shadow-soft backdrop-blur-sm transition-all duration-200 hover:scale-110 active:scale-95",
-        saved ? "text-ember-600" : "text-ink-400 hover:text-ember-600",
+        saved ? "text-ember-600" : "text-ink-500 hover:text-ember-600",
         className,
       )}
     >

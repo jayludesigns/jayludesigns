@@ -103,7 +103,7 @@ export function ProductCard({
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         {product.collection && (
-          <p className="font-mono text-[0.55rem] tracking-[0.18em] text-ink-400 uppercase">
+          <p className="font-mono text-[0.55rem] tracking-[0.18em] text-ink-500 uppercase">
             {product.collection}
           </p>
         )}
@@ -116,7 +116,7 @@ export function ProductCard({
         {product.rating != null && (
           <div className="flex items-center gap-1.5">
             <Stars rating={product.rating} />
-            <span className="font-mono text-[0.58rem] tracking-wide text-ink-400">
+            <span className="font-mono text-[0.58rem] tracking-wide text-ink-500">
               {product.reviewCount} {product.reviewCount === 1 ? "reseña" : "reseñas"}
             </span>
           </div>
@@ -131,7 +131,7 @@ export function ProductCard({
               // burdeos, la vista va directo a la cifra sin tener que leer
               // el nombre. El tachado se apaga para no competir.
               hasDiscount
-                ? "[&>span:first-child]:text-ink-400 [&>span:first-child]:line-through"
+                ? "[&>span:first-child]:text-ink-500 [&>span:first-child]:line-through"
                 : "text-ember-600",
             )}
           />

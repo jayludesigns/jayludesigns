@@ -132,7 +132,7 @@ export default async function AdminDesignsPage({ searchParams }: { searchParams:
                       )}
                     </Link>
                   ) : (
-                    <div className="grid aspect-square w-full place-items-center border border-dashed border-ink-300 text-ink-400">
+                    <div className="grid aspect-square w-full place-items-center border border-dashed border-ink-300 text-ink-500">
                       <ImageOff className="size-5" />
                     </div>
                   )}

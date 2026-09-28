@@ -64,7 +64,7 @@ export function PriceDisplay({
         </span>
       )}
       {showRate && mode !== "ves" && rate > 0 && (
-        <span className="mt-0.5 text-[0.6rem] tracking-wide text-ink-400">
+        <span className="mt-0.5 text-[0.6rem] tracking-wide text-ink-500">
           1 € = {formatVes(rate, "Bs", false)} {stale ? "· tasa orientativa" : `· ${source}`}
         </span>
       )}

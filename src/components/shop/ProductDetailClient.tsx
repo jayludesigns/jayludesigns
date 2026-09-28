@@ -189,7 +189,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
           <div className="flex items-end justify-between gap-3">
             <PriceDisplay ves={unitPrice} size="xl" className="text-ember-600" />
             {listPrice > unitPrice && (
-              <span className="font-mono text-sm text-ink-400 line-through">
+              <span className="font-mono text-sm text-ink-500 line-through">
                 {formatVes(listPrice)}
               </span>
             )}

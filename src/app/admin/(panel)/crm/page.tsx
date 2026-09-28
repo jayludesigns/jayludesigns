@@ -323,7 +323,7 @@ export default async function AdminCrmPage() {
                         <button
                           type="submit"
                           title="Reabrir"
-                          className="font-mono text-[0.58rem] text-ink-400 uppercase hover:text-ink hover:underline"
+                          className="font-mono text-[0.58rem] text-ink-500 uppercase hover:text-ink hover:underline"
                         >
                           reabrir
                         </button>

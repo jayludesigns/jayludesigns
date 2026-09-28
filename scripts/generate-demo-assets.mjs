@@ -835,7 +835,7 @@ function spinFrame(meta, i) {
   const rad = (theta * Math.PI) / 180;
   const c = Math.cos(rad);
   const s = Math.sin(rad);
-  const cs = (c < 0 ? -1 : 1) * Math.max(Math.abs(c), 0.12); // nunca desaparece
+  const cs = (c < 0 ? -1 : 1) * Math.max(Math.abs(c), 0.25); // nunca desaparece
   const dx = 420 * (theta / 360); // recorrido de una vuelta completa
   const wrap = dx <= 105 ? 1 : Math.max(0, 1 - (dx - 105) / 115);
   const op = (0.12 + 0.88 * Math.abs(c)) * wrap;

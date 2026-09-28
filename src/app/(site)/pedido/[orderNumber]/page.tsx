@@ -120,7 +120,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
                   <span
                     className={cn(
                       "font-mono text-[0.58rem] tracking-wider uppercase",
-                      done ? "font-bold" : "text-ink-400",
+                      done ? "font-bold" : "text-ink-500",
                     )}
                   >
                     {step.label}

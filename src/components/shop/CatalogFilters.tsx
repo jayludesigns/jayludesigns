@@ -259,7 +259,7 @@ export function CatalogFilters({
               className="field text-sm"
               aria-label="Precio mínimo"
             />
-            <span className="text-ink-400">—</span>
+            <span className="text-ink-500">—</span>
             <input
               type="number"
               inputMode="numeric"
