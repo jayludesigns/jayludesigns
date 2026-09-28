@@ -48,6 +48,7 @@ export function SiteHeader({
   const { count: cartCount } = useCart();
   const { count: wishlistCount } = useWishlist();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   // El menú móvil tiene que cerrarse solo al cambiar de página. En vez de un
   // efecto que vigila `pathname` —y provoca un render extra en cada
@@ -61,7 +62,24 @@ export function SiteHeader({
   );
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    // El encabezado se ve al entrar. Al bajar se desliza hacia arriba y
+    // desaparece (el contenido gana pantalla); al volver a subir se
+    // despliega otra vez. Se evita ocultarlo en el tramo inicial y con el
+    // menú móvil abierto.
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 8);
+        const delta = y - lastY;
+        if (Math.abs(delta) >= 6) setHidden(delta > 0 && y > 150);
+        lastY = y;
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -75,7 +93,12 @@ export function SiteHeader({
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-80">
+    <header
+      className={cn(
+        "sticky top-0 z-80 transition-transform duration-300 ease-out",
+        hidden && !open && "-translate-y-full",
+      )}
+    >
       {/* Marquesina: el acento es lo primero que entra por la pantalla, así
           que la franja arranca en burdeos. Sin imagen, para no competir con
           el logo. */}
@@ -196,7 +219,7 @@ export function SiteHeader({
               action="/catalogo"
               method="get"
               role="search"
-              className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-stretch overflow-hidden rounded-xl border border-ink-200 bg-paper shadow-xs focus-within:border-ember-600 focus-within:ring-2 focus-within:ring-ember-600/20"
+              className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-stretch overflow-hidden rounded-xl border border-ember-600 bg-ember-600 shadow-xs focus-within:border-ember-700 focus-within:ring-2 focus-within:ring-ember-700/25"
             >
               <label className="sr-only" htmlFor="hdr-cat">
                 Categoría
@@ -205,7 +228,7 @@ export function SiteHeader({
                 id="hdr-cat"
                 name="categoria"
                 defaultValue=""
-                className="border-r border-ink-200 bg-ink-50 px-3 py-2.5 font-mono text-[0.65rem] font-bold tracking-wider text-ink-700 uppercase focus:outline-none lg:max-w-52"
+                className="border-r border-paper/20 bg-ember-700 px-3 py-2.5 font-mono text-[0.65rem] font-bold tracking-wider text-paper uppercase focus:outline-none lg:max-w-52"
               >
                 <option value="">Todas</option>
                 {categories.map((category) => (
@@ -222,11 +245,11 @@ export function SiteHeader({
                 name="q"
                 type="search"
                 placeholder="Busca franelas, hoodies, uniformes…"
-                className="min-w-0 bg-transparent px-4 py-2.5 text-sm text-ink placeholder:text-ink-500 focus:outline-none"
+                className="min-w-0 bg-transparent px-4 py-2.5 text-sm text-paper placeholder:text-paper/70 focus:outline-none"
               />
               <button
                 type="submit"
-                className="flex items-center gap-2 bg-ember-600 px-4 font-mono text-[0.65rem] font-bold tracking-[0.14em] text-paper uppercase transition-colors hover:bg-ember-700 sm:px-5"
+                className="flex items-center gap-2 bg-ink px-4 font-mono text-[0.65rem] font-bold tracking-[0.14em] text-paper uppercase transition-colors hover:bg-ink-800 sm:px-5"
               >
                 <Search className="size-4" />
                 <span className="hidden md:inline">Buscar</span>

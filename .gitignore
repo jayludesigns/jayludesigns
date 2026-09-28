@@ -39,6 +39,9 @@ yarn-error.log*
 # demostración de src/lib/db/seed.ts.
 /.data/
 
+# imágenes subidas desde el panel (almacenamiento local)
+/public/uploads/
+
 # vercel
 .vercel
 

@@ -178,6 +178,16 @@
     letter-spacing: -0.01em;
     line-height: 0.95;
     text-transform: uppercase;
+    /* Todos los títulos sin relleno se marcan con el acento; los que
+       declaran color (utilidades) o viven sobre una banda oscura
+       conservan el suyo. */
+    color: var(--color-ember-600);
+  }
+
+  /* En bandas, tarjetas y filas oscuras el título vuelve al blanco:
+     el burdeos sobre negro no tiene contraste. */
+  :where(.bg-ink, .bg-ink-900, .bg-ink-950, .card-dark) :is(h1, h2, h3, h4) {
+    color: var(--color-paper);
   }
 
   input, textarea, select, button {
@@ -505,9 +515,11 @@
   /* --- Formularios --- */
   .field {
     width: 100%;
-    border: 1px solid var(--color-ink-200);
-    border-radius: var(--radius-md);
-    background: var(--color-paper);
+    border: 1px solid var(--color-ember-600);
+    border-radius: var(--radius-lg);
+    background: var(--color-ember-600);
+    color: var(--color-paper);
+    caret-color: var(--color-paper);
     padding: 0.7rem 0.9rem;
     font-size: 0.9rem;
     transition:
@@ -515,14 +527,42 @@
       box-shadow 0.18s var(--ease-soft);
   }
 
-  .field::placeholder { color: var(--color-ink-400); }
-  .field:hover { border-color: var(--color-ink-300); }
+  .field::placeholder { color: rgb(255 255 255 / 0.72); }
+  .field:hover { border-color: var(--color-ember-700); }
   .field:focus {
     outline: none;
-    border-color: var(--color-ember-600);
-    box-shadow: 0 0 0 3px rgb(107 32 26 / 0.13);
+    border-color: var(--color-ember-700);
+    box-shadow: 0 0 0 3px rgb(107 32 26 / 0.2);
   }
-  .field:disabled { background: var(--color-ink-50); cursor: not-allowed; }
+  .field:disabled {
+    background: var(--color-ember-800);
+    color: rgb(255 255 255 / 0.7);
+    cursor: not-allowed;
+  }
+
+  /* Campo en error: la advertencia pinta el fondo claro (ember-50), así que
+     la letra vuelve a la tinta oscura para no perderse. */
+  .field.bg-ember-50 {
+    color: var(--color-ink);
+  }
+  .field.bg-ember-50::placeholder {
+    color: var(--color-ink-400);
+  }
+
+  /* Cualquier cuadro de texto sin clase propia (búsqueda en filtros,
+     campos sueltos) recibe el mismo tratamiento: superficie del acento,
+     letras blancas y esquinas redondeadas. Las utilidades de color que
+     declaren los componentes ganan y se respetan. */
+  input[type="text"], input[type="email"], input[type="password"], input[type="tel"],
+  input[type="url"], input[type="search"], input[type="number"], textarea, select {
+    background: var(--color-ember-600);
+    border: 1px solid var(--color-ember-600);
+    color: var(--color-paper);
+    border-radius: var(--radius-lg);
+  }
+  input::placeholder, textarea::placeholder {
+    color: rgb(255 255 255 / 0.72);
+  }
 
   .label {
     display: block;

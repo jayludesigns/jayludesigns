@@ -17,11 +17,13 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { mkdir, rm, writeFile } from "node:fs/promises";
+import path from "node:path";
 
 import { ADMIN_COOKIE, checkCredentials, requireAdmin, sessionCookieOptions } from "@/lib/auth";
 import { saveStoreSettings, getBackend } from "@/lib/db";
 import { refreshBcvRate } from "@/lib/bcv";
-import type { RawMaterial } from "@/lib/types";
+import type { ProductImage, RawMaterial } from "@/lib/types";
 import type { AdminResult } from "@/components/admin/ActionForm";
 
 import {
@@ -302,12 +304,74 @@ export async function addImageAction(
   }, formData);
 }
 
+const IMAGE_MIME: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/avif": "avif",
+};
+const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
+
+/** Sube una imagen desde el equipo y la guarda en el almacenamiento local
+ *  (`public/uploads/<producto>/`), para que el catálogo la sirva como una
+ *  ruta normal sin depender de un URL externo. */
+export async function uploadImageAction(
+  _previous: AdminResult,
+  formData: FormData,
+): Promise<AdminResult> {
+  return guard(["/admin/productos", "/catalogo", "/producto"], async (form) => {
+    const raw = form.get("file");
+    if (!(raw instanceof Blob) || raw.size === 0) {
+      return fail("Elige una imagen de tu equipo.");
+    }
+    const file = raw as File;
+    const ext = IMAGE_MIME[file.type];
+    if (!ext) return fail("Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF.");
+    if (file.size > MAX_IMAGE_BYTES) return fail("La imagen supera el máximo de 6 MB.");
+
+    const productId = text(form, "product_id");
+    const dir = path.join(process.cwd(), "public", "uploads", productId);
+    await mkdir(dir, { recursive: true });
+    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    await writeFile(path.join(dir, name), Buffer.from(await file.arrayBuffer()));
+
+    const saved = await addProductImage({
+      product_id: productId,
+      url: `/uploads/${productId}/${name}`,
+      alt: textOrNull(form, "alt") ?? file.name,
+      kind: (text(form, "kind") || "gallery") as "main" | "gallery" | "360",
+    });
+    return ok("Imagen subida y guardada en el almacenamiento.", {
+      href: `/admin/productos/${saved.product_id}`,
+    });
+  }, formData);
+}
+
 export async function deleteImageAction(
   _previous: AdminResult,
   formData: FormData,
 ): Promise<AdminResult> {
   return guard(["/admin/productos", "/producto"], async (form) => {
-    await removeProductImage(text(form, "image_id"));
+    const imageId = text(form, "image_id");
+    // Si la imagen vive en nuestro almacenamiento local (/uploads), el
+    // archivo en disco se borra junto con la fila para no dejar huérfanos.
+    try {
+      const backend = getBackend();
+      const [image] = await backend.list<ProductImage>("product_images", {
+        where: [{ column: "id", op: "eq", value: imageId }],
+      });
+      await removeProductImage(imageId);
+      if (image?.url?.startsWith("/uploads/")) {
+        const filePath = path.join(process.cwd(), "public", image.url);
+        await rm(filePath, { force: true });
+        await rm(path.dirname(filePath), { force: true, recursive: true }).catch(() => {});
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "No se pudo quitar la imagen.";
+      return fail(message);
+    }
     return ok("Imagen quitada.");
   }, formData);
 }
