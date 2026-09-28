@@ -11,14 +11,23 @@
  *  · imágenes        → stale-while-revalidate: se ven al instante y se
  *                      refrescan en segundo plano
  *  · API y POST      → solo red, nunca caché
+ *
+ * En desarrollo (localhost · puerto 3000) el worker NO cachea nada: cada
+ * recarga ve los cambios al momento. Para invalidar una versión desplegada
+ * se sube `VERSION`: al activarse se borran todas las cachés anteriores.
  */
 
-const VERSION = "jaylu-v1";
+const VERSION = "jaylu-v2";
 const SHELL_CACHE = `${VERSION}-shell`;
 const ASSET_CACHE = `${VERSION}-assets`;
 const IMAGE_CACHE = `${VERSION}-images`;
 
 const OFFLINE_URL = "/offline";
+
+/** ¿Estamos en `next dev`? Por hostname y puerto: ahí nunca hay caché. */
+const DEV =
+  /^(:?localhost|127\.0\.0\.1)$/.test(self.location.hostname) ||
+  self.location.port === "3000";
 
 /** Lo mínimo para que la app abra sin conexión. */
 const PRECACHE = [
@@ -31,32 +40,36 @@ const PRECACHE = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(SHELL_CACHE)
+    (async () => {
+      if (DEV) {
+        // En desarrollo el worker solo existe para purgar cachés viejas y
+        // quedarse de brazos cruzados: nada de precaché.
+        await self.skipWaiting();
+        return;
+      }
+      const cache = await caches.open(SHELL_CACHE);
       // addAll falla entero si un recurso falla: se van añadiendo de a uno.
-      .then((cache) =>
-        Promise.all(
-          PRECACHE.map((url) =>
-            cache.add(new Request(url, { cache: "reload" })).catch(() => undefined),
-          ),
+      await Promise.all(
+        PRECACHE.map((url) =>
+          cache.add(new Request(url, { cache: "reload" })).catch(() => undefined),
         ),
-      )
-      .then(() => self.skipWaiting()),
+      );
+      await self.skipWaiting();
+    })(),
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys
-            .filter((key) => !key.startsWith(VERSION))
-            .map((key) => caches.delete(key)),
-        ),
-      )
-      .then(() => self.clients.claim()),
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys
+          .filter((key) => (DEV ? true : !key.startsWith(VERSION)))
+          .map((key) => caches.delete(key)),
+      );
+      await self.clients.claim();
+    })(),
   );
 });
 
@@ -134,6 +147,10 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+
+  // En desarrollo el worker no intercepta nada: todo va a la red y cada
+  // recarga muestra los cambios. En producción sí se aplican las estrategias.
+  if (DEV) return;
 
   // Nunca cacheamos datos vivos ni el panel.
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/admin")) return;
