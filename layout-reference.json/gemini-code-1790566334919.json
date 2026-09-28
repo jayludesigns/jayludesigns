@@ -1,0 +1,82 @@
+{
+  "theme": "Marketo E-Commerce Layout",
+  "styles": {
+    "primaryColor": "#ffcc00",
+    "backgroundColor": "#f8f9fa",
+    "fontFamily": "Poppins, sans-serif"
+  },
+  "layout": {
+    "topHeader": {
+      "leftItems": ["Free Delivery", "Return Policy", "Social Links (FB, TW, PT, IG)"],
+      "rightItems": ["Login"]
+    },
+    "mainHeader": {
+      "logo": "Marketo.",
+      "navigation": ["Home", "Pages", "Shop", "Blog", "Gallery", "Vendor"],
+      "actions": ["Wishlist Icon", "Cart Icon with Badge"]
+    },
+    "searchBar": {
+      "categoriesButton": "All Categories",
+      "searchInputPlaceholder": "Find your product",
+      "categoryDropdown": "All Categories",
+      "searchButton": "Search Icon",
+      "promoBadge": "BLACK FRIDAY - Get 45% Off"
+    },
+    "heroSection": {
+      "mainBanner": {
+        "tag": "Get 50% Off",
+        "title": "SHOP WISE WITH PRICE COMPARISONS",
+        "buttons": ["VIEW COLLECTION", "CATEGORIES"],
+        "backgroundColor": "#06b6d4"
+      },
+      "sideBanners": [
+        {
+          "tag": "Top Picks in Popular",
+          "title": "TECH & MORE",
+          "subtitle": "Hurry, these deals will be gone in a FLASH!",
+          "backgroundColor": "#f97316"
+        },
+        {
+          "title": "KERUI",
+          "subtitle": "ENJOY THE SECURITY",
+          "description": "Amazing offers for security systems",
+          "backgroundColor": "#2563eb"
+        }
+      ]
+    },
+    "secondaryBanners": [
+      {
+        "category": "Electronics Minimal",
+        "title": "Get Holiday Deals",
+        "action": "VIEW COLLECTIONS"
+      },
+      {
+        "title": "Get 50% Off Every Handset Retina Item",
+        "action": "GO SHOP"
+      },
+      {
+        "category": "Minimalism Design",
+        "title": "Music Makes Feel Better"
+      }
+    ],
+    "productsSection": {
+      "title": "Top Categories This Week",
+      "categoryTabs": ["Mobile", "Headphone", "Camera", "Drone", "Speaker"],
+      "gridColumns": 4,
+      "sampleProducts": [
+        { "name": "Xpeed Projector", "price": "$499.00", "originalPrice": "$520.00", "rating": 5 },
+        { "name": "Bevigac Gamepad", "price": "$220.00", "rating": 4 },
+        { "name": "Mini Game Controller", "price": "$320.00", "rating": 4 },
+        { "name": "Fortnite Controller", "price": "$170.00", "rating": 5 },
+        { "name": "Bluetooth Gamepad", "price": "$199.00", "rating": 5 },
+        { "name": "Unlocked iPhone 6", "price": "$599.00", "rating": 4 },
+        { "name": "Apple iPhone 7s", "price": "$660.00", "originalPrice": "$690.00", "rating": 4 },
+        { "name": "Apple iPhone 6s", "price": "$299.00", "rating": 5 },
+        { "name": "Headset for Phones", "price": "$39.00", "rating": 4 },
+        { "name": "Kotion Headset", "price": "$29.00", "rating": 4 },
+        { "name": "Goldenhour Watch", "price": "$60.00", "rating": 5 },
+        { "name": "Fuers Outdoor", "price": "$499.00", "originalPrice": "$520.00", "rating": 4 }
+      ]
+    }
+  }
+}

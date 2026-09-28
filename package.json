@@ -1,0 +1,43 @@
+{
+  "name": "jaylu",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node scripts/smoke.mjs",
+    "check": "npm run typecheck && npm run check:encoding",
+    "assets:demo": "node scripts/generate-demo-assets.mjs",
+    "assets:icons": "node scripts/generate-icons.mjs",
+    "assets:verify": "node scripts/verify-demo-assets.mjs",
+    "db:seed-sql": "tsx scripts/generate-seed-sql.ts",
+    "check:encoding": "node scripts/scan-encoding.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.48.0",
+    "next": "16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "stripe": "^22.6.2",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}
