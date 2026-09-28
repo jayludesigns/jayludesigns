@@ -47,14 +47,14 @@ export default async function HomePage() {
 
         <div className="wrap relative grid items-center gap-10 py-14 lg:grid-cols-12 lg:py-20">
           <div className="lg:col-span-7">
-            <p className="mb-4 flex flex-wrap items-center gap-2 font-mono text-[0.6rem] tracking-[0.24em] uppercase">
+            <p className="rise mb-4 flex flex-wrap items-center gap-2 font-mono text-[0.6rem] tracking-[0.24em] uppercase">
               <span className="rounded-full bg-ember-600 px-3 py-1.5 text-paper">
                 Estampado a medida
               </span>
               <span className="text-ink-500">Caracas · envío a toda Venezuela</span>
             </p>
 
-            <h1 className="text-[clamp(2.75rem,9vw,7rem)] leading-[0.84]">
+            <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,7rem)] leading-[0.84]">
               Tu idea,
               <br />
               <span className="relative inline-block">
@@ -71,13 +71,13 @@ export default async function HomePage() {
               en una franela
             </h1>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-700 sm:text-lg">
+            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-700 sm:text-lg">
               Catálogo de anime, fantasía, videojuegos y streetwear. Uniformes para
               colegios, empresas y grupos. Y si no existe, lo hacemos a medida: sube
               tu foto o cuéntanos la idea y cotizamos sin compromiso.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="rise rise-d3 mt-8 flex flex-wrap gap-3">
               <Link href="/catalogo" className="btn btn-solid btn-lg">
                 Ver catálogo
                 <ArrowRight className="size-4" />
@@ -88,7 +88,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <dl className="card mt-10 grid max-w-lg grid-cols-3 divide-x divide-ink-100 overflow-hidden">
+            <dl className="rise rise-d4 card mt-10 grid max-w-lg grid-cols-3 divide-x divide-ink-100 overflow-hidden">
               {[
                 ["1 ud.", "Pedido mínimo"],
                 ["48 h", "Muestra digital"],

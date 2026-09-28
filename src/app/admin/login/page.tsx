@@ -17,6 +17,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
     <div className="grid min-h-dvh lg:grid-cols-2">
       {/* Lado de marca */}
       <div className="relative hidden overflow-hidden bg-ink text-paper lg:block">
+        <div className="glow-ember pointer-events-none absolute -bottom-48 -left-40 size-[42rem] opacity-60" aria-hidden />
         <div className="speed-lines-light absolute inset-0 opacity-30" aria-hidden />
         <div className="halftone-lg-light absolute inset-0 opacity-40" aria-hidden />
         <div className="relative flex h-full flex-col justify-between p-10">
@@ -32,7 +33,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
               <br />
               negocio
               <br />
-              <span className="opacity-40">en un</span> sitio
+              <span className="text-ember-400">en un</span> sitio
             </p>
             <p className="mt-6 max-w-sm text-sm leading-relaxed opacity-70">
               Catálogo, promociones, pedidos, inventario, clientes y finanzas.
@@ -63,7 +64,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
             <LoginForm next={next} />
           </div>
 
-          <p className="mt-6 border border-ink-200 p-3 text-xs leading-relaxed text-ink-600">
+          <p className="mt-6 rounded-xl border-2 border-ink-300 p-3 text-xs leading-relaxed text-ink-600">
             Las credenciales vienen de las variables de entorno{" "}
             <code className="font-mono">ADMIN_EMAIL</code> y{" "}
             <code className="font-mono">ADMIN_PASSWORD</code>. Sin ellas se usan
