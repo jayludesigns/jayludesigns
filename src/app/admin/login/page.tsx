@@ -16,8 +16,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
       {/* Lado de marca */}
-      <div className="relative hidden overflow-hidden bg-ink text-paper lg:block">
-        <div className="glow-ember pointer-events-none absolute -bottom-48 -left-40 size-[42rem] opacity-60" aria-hidden />
+      <div className="relative hidden overflow-hidden bg-ember-600 text-paper lg:block">
         <div className="speed-lines-light absolute inset-0 opacity-30" aria-hidden />
         <div className="halftone-lg-light absolute inset-0 opacity-40" aria-hidden />
         <div className="relative flex h-full flex-col justify-between p-10">

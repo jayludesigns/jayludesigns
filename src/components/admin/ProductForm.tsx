@@ -11,7 +11,8 @@ import {
   TextAreaField,
   TextField,
 } from "@/components/admin/Fields";
-import { addImageAction, deleteImageAction, saveProductAction, saveSpinAction, uploadImageAction } from "@/app/admin/actions";
+import { addImageAction, deleteImageAction, saveProductAction, saveSpinAction } from "@/app/admin/actions";
+import { ImageUploadForm } from "@/components/admin/ImageUploadForm";
 import { formatVes } from "@/lib/utils";
 import { PRINT_TECHNIQUES } from "@/lib/types";
 import type { Category, Collection, Product, ProductImage } from "@/lib/types";
@@ -457,31 +458,7 @@ export function ProductForm({
             </select>
           </ActionForm>
 
-          <ActionForm
-            action={uploadImageAction}
-            hiddenFields={{ product_id: product.id }}
-            submitLabel="Subir imagen"
-            submitIcon={<Upload className="size-4" />}
-            submitClassName="btn btn-sm"
-            className="mt-4 grid gap-3 border-t border-ink-200 pt-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end"
-          >
-            <label className="flex cursor-pointer items-center gap-2 self-center rounded-xl border-2 border-dashed border-ember-300 bg-ember-50 px-4 py-2.5 text-sm font-semibold text-ember-700 transition-colors hover:border-ember-500 hover:bg-ember-100">
-              <Upload className="size-4" />
-              Elegir imagen desde tu equipo…
-              <input
-                type="file"
-                name="file"
-                accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
-                className="sr-only"
-                required
-              />
-            </label>
-            <select name="kind" defaultValue="gallery" className="field sm:w-32">
-              <option value="main">Portada</option>
-              <option value="gallery">Galería</option>
-              <option value="360">Fotograma 360</option>
-            </select>
-          </ActionForm>
+          <ImageUploadForm productId={product.id} />
         </Fieldset>
       )}
 

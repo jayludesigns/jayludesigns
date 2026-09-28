@@ -17,7 +17,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { rm } from "node:fs/promises";
 import path from "node:path";
 
 import { ADMIN_COOKIE, checkCredentials, requireAdmin, sessionCookieOptions } from "@/lib/auth";
@@ -301,50 +301,6 @@ export async function addImageAction(
       kind: (text(form, "kind") || "gallery") as "main" | "gallery" | "360",
     });
     return ok("Imagen añadida.", { href: `/admin/productos/${saved.product_id}` });
-  }, formData);
-}
-
-const IMAGE_MIME: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-  "image/gif": "gif",
-  "image/avif": "avif",
-};
-const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
-
-/** Sube una imagen desde el equipo y la guarda en el almacenamiento local
- *  (`public/uploads/<producto>/`), para que el catálogo la sirva como una
- *  ruta normal sin depender de un URL externo. */
-export async function uploadImageAction(
-  _previous: AdminResult,
-  formData: FormData,
-): Promise<AdminResult> {
-  return guard(["/admin/productos", "/catalogo", "/producto"], async (form) => {
-    const raw = form.get("file");
-    if (!(raw instanceof Blob) || raw.size === 0) {
-      return fail("Elige una imagen de tu equipo.");
-    }
-    const file = raw as File;
-    const ext = IMAGE_MIME[file.type];
-    if (!ext) return fail("Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF.");
-    if (file.size > MAX_IMAGE_BYTES) return fail("La imagen supera el máximo de 6 MB.");
-
-    const productId = text(form, "product_id");
-    const dir = path.join(process.cwd(), "public", "uploads", productId);
-    await mkdir(dir, { recursive: true });
-    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    await writeFile(path.join(dir, name), Buffer.from(await file.arrayBuffer()));
-
-    const saved = await addProductImage({
-      product_id: productId,
-      url: `/uploads/${productId}/${name}`,
-      alt: textOrNull(form, "alt") ?? file.name,
-      kind: (text(form, "kind") || "gallery") as "main" | "gallery" | "360",
-    });
-    return ok("Imagen subida y guardada en el almacenamiento.", {
-      href: `/admin/productos/${saved.product_id}`,
-    });
   }, formData);
 }
 

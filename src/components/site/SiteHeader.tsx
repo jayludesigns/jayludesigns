@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { Wordmark } from "@/components/site/Logo";
 import { CurrencyToggle } from "@/components/currency/PriceDisplay";
@@ -61,6 +61,21 @@ export function SiteHeader({
     [openedOn, pathname],
   );
 
+  // La búsqueda usa el mismo truco que el menú: se despliega al pulsar la
+  // lupa (panel que entra de izquierda a derecha) y se cierra sola al
+  // navegar, sin dejar la franja ocupando espacio bajo la cabecera.
+  const [searchedOn, setSearchedOn] = useState<string | null>(null);
+  const searchOpen = searchedOn === pathname;
+  const toggleSearch = useCallback(
+    () => setSearchedOn(searchedOn === pathname ? null : pathname),
+    [searchedOn, pathname],
+  );
+  const searchInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (searchOpen) searchInput.current?.focus();
+  }, [searchOpen]);
+
   useEffect(() => {
     // El encabezado se ve al entrar. Al bajar se desliza hacia arriba y
     // desaparece (el contenido gana pantalla); al volver a subir se
@@ -96,7 +111,7 @@ export function SiteHeader({
     <header
       className={cn(
         "sticky top-0 z-80 transition-transform duration-300 ease-out",
-        hidden && !open && "-translate-y-full",
+        hidden && !open && !searchOpen && "-translate-y-full",
       )}
     >
       {/* Marquesina: el acento es lo primero que entra por la pantalla, así
@@ -165,13 +180,15 @@ export function SiteHeader({
             <div className="flex items-center gap-2">
               <CurrencyToggle className="hidden sm:flex" />
 
-              <Link
-                href="/catalogo"
-                aria-label="Buscar productos"
-                className={cn(ICON_BUTTON, "sm:hidden")}
+              <button
+                type="button"
+                onClick={toggleSearch}
+                aria-expanded={searchOpen}
+                aria-label={searchOpen ? "Cerrar búsqueda" : "Buscar productos"}
+                className={ICON_BUTTON}
               >
-                <Search className="size-4" />
-              </Link>
+                {searchOpen ? <X className="size-4" /> : <Search className="size-4" />}
+              </button>
 
               <Link
                 href="/favoritos"
@@ -210,11 +227,27 @@ export function SiteHeader({
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Barra de búsqueda con selector de categoría y caja de promoción,
-              como en la referencia. La fila aparece desde tablets; en móvil
-              manda el icono de lupa del bloque superior. */}
-          <div className="hidden items-stretch gap-3 pb-4 sm:grid md:grid-cols-[minmax(0,1fr)_auto]">
+      {/* Búsqueda desplegable: sin franja fija bajo la cabecera. El cajón
+          entra de izquierda a derecha al pulsar la lupa y se cierra solo al
+          navegar, para no dejar espacio muerto al mostrar los productos. */}
+      {searchOpen && (
+        <div className="animate-slide-in-left absolute inset-x-0 top-full z-90 border-b border-ink-200 bg-paper shadow-soft">
+          <div className="wrap flex flex-col gap-3 py-4">
+            <div className="flex items-center justify-between gap-3">
+              <span className="label mb-0">Buscar en el catálogo</span>
+              <button
+                type="button"
+                onClick={toggleSearch}
+                aria-label="Cerrar búsqueda"
+                className="grid size-9 place-items-center rounded-full border border-ink-200 text-ink transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
             <form
               action="/catalogo"
               method="get"
@@ -241,6 +274,7 @@ export function SiteHeader({
                 Buscar productos
               </label>
               <input
+                ref={searchInput}
                 id="hdr-q"
                 name="q"
                 type="search"
@@ -259,6 +293,7 @@ export function SiteHeader({
             {promo && (
               <Link
                 href="/catalogo"
+                onClick={toggleSearch}
                 className="flex min-w-44 flex-col justify-center rounded-xl border border-ember-200 bg-ember-50 px-4 py-2 text-center transition-colors hover:border-ember-300 hover:bg-ember-100"
               >
                 <span className="font-mono text-[0.6rem] font-bold tracking-[0.18em] text-ember-700 uppercase">
@@ -274,11 +309,11 @@ export function SiteHeader({
             )}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Panel móvil */}
       {open && (
-        <div className="animate-fade-in fixed inset-x-0 top-[calc(100%-0px)] z-79 max-h-[80dvh] overflow-y-auto border-b border-ink-200 bg-paper shadow-lg lg:hidden">
+        <div className="animate-fade-in absolute inset-x-0 top-full z-79 max-h-[80dvh] overflow-y-auto border-b border-ink-200 bg-paper shadow-lg lg:hidden">
           <div className="wrap flex flex-col py-4">
             {NAV.map((item, index) => (
               <Link

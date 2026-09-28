@@ -1,64 +1,52 @@
 /**
- * Genera los iconos de la PWA a partir de `logo_jaylu.svg`.
+ * Regenera los iconos de la PWA con la identidad actual: fondo #6b201a y
+ * monograma "J" blanco (el mismo motivo del favicon app/icon.svg).
+ *
+ * Determinista: sin aleatoriedad, mismas salidas en cada ejecución.
  * Uso: node scripts/generate-icons.mjs
  */
-import { mkdirSync } from "node:fs";
-import path from "node:path";
 import sharp from "sharp";
+import { mkdir } from "node:fs/promises";
 
-const root = process.cwd();
-const logo = path.join(root, "logo_jaylu.svg");
-const outPublic = path.join(root, "public", "icons");
-const outApp = path.join(root, "src", "app");
+const OUT = "public/icons";
+await mkdir(OUT, { recursive: true });
 
-mkdirSync(outPublic, { recursive: true });
+/** Monograma "J" geométrico en blanco, centrado en un viewBox 64×64. */
+const MARK = `
+  <g fill="#ffffff">
+    <rect x="26" y="8" width="12" height="40" rx="6"/>
+    <rect x="15" y="41" width="23" height="11" rx="5.5"/>
+  </g>
+`;
 
-// El SVG tiene relleno transparente arriba y abajo; recortamos al contenido real
-// (viewBox 810x1012.5, contenido visible entre y=81 y y=915 sobre un ancho de 1080).
-const WIDTH = 1080;
-const TOP = Math.round((81 / 1012.5) * 1350);
-const HEIGHT = Math.round(((915 - 81) / 1012.5) * 1350);
-
-const content = await sharp(logo, { density: 400 })
-  .resize({ width: WIDTH })
-  .ensureAlpha()
-  .extract({ left: 0, top: TOP, width: WIDTH, height: HEIGHT })
-  .toBuffer();
-
-const meta = await sharp(content).metadata();
-console.log(`contenido recortado: ${meta.width}x${meta.height}`);
-
-async function onLight(size, file, inset = 0.1) {
-  const inner = Math.round(size * (1 - inset * 2));
-  const scaled = await sharp(content).resize({ width: inner, height: inner, fit: "inside" }).toBuffer();
-  await sharp({
-    create: { width: size, height: size, channels: 4, background: "#FFFFFF" },
-  })
-    .composite([{ input: scaled, gravity: "center" }])
-    .png({ compressionLevel: 9 })
-    .toFile(file);
-  console.log(`  ${path.relative(root, file)} (${size}x${size}, fondo blanco)`);
+function svg(size, { maskable = false } = {}) {
+  const radius = maskable ? 0 : Math.round(size * 0.22);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="${radius}" fill="#6b201a"/>
+  ${MARK}
+</svg>`;
 }
 
-async function onDark(size, file, inset = 0.16) {
-  const inner = Math.round(size * (1 - inset * 2));
-  const scaled = await sharp(content).resize({ width: inner, height: inner, fit: "inside" }).toBuffer();
-  await sharp({
-    create: { width: size, height: size, channels: 4, background: "#000000" },
-  })
-    .composite([{ input: scaled, gravity: "center" }])
-    .png({ compressionLevel: 9 })
-    .toFile(file);
-  console.log(`  ${path.relative(root, file)} (${size}x${size}, fondo negro)`);
+/** El área segura de los iconos maskable deja un 20 % de margen. */
+function svgMaskable(size) {
+  const g = 64 * 0.2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#6b201a"/>
+  <g transform="translate(${g} ${g}) scale(${(64 - 2 * g) / 64})">
+    ${MARK}
+  </g>
+</svg>`;
 }
 
-console.log("Generando iconos...");
-await onLight(192, path.join(outPublic, "icon-192.png"), 0.08);
-await onLight(512, path.join(outPublic, "icon-512.png"), 0.08);
-await onDark(512, path.join(outPublic, "icon-maskable-512.png"), 0.2);
-await onDark(192, path.join(outPublic, "icon-maskable-192.png"), 0.2);
-await onDark(180, path.join(outPublic, "apple-touch-icon.png"), 0.18);
-await onLight(512, path.join(outApp, "icon.png"), 0.08);
-await onLight(32, path.join(outApp, "favicon.ico"), 0.04);
+const targets = [
+  { file: "icon-192.png", size: 192, svg: svg(192) },
+  { file: "icon-512.png", size: 512, svg: svg(512) },
+  { file: "apple-touch-icon.png", size: 180, svg: svg(180, { maskable: true }) },
+  { file: "icon-maskable-192.png", size: 192, svg: svgMaskable(192) },
+  { file: "icon-maskable-512.png", size: 512, svg: svgMaskable(512) },
+];
 
-console.log("Listo.");
+for (const { file, size, svg: body } of targets) {
+  await sharp(Buffer.from(body)).png().toFile(`${OUT}/${file}`);
+  console.log(`${file} (${size}px) listo`);
+}
