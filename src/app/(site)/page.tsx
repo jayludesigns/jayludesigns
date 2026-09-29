@@ -4,7 +4,6 @@ import {
   Brush,
   MessageCircle,
   Palette,
-  Rotate3d,
   Sparkles,
   Truck,
 } from "lucide-react";
@@ -14,6 +13,8 @@ import { getStoreSettings } from "@/lib/db";
 import { ProductCard, toCardProduct } from "@/components/shop/ProductCard";
 import { FeaturedTabs } from "@/components/shop/FeaturedTabs";
 import { SectionHeading } from "@/components/site/SectionHeading";
+import { TechniquesSection } from "@/components/home/TechniquesSection";
+import { CotizadorExpress } from "@/components/home/CotizadorExpress";
 import { whatsappUrl } from "@/lib/utils";
 
 export default async function HomePage() {
@@ -35,41 +36,38 @@ export default async function HomePage() {
   return (
     <>
       {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden border-b border-ink-200">
-        <div className="halftone absolute inset-0 opacity-[0.06]" aria-hidden />
-        <div className="glow-ember-soft absolute inset-0" aria-hidden />
+      <section className="relative overflow-hidden border-b border-white/10 bg-ink-950">
+        <div className="gradient-wine absolute inset-0" aria-hidden />
+        <div className="halftone-light absolute inset-0 opacity-[0.08]" aria-hidden />
+        <div className="glow-ember absolute inset-0 opacity-50" aria-hidden />
         <div
-          className="rays absolute -top-40 -right-32 size-[36rem] rounded-full opacity-[0.05]"
+          className="rays-light absolute -top-40 -right-32 size-[36rem] rounded-full opacity-[0.04]"
           aria-hidden
         />
 
-        <div className="wrap relative grid items-center gap-10 py-14 lg:grid-cols-12 lg:py-20">
+        <div className="wrap relative grid items-center gap-12 py-16 lg:grid-cols-12 lg:py-24">
           <div className="lg:col-span-7">
-            <p className="rise mb-4 flex flex-wrap items-center gap-2 font-mono text-[0.6rem] tracking-[0.24em] uppercase">
-              <span className="rounded-full bg-ember-600 px-3 py-1.5 text-paper">
-                Estampado a medida
+            <p className="rise mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur">
+              <span className="relative flex size-2" aria-hidden>
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />
+                <span className="relative inline-flex size-2 rounded-full bg-ember-300" />
               </span>
-              <span className="text-ink-500">Caracas · envío a toda Venezuela</span>
+              <span className="text-[0.62rem] font-bold tracking-[0.22em] text-white/70 uppercase">
+                Calidad premium en estampados · Caracas
+              </span>
             </p>
 
-            <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,7rem)] leading-[0.84]">
+            <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.84] text-paper">
               Tu idea,
               <br />
-              <span className="relative inline-block">
-                {/* El realce de la palabra clave pasa de las líneas de
-                    velocidad a una banda de acento: menos ruido de textura,
-                    más jerarquía. */}
-                <span
-                  className="absolute inset-x-[-0.08em] bottom-[0.06em] -z-10 h-[0.3em] rounded-full bg-ember-200"
-                  aria-hidden
-                />
+              <span className="bg-gradient-to-r from-ember-300 via-ember-400 to-paper bg-clip-text text-transparent">
                 estampada
               </span>
               <br />
               en una franela
             </h1>
 
-            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-700 sm:text-lg">
+            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
               Catálogo de anime, fantasía, videojuegos y streetwear. Uniformes para
               colegios, empresas y grupos. Y si no existe, lo hacemos a medida: sube
               tu foto o cuéntanos la idea y cotizamos sin compromiso.
@@ -80,21 +78,21 @@ export default async function HomePage() {
                 Ver catálogo
                 <ArrowRight className="size-4" />
               </Link>
-              <Link href="/diseno-a-medida" className="btn btn-lg">
+              <Link href="/diseno-a-medida" className="btn btn-ghost-light btn-lg">
                 <Brush className="size-4" />
                 Diseñar la mía
               </Link>
             </div>
 
-            <dl className="rise rise-d4 card mt-10 grid max-w-lg grid-cols-3 divide-x divide-ink-100 overflow-hidden">
+            <dl className="rise rise-d4 mt-10 grid max-w-lg grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
               {[
                 ["1 ud.", "Pedido mínimo"],
                 ["48 h", "Muestra digital"],
                 ["Bs + €", "Precio con tasa BCV"],
               ].map(([value, label]) => (
                 <div key={label} className="px-4 py-5">
-                  <dt className="font-display text-2xl leading-none text-ember-600">{value}</dt>
-                  <dd className="mt-1 font-mono text-[0.55rem] tracking-[0.14em] text-ink-500 uppercase">
+                  <dt className="font-display text-2xl leading-none text-ember-300">{value}</dt>
+                  <dd className="mt-1 font-mono text-[0.55rem] tracking-[0.14em] text-white/50 uppercase">
                     {label}
                   </dd>
                 </div>
@@ -104,36 +102,41 @@ export default async function HomePage() {
 
           {/* Collage de producto */}
           <div className="lg:col-span-5">
-            <div className="grid grid-cols-2 gap-4">
-              {spotlight.slice(0, 4).map((product, index) => (
-                <Link
-                  key={product.id}
-                  href={`/producto/${product.slug}`}
-                  className={`card card-hover group relative block overflow-hidden ${
-                    index % 3 === 0 ? "mt-6" : ""
-                  }`}
-                >
-                  {product.images[0] && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={product.images[0].url}
-                      alt={product.name}
-                      loading={index < 2 ? "eager" : "lazy"}
-                      className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  )}
-                  {product.discount_percent > 0 && (
-                    <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.55rem] font-bold text-paper shadow-ember">
-                      −{product.discount_percent}%
-                    </span>
-                  )}
-                </Link>
-              ))}
+            <div className="relative">
+              <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.55rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
+                Destacado DTF
+              </span>
+              <div className="grid grid-cols-2 gap-4">
+                {spotlight.slice(0, 4).map((product, index) => (
+                  <Link
+                    key={product.id}
+                    href={`/producto/${product.slug}`}
+                    className={`group relative block overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember ${
+                      index % 3 === 0 ? "mt-6" : ""
+                    }`}
+                  >
+                    {product.images[0] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={product.images[0].url}
+                        alt={product.name}
+                        loading={index < 2 ? "eager" : "lazy"}
+                        className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
+                    {product.discount_percent > 0 && (
+                      <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.55rem] font-bold text-paper shadow-ember">
+                        −{product.discount_percent}%
+                      </span>
+                    )}
+                  </Link>
+                ))}
+              </div>
+              <p className="mt-4 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.16em] text-white/50 uppercase">
+                <Sparkles className="size-3.5" />
+                Se estampa al pedido · DTF y sublimación
+              </p>
             </div>
-            <p className="mt-3 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.14em] text-ink-500 uppercase">
-              <Rotate3d className="size-3.5" />
-              Gíralas: todas traen vista 360°
-            </p>
           </div>
         </div>
       </section>
@@ -181,6 +184,9 @@ export default async function HomePage() {
           })}
         </div>
       </section>
+
+      {/* ================= TÉCNICAS ================= */}
+      <TechniquesSection />
 
       {/* ================= DESTACADOS ================= */}
       {featured.length > 0 && (
@@ -258,6 +264,9 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ================= COTIZADOR EXPRESS ================= */}
+      <CotizadorExpress whatsapp={settings.whatsapp || "04141234567"} />
 
       {/* ================= DISEÑO A MEDIDA ================= */}
       <section className="relative overflow-hidden border-y border-ink-200">

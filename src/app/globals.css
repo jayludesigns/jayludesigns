@@ -209,6 +209,22 @@
    ============================================================ */
 
 @layer utilities {
+  /* Banda degradada de marca para el hero y cierres oscuros: del negro al
+     burdeos en diagonal, el gesto de la referencia que aprobó el cliente. */
+  .gradient-wine {
+    background-image: linear-gradient(135deg, #000000 0%, #1a0806 50%, #6b201a 100%);
+  }
+
+  /* Superficie oscura tipo vidrio para tarjetas sobre las bandas negras:
+     blanco al 5 % con desenfoque, levanta la tarjeta sin pintar un cuarto
+     color de marca. Combinar con rounded-2xl y border personalizado. */
+  .glass-dark {
+    background-color: rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
   /* Retícula de puntos tipo semitono: la textura base de la marca. */
   .halftone {
     background-image: radial-gradient(var(--color-ink) 0.75px, transparent 0.75px);
