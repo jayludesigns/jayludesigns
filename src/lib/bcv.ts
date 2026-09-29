@@ -82,7 +82,10 @@ export async function refreshBcvRate(): Promise<BcvState> {
     stale: true,
     lastError: errors.join(" · ") || "sin fuentes disponibles",
   };
-  await backend.setSetting(CACHE_KEY, fallback);
+  // No se persiste el fallo: escribir aquí reescribe todo `db.json` desde la
+  // memoria (el backend local guarda el archivo completo en cada mutación) en
+  // una petición de solo lectura y si la memoria está desactualizada puede
+  // pisar datos recientes. Sin red, se devuelve la última tasa conocida.
   return fallback;
 }
 

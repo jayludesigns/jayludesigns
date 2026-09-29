@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Save, Star, Trash2, Upload, Wand2 } from "lucide-react";
+import { Save } from "lucide-react";
 
 import { ActionForm } from "@/components/admin/ActionForm";
 import {
@@ -11,8 +10,8 @@ import {
   TextAreaField,
   TextField,
 } from "@/components/admin/Fields";
-import { addImageAction, deleteImageAction, saveProductAction, saveSpinAction, setCoverImageAction } from "@/app/admin/actions";
-import { ImageUploadForm } from "@/components/admin/ImageUploadForm";
+import { saveProductAction } from "@/app/admin/actions";
+import { ProductImagesEditor } from "@/components/admin/ProductImagesEditor";
 import { formatVes } from "@/lib/utils";
 import { PRINT_TECHNIQUES } from "@/lib/types";
 import type { Category, Collection, Product, ProductImage } from "@/lib/types";
@@ -59,14 +58,12 @@ export function ProductForm({
   collections,
   selectedCollectionIds,
   images,
-  spinFrames,
 }: {
   product: Product | null;
   categories: Category[];
   collections: Collection[];
   selectedCollectionIds: string[];
   images: ProductImage[];
-  spinFrames: string[];
 }) {
   const prices = product
     ? {
@@ -404,147 +401,9 @@ export function ProductForm({
       {product && (
         <Fieldset
           title="Imágenes"
-          description="La primera es la portada. Puedes subirla desde tu equipo (se guarda en el almacenamiento local) o pegar una URL o ruta de /public."
+          description="La primera es la portada. Cualquier imagen que subas o pegues aparece aquí al instante y se guarda en el almacenamiento local."
         >
-          <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-5">
-            {images.map((image) => (
-              <figure key={image.id} className="card overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={image.url}
-                  alt={image.alt ?? ""}
-                  className="aspect-square w-full object-cover"
-                />
-                <figcaption className="flex items-center gap-1.5 border-t border-ink-200 px-1.5 py-1">
-                {image.kind === "main" ? (
-                  <span
-                    title="Portada actual"
-                    className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 text-paper"
-                  >
-                    <Star className="size-3 fill-current" />
-                  </span>
-                ) : (
-                  <ActionForm
-                    action={setCoverImageAction}
-                    hiddenFields={{ image_id: image.id }}
-                    className="contents"
-                  >
-                    <button
-                      type="submit"
-                      title="Usar como portada"
-                      aria-label={`Usar como portada: ${image.alt ?? "imagen"}`}
-                      className="grid size-6 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-400 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
-                    >
-                      <Star className="size-3" />
-                    </button>
-                  </ActionForm>
-                )}
-                <span className="min-w-0 flex-1 truncate font-mono text-[0.55rem] text-ink-500">
-                  {image.kind} · {image.sort_order}
-                </span>
-                <ActionForm
-                  action={deleteImageAction}
-                  hiddenFields={{ image_id: image.id }}
-                  className="contents"
-                >
-                  <button
-                    type="submit"
-                    title="Quitar imagen"
-                    aria-label="Quitar imagen"
-                    className="grid size-6 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-500 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
-                  >
-                    <Trash2 className="size-3" />
-                  </button>
-                </ActionForm>
-              </figcaption>
-              </figure>
-            ))}
-          </div>
-
-          <ActionForm
-            action={addImageAction}
-            hiddenFields={{ product_id: product.id }}
-            submitLabel="Añadir imagen"
-            submitIcon={<Upload className="size-4" />}
-            submitClassName="btn btn-sm mt-4"
-            className="mt-4 grid gap-3 border-t border-ink-200 pt-4 sm:grid-cols-[2fr_1fr_auto] sm:items-end"
-          >
-            <TextField
-              name="url"
-              label="URL de la imagen"
-              placeholder="https://…/camiseta.jpg o /demo/products/…"
-            />
-            <TextField name="alt" label="Texto alternativo" placeholder="Franela blanca" />
-            <select name="kind" defaultValue="gallery" className="field sm:w-32">
-              <option value="main">Portada</option>
-              <option value="gallery">Galería</option>
-              <option value="360">Fotograma 360</option>
-            </select>
-          </ActionForm>
-
-          <ImageUploadForm productId={product.id} />
-        </Fieldset>
-      )}
-
-      {/* ---------- Visor 360 ---------- */}
-      {product && (
-        <Fieldset
-          title="Visor 360°"
-          description="Una URL de fotograma por línea, en orden. Con dos o más, el cliente puede arrastrar para girar la prenda."
-        >
-          {spinFrames.length > 0 && (
-            <div className="mb-4 flex flex-wrap items-center gap-3 border border-ink-200 p-3">
-              <span className="font-mono text-[0.65rem] font-bold">
-                {spinFrames.length} fotogramas
-              </span>
-              <div className="flex gap-1 overflow-x-auto">
-                {spinFrames.slice(0, 12).map((frame) => (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    key={frame}
-                    src={frame}
-                    alt=""
-                    className="size-10 shrink-0 border border-ink-200 object-cover"
-                  />
-                ))}
-                {spinFrames.length > 12 && (
-                  <span className="grid size-10 shrink-0 place-items-center border border-ink-200 font-mono text-[0.55rem]">
-                    +{spinFrames.length - 12}
-                  </span>
-                )}
-              </div>
-              <Link
-                href={`/producto/${product.slug}`}
-                target="_blank"
-                className="ml-auto btn btn-sm"
-              >
-                Ver en la tienda
-              </Link>
-            </div>
-          )}
-
-          <ActionForm
-            action={saveSpinAction}
-            hiddenFields={{ product_id: product.id }}
-            submitLabel={spinFrames.length > 0 ? "Reemplazar fotogramas" : "Activar visor 360°"}
-            submitIcon={<Wand2 className="size-4" />}
-            submitClassName="btn btn-sm mt-3"
-          >
-            <TextAreaField
-              name="frames"
-              label="Fotogramas"
-              rows={6}
-              mono
-              value={spinFrames.join("\n")}
-              placeholder={"/demo/spin/samurai-zen/00.svg\n/demo/spin/samurai-zen/01.svg"}
-              hint="Idealmente entre 24 y 72 fotogramas, todos del mismo tamaño."
-            />
-            <TextField
-              name="poster_url"
-              label="Imagen mientras carga (opcional)"
-              placeholder="Por defecto, el primer fotograma"
-            />
-          </ActionForm>
+          <ProductImagesEditor productId={product.id} initialImages={images} />
         </Fieldset>
       )}
     </div>

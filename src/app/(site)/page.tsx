@@ -13,9 +13,7 @@ import { getProductReviews } from "@/lib/data/catalog";
 import { getStoreSettings } from "@/lib/db";
 import { ProductCard, toCardProduct } from "@/components/shop/ProductCard";
 import { FeaturedTabs } from "@/components/shop/FeaturedTabs";
-import { Viewer360 } from "@/components/shop/Viewer360";
 import { SectionHeading } from "@/components/site/SectionHeading";
-import { PriceDisplay } from "@/components/currency/PriceDisplay";
 import { whatsappUrl } from "@/lib/utils";
 
 export default async function HomePage() {
@@ -198,71 +196,6 @@ export default async function HomePage() {
               all={catalog.map(toCardProduct)}
               categories={categories.map((category) => ({ slug: category.slug, name: category.name }))}
             />
-          </div>
-        </section>
-      )}
-
-      {/* ================= 360° ================= */}
-      {spinProduct && (spinProduct.spin?.frames?.length ?? 0) >= 2 && (
-        <section className="relative overflow-hidden border-y border-ink-800 bg-ink-950 text-paper">
-          <div className="glow-ember absolute inset-0" aria-hidden />
-          <div className="wrap relative grid items-center gap-10 py-14 sm:py-18 lg:grid-cols-2">
-            <div>
-              <p className="mb-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-300 uppercase">
-                Visor 360°
-              </p>
-              <h2 className="text-4xl sm:text-5xl">
-                No te lo puede
-                <br />
-                contar una foto
-              </h2>
-              <p className="mt-4 max-w-md text-sm leading-relaxed opacity-70 sm:text-base">
-                Arrastra la prenda y mírala desde cualquier ángulo antes de
-                comprar. Disponible en cada producto del catálogo, desde el
-                escritorio y desde el celular.
-              </p>
-              <ul className="mt-6 space-y-2.5 text-sm opacity-80">
-                {[
-                  "Arrastra con el dedo o el mouse",
-                  "Giro automático con un botón",
-                  "Teclado: flechas izquierda y derecha",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <span className="size-1.5 rounded-full bg-ember-400" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={`/producto/${spinProduct.slug}`}
-                className="btn btn-ghost-light btn-lg mt-8"
-              >
-                Probar con {spinProduct.name}
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-
-            <div className="rounded-2xl border border-paper/15 bg-paper p-3 shadow-xl">
-              <Viewer360
-                frames={spinProduct.spin!.frames}
-                poster={spinProduct.spin!.poster_url}
-                alt={spinProduct.name}
-              />
-              <div className="mt-3 flex items-end justify-between gap-3 text-ink">
-                <div>
-                  <p className="font-display text-xl">{spinProduct.name}</p>
-                  <p className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
-                    {spinProduct.garment_type} · {spinProduct.spin!.frame_count} fotogramas
-                  </p>
-                </div>
-                <PriceDisplay
-                  ves={spinProduct.price_ves}
-                  size="lg"
-                  align="right"
-                  className="text-ember-600"
-                />
-              </div>
-            </div>
           </div>
         </section>
       )}

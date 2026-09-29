@@ -16,7 +16,7 @@ import {
 import { getProductForAdmin } from "@/lib/data/catalog";
 import { getCategories, getCollections } from "@/lib/data/catalog";
 import { getBackend } from "@/lib/db";
-import type { ProductImage, ProductSpin360, Variant } from "@/lib/types";
+import type { ProductImage, Variant } from "@/lib/types";
 import { formatDateTime, formatVes } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ export default async function EditProductPage({ params }: { params: Params }) {
   if (!product) notFound();
 
   const backend = getBackend();
-  const [categories, collections, images, variants, spin, links] = await Promise.all([
+  const [categories, collections, images, variants, links] = await Promise.all([
     getCategories(false),
     getCollections(true),
     backend.list<ProductImage>("product_images", {
@@ -39,9 +39,6 @@ export default async function EditProductPage({ params }: { params: Params }) {
     backend.list<Variant>("variants", {
       where: [{ column: "product_id", op: "eq", value: id }],
       order: [{ column: "created_at", asc: true }],
-    }),
-    backend.one<ProductSpin360>("product_spin360", {
-      where: [{ column: "product_id", op: "eq", value: id }],
     }),
     backend.list<{ collection_id: string }>("product_collections", {
       where: [{ column: "product_id", op: "eq", value: id }],
@@ -75,7 +72,7 @@ export default async function EditProductPage({ params }: { params: Params }) {
             submitLabel="Eliminar"
             submitIcon={<Trash2 className="size-3.5" />}
             submitClassName="btn btn-sm"
-            confirm={`Se elimina "${product.name}" con sus imágenes, variantes y visor 360°. No se puede deshacer.`}
+            confirm={`Se elimina "${product.name}" con sus imágenes y variantes. No se puede deshacer.`}
           />
         </div>
       </div>
@@ -109,7 +106,6 @@ export default async function EditProductPage({ params }: { params: Params }) {
             collections={collections}
             selectedCollectionIds={selectedCollectionIds}
             images={images}
-            spinFrames={spin?.frames ?? []}
           />
         </div>
 
@@ -298,7 +294,6 @@ export default async function EditProductPage({ params }: { params: Params }) {
                   formatVes(variants.reduce((acc, v) => acc + v.reserved_stock, 0)),
                 ],
                 ["Imágenes", String(images.length)],
-                ["Fotogramas 360", String(spin?.frame_count ?? 0)],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between gap-3">
                   <dt className="text-ink-600">{label}</dt>

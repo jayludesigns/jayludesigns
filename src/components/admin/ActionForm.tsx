@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useActionState, type ReactNode } from "react";
 import { Loader2, TriangleAlert, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ProductImage } from "@/lib/types";
 
 /**
  * Resultado común de todas las server actions del panel.
@@ -21,6 +22,8 @@ export interface AdminResult {
   href?: string;
   /** Fuerza la recarga de los datos del servidor aunque no se navegue. */
   reload?: boolean;
+  /** La imagen creada por una acción de imágenes, para mostrarla al instante. */
+  image?: ProductImage;
 }
 
 export const adminIdle: AdminResult = { status: "ok", message: "" };

@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     await writeFile(path.join(dir, name), Buffer.from(await raw.arrayBuffer()));
 
     const url = `/uploads/${productId}/${name}`;
-    await addProductImage({
+    const image = await addProductImage({
       product_id: productId,
       url,
       alt: String(form.get("alt") ?? "") || raw.name,
@@ -71,6 +71,7 @@ export async function POST(request: Request) {
     return json({
       ok: true,
       url,
+      image,
       message: "Imagen subida y guardada en el almacenamiento.",
     });
   } catch (error) {

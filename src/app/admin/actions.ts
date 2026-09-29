@@ -301,7 +301,10 @@ export async function addImageAction(
       alt: textOrNull(form, "alt"),
       kind: (text(form, "kind") || "gallery") as "main" | "gallery" | "360",
     });
-    return ok("Imagen añadida.", { href: `/admin/productos/${saved.product_id}` });
+    return ok("Imagen añadida.", {
+      href: `/admin/productos/${saved.product_id}`,
+      image: saved,
+    });
   }, formData);
 }
 

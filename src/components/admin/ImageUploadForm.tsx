@@ -4,15 +4,23 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { Check, Loader2, TriangleAlert, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ProductImage } from "@/lib/types";
 
 /**
  * Subida de imágenes de producto desde el equipo al almacenamiento local.
  *
  * Hace POST multipart a /api/uploads (route handler) porque las server
- * actions de Next no aceptan archivos; al terminar refresca los datos del
- * servidor para que la galería muestre la imagen nueva.
+ * actions de Next no aceptan archivos; al terminar avisa con `onUploaded`
+ * para que la galería muestre la imagen al instante y refresca los datos
+ * del servidor para el resto de la página.
  */
-export function ImageUploadForm({ productId }: { productId: string }) {
+export function ImageUploadForm({
+  productId,
+  onUploaded,
+}: {
+  productId: string;
+  onUploaded?: (image: ProductImage) => void;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -39,6 +47,7 @@ export function ImageUploadForm({ productId }: { productId: string }) {
         ok?: boolean;
         error?: string;
         message?: string;
+        image?: ProductImage;
       };
       if (!response.ok || !data.ok) {
         throw new Error(data.error ?? "No se pudo subir la imagen.");
@@ -49,6 +58,7 @@ export function ImageUploadForm({ productId }: { productId: string }) {
         status: "ok",
         message: data.message ?? "Imagen subida y guardada.",
       });
+      if (data.image) onUploaded?.(data.image);
       router.refresh();
     } catch (error) {
       setFeedback({
@@ -86,7 +96,6 @@ export function ImageUploadForm({ productId }: { productId: string }) {
       <select name="kind" defaultValue="gallery" className="field sm:w-32">
         <option value="main">Portada</option>
         <option value="gallery">Galería</option>
-        <option value="360">Fotograma 360</option>
       </select>
 
       <button type="submit" disabled={pending} className="btn btn-sm btn-solid">

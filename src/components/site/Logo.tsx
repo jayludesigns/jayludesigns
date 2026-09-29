@@ -50,19 +50,17 @@ export function Logo({
 }
 
 const MARK_SIZES = {
-  sm: { mark: "h-7", text: "text-lg", gap: "gap-2", pad: "p-1" },
-  md: { mark: "h-9", text: "text-2xl", gap: "gap-2.5", pad: "p-1.5" },
-  lg: { mark: "h-12", text: "text-4xl", gap: "gap-3", pad: "p-2" },
+  sm: { mark: "h-7", text: "text-lg", gap: "gap-2" },
+  md: { mark: "h-9", text: "text-2xl", gap: "gap-2.5" },
+  lg: { mark: "h-12", text: "text-4xl", gap: "gap-3" },
 } as const;
 
 /**
  * Lockup horizontal: isotipo + nombre en la tipografía de display.
  *
- * El archivo del logo es del cliente y no se toca, así que el peso visual se
- * consigue con lo que lo rodea: una pastilla del acento detrás del isotipo y
- * el "Lu" en burdeos en vez de apagado. El isotipo es un SVG sin color
- * declarado, o sea que se rellena en negro por defecto; al ponerlo sobre la
- * pastilla hay que invertirlo para que se vea.
+ * El archivo del logo es del cliente y no se toca: sin fondo detrás, el
+ * isotipo negro se apoya sobre superficies claras y se invierte a blanco
+ * sobre las oscuras; el "Lu" en burdeos da el acento de marca.
  */
 export function Wordmark({
   className,
@@ -79,17 +77,7 @@ export function Wordmark({
 
   return (
     <span className={cn("flex items-center", marks.gap, className)}>
-      <span
-        className={cn(
-          "flex shrink-0 items-center justify-center rounded-full",
-          marks.pad,
-          // Fondo oscuro: pastilla blanca con el isotipo en negro.
-          // Fondo claro: pastilla de acento con el isotipo invertido.
-          invert ? "bg-paper" : "bg-ember-600",
-        )}
-      >
-        <Logo className={cn(marks.mark, "w-auto")} invert={!invert} priority={priority} />
-      </span>
+      <Logo className={cn(marks.mark, "w-auto")} invert={invert} priority={priority} />
       <span
         className={cn(
           "font-display leading-none tracking-[0.02em] uppercase",

@@ -24,8 +24,8 @@ export default async function NewProductPage() {
       <header className="mb-6 border-b border-ink-200 pb-4">
         <h1 className="font-display text-4xl leading-none">Nuevo producto</h1>
         <p className="mt-2 max-w-2xl text-sm text-ink-600">
-          Se crea directamente en el catálogo. Las secciones de imágenes, visor
-          360° y variantes se habilitan en cuanto el producto tiene identificador.
+          Se crea directamente en el catálogo. Las secciones de imágenes y
+          variantes se habilitan en cuanto el producto tiene identificador.
         </p>
       </header>
 
@@ -36,7 +36,6 @@ export default async function NewProductPage() {
           collections={collections}
           selectedCollectionIds={[]}
           images={[]}
-          spinFrames={[]}
         />
       </div>
     </>

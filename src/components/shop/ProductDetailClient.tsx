@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Check, ImageOff, Minus, Plus, Ruler, ShoppingBag } from "lucide-react";
 import { PriceDisplay } from "@/components/currency/PriceDisplay";
-import { Viewer360 } from "@/components/shop/Viewer360";
 import { useCart } from "@/components/cart/CartContext";
 import { useToast } from "@/components/ui/Toast";
 import { cn, formatVes } from "@/lib/utils";
@@ -35,13 +34,9 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
   const [size, setSize] = useState<string | null>(firstAvailable?.size ?? null);
   const [quantity, setQuantity] = useState(1);
 
-  // Las fotos reales subidas desde el panel son las que se muestran: si el
-  // producto tiene alguna, la ficha abre en la pestaña de fotos; el visor
-  // 360° queda a un clic en su pestaña.
-  const gallery = product.images.filter((i) => i.kind !== "360");
-  const [tab, setTab] = useState<"fotos" | "360">(
-    gallery.length > 0 ? "fotos" : product.spin?.frames?.length ? "360" : "fotos",
-  );
+  // Todas las imágenes del producto (portada y galería) son las que se
+  // muestran en la ficha; el visor 360° está en pausa por ahora.
+  const gallery = product.images;
 
   const available = useMemo(
     () =>
@@ -98,76 +93,34 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
     });
   };
 
-  const hasSpin = (product.spin?.frames?.length ?? 0) >= 2;
-
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_26rem]">
-      {/* --------- Visor --------- */}
+      {/* --------- Fotos --------- */}
       <div>
-        {hasSpin && (
-          <div className="mb-3 flex gap-2">
-            {(
-              [
-                { id: "360", label: "Vista 360°" },
-                { id: "fotos", label: `Fotos (${gallery.length || 0})` },
-              ] as const
-            ).map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => setTab(option.id)}
-                className={cn(
-                  "rounded-full px-4 py-2 font-mono text-[0.6rem] font-bold tracking-[0.14em] uppercase transition-all duration-200",
-                  tab === option.id
-                    ? "bg-ember-600 text-paper shadow-ember"
-                    : "border border-ink-200 text-ink-600 hover:border-ink-300 hover:bg-ink-50",
-                )}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {tab === "360" && hasSpin ? (
-          <Viewer360
-            frames={product.spin!.frames}
-            poster={product.spin!.poster_url}
-            alt={product.name}
-          />
-        ) : (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {gallery.map((image, index) => (
-              <div
-                key={image.id}
-                className={cn(
-                  "card overflow-hidden",
-                  index === 0 && "sm:col-span-2",
-                )}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={image.url}
-                  alt={image.alt ?? product.name}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  className="aspect-square w-full object-cover"
-                />
-              </div>
-            ))}
-            {gallery.length === 0 && (
-              <span className="card grid aspect-square place-items-center text-ink-300 sm:col-span-2">
-                <ImageOff className="size-10" />
-              </span>
-            )}
-          </div>
-        )}
-
-        {product.spin && (
-          <p className="hint mt-2">
-            Los fotogramas 360° del catálogo de demostración son aproximaciones
-            generadas para mostrar el visor; los reales se suben desde el panel.
-          </p>
-        )}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {gallery.map((image, index) => (
+            <div
+              key={image.id}
+              className={cn(
+                "card overflow-hidden",
+                index === 0 && "sm:col-span-2",
+              )}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={image.url}
+                alt={image.alt ?? product.name}
+                loading={index === 0 ? "eager" : "lazy"}
+                className="aspect-square w-full object-cover"
+              />
+            </div>
+          ))}
+          {gallery.length === 0 && (
+            <span className="card grid aspect-square place-items-center text-ink-300 sm:col-span-2">
+              <ImageOff className="size-10" />
+            </span>
+          )}
+        </div>
       </div>
 
       {/* --------- Compra --------- */}
