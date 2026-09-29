@@ -66,6 +66,9 @@ const MARK_SIZES = {
  * sobre las oscuras; el "Lu" en burdeos da el acento de marca. `mono`
  * fuerza el lockup completo a negro (isotipo con brightness(0) y "Lu"
  * también negro) para la barra de navegación clara.
+ *
+ * Sobre fondo oscuro, "Jay" y "Lu" van los dos en blanco pleno: al 55% de
+ * opacidad el "Lu" se leía gris y el nombre no definía junto al isotipo.
  */
 export function Wordmark({
   className,
@@ -99,7 +102,7 @@ export function Wordmark({
         )}
       >
         Jay
-        <span className={mono ? "text-ink" : invert ? "text-paper/55" : "text-ember-600"}>
+        <span className={mono ? "text-ink" : invert ? "text-paper" : "text-ember-600"}>
           Lu
         </span>
       </span>

@@ -2,6 +2,21 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Altura de la cabecera del panel (3,75 rem).
+ *
+ * La comparten la barra del logotipo, dentro del menú lateral, y la de
+ * alertas de ventas que se pinta a su derecha: si una mide más que la otra,
+ * el borde de una cae a media altura del otro y la cabecera se lee como dos
+ * líneas en vez de una. Son cadenas literales a propósito, para que el
+ * escáner de Tailwind las vea.
+ *
+ * La de alertas va con `min-h` porque con dos avisos y una ventana angosta
+ * los textos se parten en dos renglones y esa barra necesita crecer.
+ */
+export const ADMIN_HEADER = "h-15";
+export const ADMIN_HEADER_MIN = "min-h-15";
+
 /** Cabecera de sección del panel: título, descripción y acciones a la derecha. */
 export function PageHeader({
   title,

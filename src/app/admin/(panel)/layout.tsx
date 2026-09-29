@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { ADMIN_HEADER_MIN } from "@/components/admin/AdminUI";
 import { getAdminSession } from "@/lib/auth";
 import { getSalesAlerts } from "@/lib/data/finance";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: { default: "Panel", template: "%s · Panel" },
@@ -29,7 +31,16 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div className="min-w-0 flex-1">
         {alerts.length > 0 && (
           <div className="border-b border-ember-700 bg-ember-600 text-paper">
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2 lg:px-6">
+            {/* Misma altura que la barra del logotipo de la izquierda: los
+                bordes quedan a la misma altura y la cabecera se lee como una
+                sola línea. `min-h` porque con dos avisos en una ventana
+                angosta los textos se parten en dos renglones. */}
+            <div
+              className={cn(
+                "flex flex-wrap items-center gap-x-5 gap-y-1 px-4 lg:px-6",
+                ADMIN_HEADER_MIN,
+              )}
+            >
               {alerts.map((alert) => (
                 <a
                   key={alert.message}

@@ -19,6 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { logout } from "@/app/admin/actions";
+import { ADMIN_HEADER } from "@/components/admin/AdminUI";
 import { Wordmark } from "@/components/site/Logo";
 import { cn } from "@/lib/utils";
 
@@ -96,7 +97,14 @@ export function AdminNav({ email }: { email: string }) {
           la tienda, para que las dos mitades compartan lenguaje visual. */}
       <div className="glow-ember pointer-events-none absolute inset-x-0 top-0 h-56 opacity-70" aria-hidden />
 
-      <div className="relative border-b border-paper/10 px-4 py-4">
+      {/* La altura la comparte con la barra de alertas de la derecha: las dos
+          cabeceras tienen que medir lo mismo para leerse como una sola. */}
+      <div
+        className={cn(
+          "relative flex items-center border-b border-paper/10 px-4",
+          ADMIN_HEADER,
+        )}
+      >
         <Link
           href="/admin"
           onClick={() => setOpen(false)}
@@ -166,7 +174,12 @@ export function AdminNav({ email }: { email: string }) {
   return (
     <>
       {/* Barra en móvil */}
-      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-ink-800 bg-ink-950/90 px-4 py-2.5 backdrop-blur-md lg:hidden">
+      <div
+        className={cn(
+          "sticky top-0 z-40 flex items-center justify-between border-b border-ink-800 bg-ink-950/90 px-4 backdrop-blur-md lg:hidden",
+          ADMIN_HEADER,
+        )}
+      >
         <Link href="/admin" className="flex items-center gap-2">
           <Wordmark size="sm" invert />
         </Link>
@@ -182,7 +195,7 @@ export function AdminNav({ email }: { email: string }) {
       </div>
 
       {open && (
-        <div className="fixed inset-0 top-[3.25rem] z-40 bg-ink-950 lg:hidden">{contents}</div>
+        <div className="fixed inset-0 top-15 z-40 bg-ink-950 lg:hidden">{contents}</div>
       )}
 
       <aside className="sticky top-0 hidden h-dvh shrink-0 bg-ink-950 lg:block lg:w-60">
