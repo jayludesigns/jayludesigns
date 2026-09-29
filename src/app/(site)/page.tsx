@@ -56,8 +56,10 @@ export default async function HomePage() {
 
         {/* El distintivo vive fuera de la rejilla a propósito: así el borde
             superior de la rejilla es exactamente el del H1 y el collage se
-            alinea con el arranque del título sin inventar márgenes. */}
-        <div className="wrap relative py-16 lg:py-24">
+            alinea con el arranque del título sin inventar márgenes.
+            El `pt-8` iguala el aire de arriba con el de abajo del distintivo
+            (mb-8): antes el hero abría con un palmo de vacío. */}
+        <div className="wrap relative pt-8 pb-16 lg:pt-8 lg:pb-24">
           <p className="rise mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur">
             <span className="relative flex size-2" aria-hidden>
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />

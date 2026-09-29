@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Brush, Heart, Scissors, Shirt, Sparkles, Truck } from "lucide-react";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { Logo } from "@/components/site/Logo";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { getStoreSettings } from "@/lib/db";
 import { formatVes } from "@/lib/utils";
@@ -57,21 +58,28 @@ export default async function AboutPage() {
             invert
             items={[{ href: "/", label: "Inicio" }, { href: "/nosotros", label: "Nosotros" }]}
           />
-          {/* Interlineado 0.95 y no 0.88: con el display tan apretado la tilde
-              de "pequeño" se comía la línea de arriba. */}
-          <h1 className="mt-6 max-w-4xl text-5xl leading-[0.95] sm:text-6xl lg:text-8xl">
-            Un taller
-            <br />
-            pequeño con
-            <br />
-            <span className="opacity-40">muchas</span> ideas
-          </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
-            JayLu nació de una pregunta simple: ¿por qué las franelas de
-            Venezuela son todas iguales? Hoy imprimimos{" "}
-            {settings.store_name} en Maracay, con catálogo propio y diseños que
-            la gente nos manda.
-          </p>
+          {/* A la derecha del título sobraba un vacío ancho: ahí va el isotipo
+              de la marca en blanco, del mismo color que el resto del texto. */}
+          <div className="mt-8 grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div>
+              {/* Interlineado 0.95 y no 0.88: con el display tan apretado los
+                  ascendentes del título se comían la línea de arriba. */}
+              <h1 className="max-w-4xl text-5xl leading-[0.95] sm:text-6xl lg:text-8xl">
+                Un taller
+                <br />
+                chico con
+                <br />
+                <span className="opacity-40">grandes</span> ideas
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
+                JayLu nació de una pregunta simple: ¿por qué las franelas de
+                Venezuela son todas iguales? Hoy imprimimos{" "}
+                {settings.store_name} en Maracay, con catálogo propio y diseños que
+                la gente nos manda.
+              </p>
+            </div>
+            <Logo invert className="w-32 shrink-0 opacity-90 sm:w-40 lg:w-52" />
+          </div>
         </div>
       </section>
 

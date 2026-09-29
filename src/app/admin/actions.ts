@@ -123,6 +123,38 @@ const list = (form: FormData, key: string): string[] =>
     .map((value) => value.toString().trim())
     .filter(Boolean);
 
+/**
+ * Imágenes que el formulario subió antes de que el producto existiera.
+ *
+ * Viajan como una lista JSON en un solo campo: el archivo ya está en
+ * `public/uploads/pendientes/` y lo que le falta es la fila, que se crea
+ * aquí, cuando el producto ya tiene id.
+ */
+function parseQueuedImages(
+  raw: string,
+): { url: string; alt: string | null; kind: ProductImage["kind"] }[] {
+  if (!raw) return [];
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(parsed)) return [];
+  return parsed.flatMap((item) => {
+    if (typeof item !== "object" || item === null) return [];
+    const { url, alt, kind } = item as Record<string, unknown>;
+    if (typeof url !== "string" || !url.trim()) return [];
+    return [
+      {
+        url: url.trim(),
+        alt: typeof alt === "string" && alt.trim() ? alt.trim() : null,
+        kind: kind === "main" || kind === "360" ? kind : "gallery",
+      },
+    ];
+  });
+}
+
 /** "Blanco #FFFFFF, Negro #000000" → [{ name, hex }] */
 function parseColors(raw: string): { name: string; hex: string }[] {
   return raw
@@ -229,6 +261,7 @@ export async function saveProductAction(
       }
 
       const id = textOrNull(form, "id");
+      const queuedImages = parseQueuedImages(text(form, "image_urls"));
       const product = await saveProduct({
         id: id ?? undefined,
         name: rawName,
@@ -260,7 +293,17 @@ export async function saveProductAction(
         collectionIds: list(form, "collectionIds"),
       });
 
-      return ok(id ? "Producto actualizado." : "Producto creado.", {
+      // Las imágenes que se subieron en cola solo esperaban a tener dueño: con
+      // el producto ya guardado, cada una recibe su fila y su orden.
+      for (const image of queuedImages) {
+        await addProductImage({ product_id: product.id, ...image });
+      }
+
+      const conImagenes =
+        queuedImages.length > 0
+          ? ` con ${queuedImages.length} ${queuedImages.length === 1 ? "imagen nueva" : "imágenes nuevas"}`
+          : "";
+      return ok(`${id ? "Producto actualizado" : "Producto creado"}${conImagenes}.`, {
         href: id ? undefined : `/admin/productos/${product.id}`,
       });
     },

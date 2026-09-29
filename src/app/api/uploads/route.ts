@@ -20,6 +20,31 @@ function json(data: unknown, status = 200) {
   return NextResponse.json(data, { status });
 }
 
+/** Saca el archivo del multipart y lo valida (tipo y tamaño). */
+async function readImage(form: FormData) {
+  const raw = form.get("file");
+  if (!(raw instanceof File) || raw.size === 0) {
+    return { ok: false as const, error: "Elige una imagen de tu equipo." };
+  }
+  const ext = IMAGE_MIME[raw.type];
+  if (!ext) {
+    return { ok: false as const, error: "Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF." };
+  }
+  if (raw.size > MAX_IMAGE_BYTES) {
+    return { ok: false as const, error: "La imagen supera el máximo de 6 MB." };
+  }
+  return { ok: true as const, ext, buffer: Buffer.from(await raw.arrayBuffer()), name: raw.name };
+}
+
+/** Escribe el archivo en `public/uploads/<carpeta>/` y devuelve su URL. */
+async function store(folder: string, ext: string, buffer: Buffer) {
+  const dir = path.join(process.cwd(), "public", "uploads", folder);
+  await mkdir(dir, { recursive: true });
+  const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  await writeFile(path.join(dir, name), buffer);
+  return `/uploads/${folder}/${name}`;
+}
+
 /**
  * Sube una imagen desde el panel al almacenamiento local
  * (`public/uploads/<producto>/`) y la registra como imagen del producto.
@@ -27,6 +52,11 @@ function json(data: unknown, status = 200) {
  * Es un route handler (no una server action) porque Next no serializa
  * archivos a través de server actions: con multipart y `request.formData()`
  * el File llega intacto. Requiere sesión de administrador.
+ *
+ * Hay dos modos sin producto: `target=coleccion` (portada de colección) y
+ * `target=producto` (imagen de un producto que aún no existe). En los dos el
+ * archivo se guarda y se devuelve solo la URL, sin fila: la crea el guardado
+ * del producto o de la colección cuando ya existe.
  */
 export async function POST(request: Request) {
   const session = await getAdminSession();
@@ -36,60 +66,45 @@ export async function POST(request: Request) {
 
   try {
     const form = await request.formData();
+    const target = String(form.get("target") ?? "");
 
-    // Portada de colección: la imagen se guarda en el almacenamiento y la URL
-    // la conserva el formulario que la está editando, así que aquí no hay
-    // fila que crear. Va a una carpeta propia porque, al crear la colección,
-    // su id todavía no existe.
-    if (String(form.get("target") ?? "") === "coleccion") {
-      const banner = form.get("file");
-      if (!(banner instanceof File) || banner.size === 0) {
-        return json({ error: "Elige una imagen de tu equipo." }, 400);
+    if (target === "coleccion" || target === "producto") {
+      const image = await readImage(form);
+      if (!image.ok) return json({ error: image.error }, 400);
+      const folder = target === "coleccion" ? "colecciones" : "pendientes";
+      const url = await store(folder, image.ext, image.buffer);
+
+      if (target === "coleccion") {
+        revalidatePath("/admin/colecciones");
+        return json({
+          ok: true,
+          url,
+          alt: String(form.get("alt") ?? "") || image.name,
+          message: "Imagen subida al almacenamiento. Guarda la colección para aplicarla.",
+        });
       }
-      const bannerExt = IMAGE_MIME[banner.type];
-      if (!bannerExt) {
-        return json({ error: "Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF." }, 400);
-      }
-      if (banner.size > MAX_IMAGE_BYTES) {
-        return json({ error: "La imagen supera el máximo de 6 MB." }, 400);
-      }
-      const dir = path.join(process.cwd(), "public", "uploads", "colecciones");
-      await mkdir(dir, { recursive: true });
-      const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${bannerExt}`;
-      await writeFile(path.join(dir, name), Buffer.from(await banner.arrayBuffer()));
-      revalidatePath("/admin/colecciones");
+
+      // En cola: la URL viaja en el formulario y saveProductAction le crea la
+      // fila al guardar, que es cuando el producto ya tiene id.
       return json({
         ok: true,
-        url: `/uploads/colecciones/${name}`,
-        message: "Imagen subida al almacenamiento. Guarda la colección para aplicarla.",
+        url,
+        alt: String(form.get("alt") ?? "") || image.name,
+        message: "Imagen en cola. Se añade al producto al guardar.",
       });
     }
 
     const productId = String(form.get("product_id") ?? "").trim();
     if (!productId) return json({ error: "Falta el producto." }, 400);
 
-    const raw = form.get("file");
-    if (!(raw instanceof File) || raw.size === 0) {
-      return json({ error: "Elige una imagen de tu equipo." }, 400);
-    }
-    const ext = IMAGE_MIME[raw.type];
-    if (!ext) {
-      return json({ error: "Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF." }, 400);
-    }
-    if (raw.size > MAX_IMAGE_BYTES) {
-      return json({ error: "La imagen supera el máximo de 6 MB." }, 400);
-    }
+    const image = await readImage(form);
+    if (!image.ok) return json({ error: image.error }, 400);
 
-    const dir = path.join(process.cwd(), "public", "uploads", productId);
-    await mkdir(dir, { recursive: true });
-    const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    await writeFile(path.join(dir, name), Buffer.from(await raw.arrayBuffer()));
-
-    const url = `/uploads/${productId}/${name}`;
-    const image = await addProductImage({
+    const url = await store(productId, image.ext, image.buffer);
+    const saved = await addProductImage({
       product_id: productId,
       url,
-      alt: String(form.get("alt") ?? "") || raw.name,
+      alt: String(form.get("alt") ?? "") || image.name,
       kind: String(form.get("kind") || "gallery") as "main" | "gallery" | "360",
     });
 
@@ -101,7 +116,7 @@ export async function POST(request: Request) {
     return json({
       ok: true,
       url,
-      image,
+      image: saved,
       message: "Imagen subida y guardada en el almacenamiento.",
     });
   } catch (error) {

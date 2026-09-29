@@ -54,6 +54,7 @@ export function TextField({
   required,
   className,
   inputClassName,
+  onChange,
   ...rest
 }: {
   name: string;
@@ -66,21 +67,41 @@ export function TextField({
   required?: boolean;
   className?: string;
   inputClassName?: string;
+  /**
+   * Si viene, el campo pasa a controlado: el estado del padre decide el valor.
+   * Lo usan los campos cuya validación en vivo tiene que reaccionar mientras se
+   * escribe (nombre y precio del producto).
+   */
+  onChange?: (value: string) => void;
   [key: string]: unknown;
 }) {
   const id = `a-${name}`;
   return (
     <Shell label={label} htmlFor={id} hint={hint} error={error} required={required} className={className}>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        defaultValue={value ?? ""}
-        placeholder={placeholder}
-        aria-invalid={Boolean(error)}
-        className={cn("field", inputClassName, error && "border-ember-600 bg-ember-50")}
-        {...(rest as object)}
-      />
+      {onChange ? (
+        <input
+          id={id}
+          name={name}
+          type={type}
+          value={value === null || value === undefined ? "" : String(value)}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          className={cn("field", inputClassName, error && "border-ember-600 bg-ember-50")}
+          {...(rest as object)}
+        />
+      ) : (
+        <input
+          id={id}
+          name={name}
+          type={type}
+          defaultValue={value ?? ""}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          className={cn("field", inputClassName, error && "border-ember-600 bg-ember-50")}
+          {...(rest as object)}
+        />
+      )}
     </Shell>
   );
 }
