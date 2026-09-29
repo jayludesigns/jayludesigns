@@ -241,6 +241,84 @@
   :where(.bg-ink-950) .label { color: var(--color-ink-300); }
   :where(.bg-ink-950) .hint { color: var(--color-ink-400); }
 
+  /* ============================================================
+     Panel de administración (carcasa .panel-dark)
+     La carcasa del panel lleva .panel-dark + .bg-ink-950. El color
+     de letra raíz se aclara para que el texto heredado sea legible
+     sobre negro, y las utilidades que pintan tinta oscura sobre
+     superficies claras vuelven a grises cálidos (igual que el scope
+     de .label/.hint, en este layer y detrás de Tailwind para ganar).
+     ============================================================ */
+  .panel-dark { color: var(--color-ink-100); }
+
+  :where(.panel-dark) .card {
+    border-color: var(--color-ink-800);
+    background-color: var(--color-ink-950);
+    color: var(--color-paper);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Bordes y separadores de fila */
+  :where(.panel-dark) .border-ink-100 { border-color: var(--color-ink-800); }
+  :where(.panel-dark) .border-ink-200 { border-color: var(--color-ink-800); }
+  :where(.panel-dark) .border-ink-300 { border-color: var(--color-ink-700); }
+  :where(.panel-dark) .divide-ink-100 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--color-ink-800);
+  }
+
+  /* Superficies de relleno */
+  :where(.panel-dark) .bg-ink-50 { background-color: var(--color-ink-900); }
+  :where(.panel-dark) .bg-ink-50\/50 { background-color: rgb(20 19 17 / 0.5); }
+  :where(.panel-dark) .bg-ink-50\/70 { background-color: rgb(20 19 17 / 0.6); }
+  :where(.panel-dark) .bg-ink-100 { background-color: var(--color-ink-800); }
+  :where(.panel-dark) .bg-ember-50 { background-color: var(--color-ember-950); }
+  :where(.panel-dark) .bg-ink { background-color: var(--color-ember-400); }
+
+  /* Texto secundario: la rampa oscura se aclara sobre negro */
+  :where(.panel-dark) .text-ink-500 { color: var(--color-ink-400); }
+  :where(.panel-dark) .text-ink-600 { color: var(--color-ink-300); }
+  :where(.panel-dark) .text-ink-700 { color: var(--color-ink-200); }
+  :where(.panel-dark) .text-ink { color: var(--color-paper); }
+  :where(.panel-dark) .text-ember-600 { color: var(--color-ember-400); }
+  :where(.panel-dark) .text-ember-700 { color: var(--color-ember-400); }
+  :where(.panel-dark) .text-ember-900 { color: var(--color-ember-300); }
+
+  /* Estados: hover y checkbox marcado */
+  :where(.panel-dark) .hover\:text-ink:hover { color: var(--color-paper); }
+  :where(.panel-dark) .hover\:bg-ink-50:hover { background-color: var(--color-ink-900); }
+  :where(.panel-dark) .hover\:bg-ember-50:hover { background-color: var(--color-ember-950); }
+  :where(.panel-dark) .hover\:border-ink-300:hover { border-color: var(--color-ink-600); }
+  :where(.panel-dark) .has-checked\:bg-ember-50:has(input:checked) {
+    background-color: var(--color-ember-950);
+  }
+  :where(.panel-dark) .has-checked\:border-ember-600:has(input:checked) {
+    border-color: var(--color-ember-400);
+  }
+
+  /* Tablas del panel */
+  :where(.panel-dark) .table-admin th {
+    color: var(--color-ink-400);
+    border-bottom-color: var(--color-ink-700);
+  }
+  :where(.panel-dark) .table-admin td { border-bottom-color: var(--color-ink-800); }
+  :where(.panel-dark) .table-admin tbody tr:hover { background: var(--color-ink-900); }
+
+  /* Botones secundarios: el borde negro y la letra heredada desaparecen
+     sobre negro; pasan a comportarse como el ghost-light de las bandas. */
+  :where(.panel-dark) .btn:not(.btn-solid):not(.btn-ink) {
+    border-color: rgb(255 255 255 / 0.5);
+    color: var(--color-paper);
+  }
+  :where(.panel-dark) .btn:not(.btn-solid):not(.btn-ink):hover:not(:disabled) {
+    background: var(--color-paper);
+    border-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  /* El campo en error vuelve el fondo al vino oscuro y la letra a blanco. */
+  :where(.panel-dark) .field.bg-ember-50 { color: var(--color-paper); }
+  :where(.panel-dark) .field.bg-ember-50::placeholder { color: rgb(255 255 255 / 0.6); }
+
   /* Retícula de puntos tipo semitono: la textura base de la marca. */
   .halftone {
     background-image: radial-gradient(var(--color-ink) 0.75px, transparent 0.75px);

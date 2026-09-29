@@ -131,11 +131,11 @@ export default async function ProductPage({ params }: { params: Params }) {
             { icon: MessageCircle, title: "Hablas con quien imprime", body: "Sin bots: escribes por WhatsApp y te responde una persona." },
           ].map((item) => (
             <li key={item.title} className="flex gap-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-ink-800">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-ink-800 text-ink-300">
                 <item.icon className="size-4" />
               </span>
               <span>
-                <span className="block text-sm font-bold">{item.title}</span>
+                <span className="block text-sm font-bold text-paper">{item.title}</span>
                 <span className="mt-0.5 block text-sm text-ink-300">{item.body}</span>
               </span>
             </li>

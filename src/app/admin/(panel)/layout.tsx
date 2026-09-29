@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const alerts = await getSalesAlerts().catch(() => []);
 
   return (
-    <div className="flex min-h-dvh flex-col lg:flex-row">
+    <div className="panel-dark flex min-h-dvh flex-col bg-ink-950 lg:flex-row">
       <AdminNav email={session.email} />
 
       <div className="min-w-0 flex-1">

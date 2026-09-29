@@ -251,7 +251,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             >
               <Minus className="size-3.5" />
             </button>
-            <span className="grid w-11 place-items-center border-x border-ink-800 font-mono text-sm tabular">
+            <span className="grid w-11 place-items-center border-x border-ink-800 font-mono text-sm tabular text-ink-200">
               {quantity}
             </span>
             <button
@@ -324,7 +324,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
                 <dt className="font-mono text-[0.65rem] tracking-wider text-ink-400 uppercase">
                   {label}
                 </dt>
-                <dd className="text-right font-medium">{value}</dd>
+                <dd className="text-right font-medium text-ink-200">{value}</dd>
               </div>
             ))}
         </dl>

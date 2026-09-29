@@ -166,16 +166,16 @@ export function AdminNav({ email }: { email: string }) {
   return (
     <>
       {/* Barra en móvil */}
-      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-ink-200 bg-paper/90 px-4 py-2.5 backdrop-blur-md lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-ink-800 bg-ink-950/90 px-4 py-2.5 backdrop-blur-md lg:hidden">
         <Link href="/admin" className="flex items-center gap-2">
-          <Wordmark size="sm" />
+          <Wordmark size="sm" invert />
         </Link>
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          className="grid size-9 place-items-center rounded-full border border-ink-200 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
+          className="grid size-9 place-items-center rounded-full border border-ink-800 text-paper transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
         >
           {open ? <X className="size-4" /> : <Menu className="size-4" />}
         </button>

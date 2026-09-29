@@ -14,7 +14,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
   const next = (Array.isArray(raw) ? raw[0] : raw) ?? "";
 
   return (
-    <div className="grid min-h-dvh lg:grid-cols-2">
+    <div className="grid min-h-dvh bg-ink-950 lg:grid-cols-2">
       {/* Lado de marca */}
       <div className="relative hidden overflow-hidden bg-ember-600 text-paper lg:block">
         <div className="speed-lines-light absolute inset-0 opacity-30" aria-hidden />
@@ -52,10 +52,10 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
           <img
             src="/brand/logo-jaylu.svg"
             alt="JayLu"
-            className="mb-8 h-9 w-auto lg:hidden"
+            className="mb-8 h-9 w-auto invert lg:hidden"
           />
           <h1 className="font-display text-4xl">Panel</h1>
-          <p className="mt-2 text-sm text-ink-600">
+          <p className="mt-2 text-sm text-ink-300">
             Acceso restringido al equipo de JayLu.
           </p>
 
@@ -63,7 +63,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
             <LoginForm next={next} />
           </div>
 
-          <p className="mt-6 rounded-xl border-2 border-ink-300 p-3 text-xs leading-relaxed text-ink-600">
+          <p className="mt-6 rounded-xl border-2 border-ink-700 p-3 text-xs leading-relaxed text-ink-400">
             Las credenciales vienen de las variables de entorno{" "}
             <code className="font-mono">ADMIN_EMAIL</code> y{" "}
             <code className="font-mono">ADMIN_PASSWORD</code>. Sin ellas se usan

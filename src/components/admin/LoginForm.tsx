@@ -50,7 +50,7 @@ export function LoginForm({ next }: { next?: string }) {
       </div>
 
       {state.error && (
-        <p role="alert" className="flex items-start gap-2 rounded-xl border-2 border-ink-300 bg-ink-50 p-3 text-sm font-bold">
+        <p role="alert" className="flex items-start gap-2 rounded-xl border-2 border-ember-600 bg-ember-950/70 p-3 text-sm font-bold text-ember-200">
           <TriangleAlert className="mt-0.5 size-4 shrink-0" />
           {state.error}
         </p>
