@@ -34,7 +34,14 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
   const [color, setColor] = useState<string | null>(firstAvailable?.color ?? colors[0]?.[0] ?? null);
   const [size, setSize] = useState<string | null>(firstAvailable?.size ?? null);
   const [quantity, setQuantity] = useState(1);
-  const [tab, setTab] = useState<"fotos" | "360">(product.spin?.frames?.length ? "360" : "fotos");
+
+  // Las fotos reales subidas desde el panel son las que se muestran: si el
+  // producto tiene alguna, la ficha abre en la pestaña de fotos; el visor
+  // 360° queda a un clic en su pestaña.
+  const gallery = product.images.filter((i) => i.kind !== "360");
+  const [tab, setTab] = useState<"fotos" | "360">(
+    gallery.length > 0 ? "fotos" : product.spin?.frames?.length ? "360" : "fotos",
+  );
 
   const available = useMemo(
     () =>
@@ -91,7 +98,6 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
     });
   };
 
-  const gallery = product.images.filter((i) => i.kind !== "360");
   const hasSpin = (product.spin?.frames?.length ?? 0) >= 2;
 
   return (

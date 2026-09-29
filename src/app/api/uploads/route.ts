@@ -65,6 +65,7 @@ export async function POST(request: Request) {
     });
 
     revalidatePath("/admin/productos");
+    revalidatePath(`/admin/productos/${productId}`);
     revalidatePath("/catalogo");
     revalidatePath("/producto");
     return json({

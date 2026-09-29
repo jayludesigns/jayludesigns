@@ -41,6 +41,7 @@ import {
   savePromotion,
   saveSpin360,
   saveVariant,
+  setCoverImage,
   syncProductVariants,
   toggleCoupon,
   toggleProductActive,
@@ -329,6 +330,25 @@ export async function deleteImageAction(
       return fail(message);
     }
     return ok("Imagen quitada.");
+  }, formData);
+}
+
+/** Define una imagen como portada: pasa a ser la primera (orden 0). */
+export async function setCoverImageAction(
+  _previous: AdminResult,
+  formData: FormData,
+): Promise<AdminResult> {
+  return guard(["/admin/productos", "/catalogo", "/producto"], async (form) => {
+    try {
+      await setCoverImage(text(form, "image_id"));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "No se pudo cambiar la portada.";
+      return fail(message);
+    }
+    return ok("Portada actualizada: esta imagen es la que se muestra.", {
+      reload: true,
+    });
   }, formData);
 }
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Save, Trash2, Upload, Wand2 } from "lucide-react";
+import { Save, Star, Trash2, Upload, Wand2 } from "lucide-react";
 
 import { ActionForm } from "@/components/admin/ActionForm";
 import {
@@ -11,7 +11,7 @@ import {
   TextAreaField,
   TextField,
 } from "@/components/admin/Fields";
-import { addImageAction, deleteImageAction, saveProductAction, saveSpinAction } from "@/app/admin/actions";
+import { addImageAction, deleteImageAction, saveProductAction, saveSpinAction, setCoverImageAction } from "@/app/admin/actions";
 import { ImageUploadForm } from "@/components/admin/ImageUploadForm";
 import { formatVes } from "@/lib/utils";
 import { PRINT_TECHNIQUES } from "@/lib/types";
@@ -415,24 +415,48 @@ export function ProductForm({
                   alt={image.alt ?? ""}
                   className="aspect-square w-full object-cover"
                 />
-                <figcaption className="flex items-center justify-between gap-1 border-t border-ink-200 px-1.5 py-1">
-                  <span className="font-mono text-[0.55rem] text-ink-500">
-                    {image.kind} · {image.sort_order}
+                <figcaption className="flex items-center gap-1.5 border-t border-ink-200 px-1.5 py-1">
+                {image.kind === "main" ? (
+                  <span
+                    title="Portada actual"
+                    className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 text-paper"
+                  >
+                    <Star className="size-3 fill-current" />
                   </span>
+                ) : (
                   <ActionForm
-                    action={deleteImageAction}
+                    action={setCoverImageAction}
                     hiddenFields={{ image_id: image.id }}
                     className="contents"
                   >
                     <button
                       type="submit"
-                      title="Quitar imagen"
-                      className="text-ink-500 hover:text-ink"
+                      title="Usar como portada"
+                      aria-label={`Usar como portada: ${image.alt ?? "imagen"}`}
+                      className="grid size-6 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-400 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
                     >
-                      <Trash2 className="size-3.5" />
+                      <Star className="size-3" />
                     </button>
                   </ActionForm>
-                </figcaption>
+                )}
+                <span className="min-w-0 flex-1 truncate font-mono text-[0.55rem] text-ink-500">
+                  {image.kind} · {image.sort_order}
+                </span>
+                <ActionForm
+                  action={deleteImageAction}
+                  hiddenFields={{ image_id: image.id }}
+                  className="contents"
+                >
+                  <button
+                    type="submit"
+                    title="Quitar imagen"
+                    aria-label="Quitar imagen"
+                    className="grid size-6 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-500 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
+                  >
+                    <Trash2 className="size-3" />
+                  </button>
+                </ActionForm>
+              </figcaption>
               </figure>
             ))}
           </div>

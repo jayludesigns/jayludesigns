@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { getBackend, newId } from "@/lib/db";
+import { getBackend, newId, type Backend } from "@/lib/db";
 import type {
   BulkPriceTier,
   Category,
@@ -175,13 +175,53 @@ export async function addProductImage(input: {
   const current = await backend.list<ProductImage>("product_images", {
     where: [{ column: "product_id", op: "eq", value: input.product_id }],
   });
+  // Si se sube como portada, pasa a ser la primera (orden 0): el resto baja un
+  // puesto y la portada anterior vuelve a galería.
+  if (input.kind === "main") {
+    await demoteMain(backend, current);
+  }
   return backend.insert<ProductImage>("product_images", {
     id: newId(),
     product_id: input.product_id,
     url: input.url,
     alt: input.alt ?? null,
     kind: input.kind ?? "gallery",
-    sort_order: current.length,
+    sort_order: input.kind === "main" ? 0 : current.length,
+  });
+}
+
+/** Baja un puesto todas menos la nueva y deja solo una portada. */
+async function demoteMain(
+  backend: Backend,
+  siblings: ProductImage[],
+  exceptImageId?: string,
+) {
+  await Promise.all(
+    siblings
+      .filter((img) => img.id !== exceptImageId)
+      .map((img) =>
+        backend.update<ProductImage>("product_images", img.id, {
+          sort_order: img.sort_order + 1,
+          kind: img.kind === "main" ? "gallery" : img.kind,
+        }),
+      ),
+  );
+}
+
+/** Convierte una imagen en la portada (orden 0) y baja el resto. */
+export async function setCoverImage(imageId: string) {
+  const backend = getBackend();
+  const image = await backend.one<ProductImage>("product_images", {
+    where: [{ column: "id", op: "eq", value: imageId }],
+  });
+  if (!image) throw new Error("Imagen no encontrada.");
+  const siblings = await backend.list<ProductImage>("product_images", {
+    where: [{ column: "product_id", op: "eq", value: image.product_id }],
+  });
+  await demoteMain(backend, siblings, imageId);
+  return backend.update<ProductImage>("product_images", imageId, {
+    sort_order: 0,
+    kind: "main",
   });
 }
 

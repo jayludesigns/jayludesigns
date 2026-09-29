@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check, MessageCircle, Truck } from "lucide-react";
 import {
-  getCatalog,
   getProductBySlug,
   getProductReviews,
   getRelatedProducts,
@@ -18,10 +17,9 @@ import { whatsappUrl } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
 
-export async function generateStaticParams() {
-  const catalog = await getCatalog({});
-  return catalog.map((product) => ({ slug: product.slug }));
-}
+// La tienda se edita a diario desde el panel (imágenes subidas, portadas,
+// precios): la ficha se sirve siempre fresca, nunca el HTML estático.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;

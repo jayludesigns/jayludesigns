@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { getCatalog, getCollectionBySlug, getCollections } from "@/lib/data/catalog";
+import { getCatalog, getCollectionBySlug } from "@/lib/data/catalog";
 import { ProductCard, toCardProduct } from "@/components/shop/ProductCard";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { formatDate } from "@/lib/utils";
@@ -10,10 +10,9 @@ import { COLLECTION_THEMES } from "@/lib/types";
 
 type Params = Promise<{ slug: string }>;
 
-export async function generateStaticParams() {
-  const collections = await getCollections();
-  return collections.map((collection) => ({ slug: collection.slug }));
-}
+// Igual que la ficha de producto: se sirve fresca (las colecciones cambian
+// con los productos e imágenes que se editan a diario).
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
