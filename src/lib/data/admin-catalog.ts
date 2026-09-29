@@ -218,7 +218,17 @@ export async function setCoverImage(imageId: string) {
   const siblings = await backend.list<ProductImage>("product_images", {
     where: [{ column: "product_id", op: "eq", value: image.product_id }],
   });
-  await demoteMain(backend, siblings, imageId);
+  // Si ya es la primera no se mueve nada: solo pasa a ser la portada y las
+  // demás portadas (si hubiera) vuelven a galería sin alterar el orden.
+  if (image.sort_order !== 0) {
+    await demoteMain(backend, siblings, imageId);
+  } else {
+    await Promise.all(
+      siblings
+        .filter((img) => img.id !== imageId && img.kind === "main")
+        .map((img) => backend.update<ProductImage>("product_images", img.id, { kind: "gallery" })),
+    );
+  }
   return backend.update<ProductImage>("product_images", imageId, {
     sort_order: 0,
     kind: "main",
