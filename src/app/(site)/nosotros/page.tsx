@@ -58,13 +58,14 @@ export default async function AboutPage() {
             invert
             items={[{ href: "/", label: "Inicio" }, { href: "/nosotros", label: "Nosotros" }]}
           />
-          {/* A la derecha del título sobraba un vacío ancho: ahí va el isotipo
-              de la marca, con la misma escala del H1 (a `lg` su alto es el de
-              las dos líneas primeras del título) y en blanco pleno —sin
-              opacidad— para que se lea de un vistazo sobre el negro de la
-              banda. `items-start` lo ancla al arranque del título, no al del
-              párrafo. */}
-          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
+          {/* A la derecha del título va el isotipo de la marca, en blanco pleno
+              —sin opacidad— para que se lea de un vistazo sobre el negro de la
+              banda. A partir de `xl` mide lo mismo de alto que el bloque de
+              texto: de la primera línea del título al final del párrafo. Para
+              eso la celda se estira (`xl:items-stretch` toma la altura de la
+              fila) y el logo se dimensiona por el alto (`xl:h-full` con
+              `xl:w-auto`; la proporción la impone el propio componente). */}
+          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-[minmax(0,1fr)_34rem] xl:items-stretch">
             <div>
               {/* Interlineado 0.95 y no 0.88: con el display tan apretado los
                   ascendentes del título se comían la línea de arriba. */}
@@ -82,7 +83,17 @@ export default async function AboutPage() {
                 la gente nos manda.
               </p>
             </div>
-            <Logo invert className="w-40 shrink-0 sm:w-52 lg:w-64 xl:w-88" />
+            {/* La celda mide 34rem, lo justo para ese alto del logo (24,5rem
+                × 1,382 = 33,9rem), y el isotipo va centrado dentro: así queda
+                a media distancia entre el final del título y el borde derecho
+                de la página. El `max-h` de tope evita que, si el párrafo crece
+                y pide más alto, el logo se salga de la columna o se deforme. */}
+            <div className="flex h-full items-center justify-center">
+              <Logo
+                invert
+                className="w-40 shrink-0 sm:w-52 lg:w-64 xl:h-full xl:max-h-[24.5rem] xl:w-auto"
+              />
+            </div>
           </div>
         </div>
       </section>

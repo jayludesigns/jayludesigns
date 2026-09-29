@@ -266,7 +266,9 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                 <span className="shirt-neck" aria-hidden />
                 <div className="shirt-design">
                   <div className="flex flex-col items-center gap-1.5 px-2 text-center">
-                    <Logo invert={isDarkShirt} className="h-9 w-auto" />
+                    {/* Blanco sobre la franela oscura, negro sobre la blanca:
+                        al revés se perdía contra el fondo de la prenda. */}
+                    <Logo invert={isDarkShirt} mono={!isDarkShirt} className="h-9 w-auto" />
                     <span className="shirt-text text-[0.64rem] tracking-[0.22em] text-ink-700">
                       TU DISEÑO
                     </span>

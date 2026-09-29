@@ -21,12 +21,14 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
         <div className="halftone-lg-light absolute inset-0 opacity-40" aria-hidden />
         <div className="relative flex h-full flex-col items-center justify-center gap-12 p-10 text-center">
           {/* El logo manda en este lado: ocupa el centro y el mensaje de marca
-              queda debajo, no al revés. */}
+              queda debajo, no al revés. `brightness-0 invert` lo aplana a
+              blanco puro; el archivo ya llega blanco, pero así no depende de
+              sus filtros internos. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/logo-jaylu.svg"
             alt="JayLu"
-            className="h-28 w-auto invert sm:h-36"
+            className="h-28 w-auto brightness-0 invert sm:h-36"
           />
           <div>
             <p className="font-display text-5xl leading-[0.9] sm:text-6xl">
@@ -54,7 +56,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
           <img
             src="/brand/logo-jaylu.svg"
             alt="JayLu"
-            className="mb-8 h-9 w-auto invert lg:hidden"
+            className="mb-8 h-9 w-auto brightness-0 invert lg:hidden"
           />
           <h1 className="font-display text-4xl">Panel</h1>
           <p className="mt-2 text-sm text-ink-300">
