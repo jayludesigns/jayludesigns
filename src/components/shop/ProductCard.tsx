@@ -95,12 +95,12 @@ export function ProductCard({
         )}
 
         {hasDiscount && (
-          <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.6rem] font-bold tracking-wider text-paper uppercase shadow-ember">
+          <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-wider text-paper uppercase shadow-ember">
             −{Math.round(((product.listPrice - product.unitPrice) / product.listPrice) * 100)}%
           </span>
         )}
         {soldOut && (
-          <span className="absolute inset-x-0 bottom-0 bg-ink/85 py-1.5 text-center font-mono text-[0.6rem] font-bold tracking-[0.16em] text-paper uppercase backdrop-blur-sm">
+          <span className="absolute inset-x-0 bottom-0 bg-ink/85 py-1.5 text-center font-mono text-[0.62rem] font-bold tracking-[0.16em] text-paper uppercase backdrop-blur-sm">
             Agotado
           </span>
         )}
@@ -112,7 +112,7 @@ export function ProductCard({
         {product.collection && (
           <p
             className={cn(
-              "font-mono text-[0.55rem] tracking-[0.18em] uppercase",
+              "font-mono text-[0.57rem] tracking-[0.18em] uppercase",
               dark ? "text-ink-400" : "text-ink-500",
             )}
           >
@@ -130,7 +130,7 @@ export function ProductCard({
             <Stars rating={product.rating} className={dark ? "text-ember-400" : undefined} />
             <span
               className={cn(
-                "font-mono text-[0.58rem] tracking-wide",
+                "font-mono text-[0.6rem] tracking-wide",
                 dark ? "text-ink-400" : "text-ink-500",
               )}
             >

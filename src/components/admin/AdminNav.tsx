@@ -103,7 +103,7 @@ export function AdminNav({ email }: { email: string }) {
           className="flex items-center gap-2.5"
         >
           <Wordmark size="sm" invert />
-          <span className="rounded-full bg-ember-600 px-2 py-0.5 font-mono text-[0.55rem] tracking-[0.18em] text-paper uppercase">
+          <span className="rounded-full bg-ember-600 px-2 py-0.5 font-mono text-[0.57rem] tracking-[0.18em] text-paper uppercase">
             Panel
           </span>
         </Link>
@@ -112,7 +112,7 @@ export function AdminNav({ email }: { email: string }) {
       <nav className="flex-1 overflow-y-auto px-2 py-3">
         {GROUPS.map((group) => (
           <div key={group.title} className="mb-4 last:mb-0">
-            <p className="px-2 pb-1.5 font-mono text-[0.55rem] tracking-[0.22em] text-ember-400/80 uppercase">
+            <p className="px-2 pb-1.5 font-mono text-[0.57rem] tracking-[0.22em] text-ember-400/80 uppercase">
               {group.title}
             </p>
             <ul className="space-y-1">
@@ -143,11 +143,11 @@ export function AdminNav({ email }: { email: string }) {
       </nav>
 
       <div className="relative border-t border-paper/10 px-4 py-3">
-        <p className="truncate font-mono text-[0.6rem] text-paper/60">{email}</p>
+        <p className="truncate font-mono text-[0.62rem] text-paper/60">{email}</p>
         <form action={logout} className="mt-1.5">
           <button
             type="submit"
-            className="font-mono text-[0.6rem] tracking-wider text-paper/80 uppercase hover:text-ember-300 hover:underline"
+            className="font-mono text-[0.62rem] tracking-wider text-paper/80 uppercase hover:text-ember-300 hover:underline"
           >
             Cerrar sesión
           </button>
@@ -155,7 +155,7 @@ export function AdminNav({ email }: { email: string }) {
         <Link
           href="/"
           target="_blank"
-          className="mt-1.5 block font-mono text-[0.6rem] tracking-wider text-paper/60 uppercase hover:text-ember-300 hover:underline"
+          className="mt-1.5 block font-mono text-[0.62rem] tracking-wider text-paper/60 uppercase hover:text-ember-300 hover:underline"
         >
           Ver la tienda ↗
         </Link>

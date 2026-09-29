@@ -126,7 +126,7 @@ export default async function AdminDesignsPage({ searchParams }: { searchParams:
                         className="aspect-square w-full rounded-xl border border-ink-200 object-cover"
                       />
                       {design.reference_urls.length > 1 && (
-                        <p className="mt-1 text-center font-mono text-[0.6rem] text-ink-500">
+                        <p className="mt-1 text-center font-mono text-[0.62rem] text-ink-500">
                           +{design.reference_urls.length - 1} fotos
                         </p>
                       )}
@@ -148,7 +148,7 @@ export default async function AdminDesignsPage({ searchParams }: { searchParams:
                     )}
                   </p>
 
-                  <ul className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.62rem] text-ink-600">
+                  <ul className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.64rem] text-ink-600">
                     {design.quantity > 0 && <li>{design.quantity} u</li>}
                     {design.garment_type && <li>{design.garment_type}</li>}
                     {design.sizes.length > 0 && <li>{design.sizes.join(" ")}</li>}
@@ -203,7 +203,7 @@ export default async function AdminDesignsPage({ searchParams }: { searchParams:
                     hiddenFields={{ id: design.id }}
                     confirm={`Se elimina la solicitud ${design.code}.`}
                   >
-                    <button type="submit" className="font-mono text-[0.6rem] text-ink-500 uppercase hover:text-ink hover:underline">
+                    <button type="submit" className="font-mono text-[0.62rem] text-ink-500 uppercase hover:text-ink hover:underline">
                       Eliminar
                     </button>
                   </ActionForm>

@@ -51,7 +51,7 @@ export function Card({
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 bg-ink-50/70 px-4 py-2.5">
           <div>
             {title && (
-              <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] text-ember-700 uppercase">
+              <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] text-ember-700 uppercase">
                 {title}
               </h2>
             )}
@@ -83,7 +83,7 @@ export function Stat({
 }) {
   const body = (
     <>
-      <p className="font-mono text-[0.58rem] tracking-[0.16em] text-ink-500 uppercase">
+      <p className="font-mono text-[0.6rem] tracking-[0.16em] text-ink-500 uppercase">
         {label}
       </p>
       <p

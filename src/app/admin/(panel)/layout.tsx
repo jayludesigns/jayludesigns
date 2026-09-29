@@ -34,7 +34,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 <a
                   key={alert.message}
                   href={alert.href}
-                  className="font-mono text-[0.65rem] tracking-wider uppercase hover:underline"
+                  className="font-mono text-[0.67rem] tracking-wider uppercase hover:underline"
                 >
                   {alert.tone === "warn" ? "▲" : "•"} {alert.message} →
                 </a>

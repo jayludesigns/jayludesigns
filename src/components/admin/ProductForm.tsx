@@ -102,7 +102,7 @@ export function ProductForm({
         className="card overflow-hidden"
       >
         <div className="border-b border-ink-200 bg-ink-50 px-4 py-2.5">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Ficha del producto
           </h2>
           <p className="mt-0.5 text-xs text-ink-600">
@@ -223,7 +223,7 @@ export function ProductForm({
         className="card overflow-hidden"
       >
         <div className="border-b border-ink-200 bg-ink-50 px-4 py-2.5">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Precio y lotes
           </h2>
         </div>
@@ -303,7 +303,7 @@ export function ProductForm({
         className="card overflow-hidden"
       >
         <div className="border-b border-ink-200 bg-ink-50 px-4 py-2.5">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Tallas y colores
           </h2>
           <p className="mt-0.5 text-xs text-ink-600">
@@ -339,7 +339,7 @@ export function ProductForm({
         className="card overflow-hidden"
       >
         <div className="border-b border-ink-200 bg-ink-50 px-4 py-2.5">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Publicación
           </h2>
         </div>

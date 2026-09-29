@@ -39,7 +39,7 @@ export async function SiteFooter() {
         <div className="halftone-lg-light absolute inset-0 opacity-25" aria-hidden />
         <div className="wrap relative flex flex-col items-start gap-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-[0.6rem] tracking-[0.3em] text-ember-400 uppercase">
+            <p className="font-mono text-[0.62rem] tracking-[0.3em] text-ember-400 uppercase">
               Tu próxima prenda empieza aquí
             </p>
             <h2 className="mt-3 font-display text-5xl leading-[0.85] sm:text-7xl">
@@ -114,7 +114,7 @@ export async function SiteFooter() {
         </div>
 
         <nav className="lg:col-span-2" aria-label="Explorar">
-          <h3 className="mb-4 font-mono text-[0.6rem] tracking-[0.22em] text-ember-400 uppercase">
+          <h3 className="mb-4 font-mono text-[0.62rem] tracking-[0.22em] text-ember-400 uppercase">
             Explorar
           </h3>
           <ul className="space-y-2.5">
@@ -132,7 +132,7 @@ export async function SiteFooter() {
         </nav>
 
         <nav className="lg:col-span-2" aria-label="Ayuda">
-          <h3 className="mb-4 font-mono text-[0.6rem] tracking-[0.22em] text-ember-400 uppercase">
+          <h3 className="mb-4 font-mono text-[0.62rem] tracking-[0.22em] text-ember-400 uppercase">
             Ayuda
           </h3>
           <ul className="space-y-2.5">
@@ -150,7 +150,7 @@ export async function SiteFooter() {
         </nav>
 
         <div className="lg:col-span-4">
-          <h3 className="mb-4 font-mono text-[0.6rem] tracking-[0.22em] text-ember-400 uppercase">
+          <h3 className="mb-4 font-mono text-[0.62rem] tracking-[0.22em] text-ember-400 uppercase">
             Escríbenos
           </h3>
           <ul className="space-y-3 text-sm">
@@ -185,13 +185,13 @@ export async function SiteFooter() {
           </ul>
 
           <div className="mt-6 rounded-xl border border-paper/15 bg-paper/5 p-4">
-            <p className="font-mono text-[0.6rem] tracking-[0.18em] text-ember-400 uppercase">
+            <p className="font-mono text-[0.62rem] tracking-[0.18em] text-ember-400 uppercase">
               Precios
             </p>
             <p className="mt-1.5 text-sm text-paper/80">
               Mostramos bolívares y euros con la tasa BCV del día.
             </p>
-            <p className="mt-1 font-mono text-[0.65rem] text-paper/50">
+            <p className="mt-1 font-mono text-[0.67rem] text-paper/50">
               1 € = {settings.bcv_rate} Bs · {settings.bcv_source}
             </p>
           </div>
@@ -199,7 +199,7 @@ export async function SiteFooter() {
       </div>
 
       <div className="relative border-t border-paper/10">
-        <div className="wrap flex flex-col items-start justify-between gap-3 py-5 text-[0.65rem] text-paper/60 sm:flex-row sm:items-center">
+        <div className="wrap flex flex-col items-start justify-between gap-3 py-5 text-[0.67rem] text-paper/60 sm:flex-row sm:items-center">
           <p>
             © {year} {settings.store_name}. Todos los derechos reservados.
           </p>

@@ -123,7 +123,7 @@ export default async function AdminCrmPage() {
                     <div className="flex flex-wrap items-start justify-between gap-2">
                       <div className="min-w-0">
                         <p className="font-semibold">{lead.name}</p>
-                        <p className="font-mono text-[0.62rem] text-ink-500">
+                        <p className="font-mono text-[0.64rem] text-ink-500">
                           {lead.source} · {relativeTime(lead.created_at)}
                         </p>
                         {lead.message && (
@@ -233,7 +233,7 @@ export default async function AdminCrmPage() {
                         {task.body && (
                           <p className="text-xs leading-relaxed text-ink-600">{task.body}</p>
                         )}
-                        <p className="font-mono text-[0.6rem] text-ink-500">
+                        <p className="font-mono text-[0.62rem] text-ink-500">
                           <Link
                             href={`/admin/clientes/${task.customer_id}`}
                             className="hover:underline"
@@ -245,7 +245,7 @@ export default async function AdminCrmPage() {
                       </div>
                       {task.due_at && (
                         <span
-                          className={`shrink-0 font-mono text-[0.62rem] ${
+                          className={`shrink-0 font-mono text-[0.64rem] ${
                             overdue ? "font-bold underline decoration-2" : "text-ink-500"
                           }`}
                         >
@@ -323,12 +323,12 @@ export default async function AdminCrmPage() {
                         <button
                           type="submit"
                           title="Reabrir"
-                          className="font-mono text-[0.58rem] text-ink-500 uppercase hover:text-ink hover:underline"
+                          className="font-mono text-[0.6rem] text-ink-500 uppercase hover:text-ink hover:underline"
                         >
                           reabrir
                         </button>
                       </ActionForm>
-                      <span className="shrink-0 font-mono text-[0.6rem] text-ink-500">
+                      <span className="shrink-0 font-mono text-[0.62rem] text-ink-500">
                         {formatDateTime(entry.created_at)}
                       </span>
                     </li>

@@ -119,7 +119,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               <ImagePlus className="size-4" strokeWidth={2} />
             </span>
             1. Sube tu referencia
-            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-300 uppercase">
+            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.62rem] font-normal tracking-wider text-ink-300 uppercase">
               opcional
             </span>
           </h2>
@@ -157,7 +157,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               >
                 <span className="flex flex-col items-center gap-1.5 text-ink-400">
                   <Paperclip className="size-5" />
-                  <span className="font-mono text-[0.58rem] tracking-wider uppercase">
+                  <span className="font-mono text-[0.6rem] tracking-wider uppercase">
                     Añadir foto
                   </span>
                 </span>
@@ -196,7 +196,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               <Paperclip className="size-4" strokeWidth={2} />
             </span>
             2. Cuéntanos la idea
-            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-300 uppercase">
+            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.62rem] font-normal tracking-wider text-ink-300 uppercase">
               opcional
             </span>
           </h2>
@@ -256,7 +256,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               {GARMENTS.map((garment) => (
                 <label
                   key={garment}
-                  className="cursor-pointer rounded-lg border border-ink-700 px-2.5 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                  className="cursor-pointer rounded-lg border border-ink-700 px-2.5 py-1.5 font-mono text-[0.67rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                 >
                   <input
                     type="radio"
@@ -278,7 +278,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 {SIZES.map((size) => (
                   <label
                     key={size}
-                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.67rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                   >
                     <input type="checkbox" name="sizes" value={size} className="sr-only" />
                     {size}
@@ -293,7 +293,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 {COLORS.map((color) => (
                   <label
                     key={color}
-                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.67rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                   >
                     <input type="checkbox" name="colors" value={color} className="sr-only" />
                     {color}
@@ -421,7 +421,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
       {/* ---------- Aside ---------- */}
       <aside className="lg:sticky lg:top-32 lg:self-start">
         <div className="card-dark overflow-hidden">
-          <p className="bg-ember-600 px-4 py-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] text-paper uppercase">
+          <p className="bg-ember-600 px-4 py-3 font-mono text-[0.64rem] font-bold tracking-[0.18em] text-paper uppercase">
             Cómo funciona
           </p>
           <ol className="space-y-4 p-4 text-sm">
@@ -433,7 +433,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               ["Entrega", "Recogida en Caracas o envío por encomienda."],
             ].map(([title, body], index) => (
               <li key={title} className="flex gap-3">
-                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 font-mono text-[0.6rem] font-bold text-paper">
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 font-mono text-[0.62rem] font-bold text-paper">
                   {index + 1}
                 </span>
                 <span>

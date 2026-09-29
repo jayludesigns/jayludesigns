@@ -38,7 +38,7 @@ export function FavoritesList() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between gap-3">
-        <p className="font-mono text-[0.65rem] tracking-[0.18em] text-ink-500 uppercase">
+        <p className="font-mono text-[0.67rem] tracking-[0.18em] text-ink-500 uppercase">
           {items.length} {items.length === 1 ? "modelo guardado" : "modelos guardados"}
         </p>
         <button

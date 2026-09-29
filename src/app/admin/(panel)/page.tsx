@@ -253,7 +253,7 @@ export default async function AdminDashboard() {
                   <span className="mt-1.5 size-1.5 shrink-0 bg-ink" aria-hidden />
                   <span className="min-w-0">
                     <span className="block leading-snug">{entry.summary}</span>
-                    <span className="font-mono text-[0.6rem] text-ink-500">
+                    <span className="font-mono text-[0.62rem] text-ink-500">
                       {entry.entity} · {relativeTime(entry.created_at)}
                     </span>
                   </span>
@@ -319,7 +319,7 @@ export default async function AdminDashboard() {
                     <p className="truncate font-semibold">{task.title ?? task.kind}</p>
                     <p className="truncate text-xs text-ink-600">{task.customer_name}</p>
                   </div>
-                  <span className="shrink-0 font-mono text-[0.6rem] text-ink-500">
+                  <span className="shrink-0 font-mono text-[0.62rem] text-ink-500">
                     {task.due_at ? formatDateTime(task.due_at) : "sin fecha"}
                   </span>
                 </li>
@@ -339,7 +339,7 @@ export default async function AdminDashboard() {
         <Card title="Catálogo" hint="Estado de publicación">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <p className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
+              <p className="font-mono text-[0.62rem] tracking-wider text-ink-500 uppercase">
                 Productos
               </p>
               <p className="mt-1 font-mono text-2xl font-bold tabular">{products.length}</p>
@@ -349,7 +349,7 @@ export default async function AdminDashboard() {
               </p>
             </div>
             <div>
-              <p className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
+              <p className="font-mono text-[0.62rem] tracking-wider text-ink-500 uppercase">
                 Colecciones
               </p>
               <p className="mt-1 font-mono text-2xl font-bold tabular">{collections.length}</p>
@@ -358,7 +358,7 @@ export default async function AdminDashboard() {
               </p>
             </div>
             <div>
-              <p className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
+              <p className="font-mono text-[0.62rem] tracking-wider text-ink-500 uppercase">
                 Categorías
               </p>
               <p className="mt-1 font-mono text-2xl font-bold tabular">{categories.length}</p>
@@ -367,7 +367,7 @@ export default async function AdminDashboard() {
               </p>
             </div>
             <div>
-              <p className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
+              <p className="font-mono text-[0.62rem] tracking-wider text-ink-500 uppercase">
                 Promociones
               </p>
               <p className="mt-1 font-mono text-2xl font-bold tabular">{promotions.length}</p>

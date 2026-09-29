@@ -179,7 +179,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
                             >
                               {product.name}
                             </Link>
-                            <span className="font-mono text-[0.6rem] text-ink-500">
+                            <span className="font-mono text-[0.62rem] text-ink-500">
                               {categories.find((c) => c.id === product.category_id)?.name ??
                                 "Sin categoría"}
                               {" · "}
@@ -204,7 +204,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
                           {own.length === 0 ? "—" : units}
                         </span>
                         {reserved > 0 && (
-                          <span className="block font-mono text-[0.55rem] text-ink-500">
+                          <span className="block font-mono text-[0.57rem] text-ink-500">
                             +{reserved} res.
                           </span>
                         )}

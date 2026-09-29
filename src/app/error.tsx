@@ -29,7 +29,7 @@ export default function GlobalError({
           siguen guardados: prueba a recargar.
         </p>
         {error.digest && (
-          <p className="mt-3 font-mono text-[0.65rem] text-ink-500">
+          <p className="mt-3 font-mono text-[0.67rem] text-ink-500">
             Código: {error.digest}
           </p>
         )}

@@ -73,7 +73,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.2em] uppercase">
+            <p className="flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.2em] uppercase">
               {cancelled ? (
                 <>Pedido cancelado</>
               ) : (
@@ -91,7 +91,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
           </div>
           <div className="text-right">
             <PriceDisplay ves={order.total_ves} size="xl" align="right" />
-            <p className="mt-1 font-mono text-[0.6rem] text-ink-500">
+            <p className="mt-1 font-mono text-[0.62rem] text-ink-500">
               Tasa del pedido: {formatVes(order.bcv_rate, "Bs/€", false)}
             </p>
           </div>
@@ -119,7 +119,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
                   />
                   <span
                     className={cn(
-                      "font-mono text-[0.58rem] tracking-wider uppercase",
+                      "font-mono text-[0.6rem] tracking-wider uppercase",
                       done ? "font-bold" : "text-ink-500",
                     )}
                   >
@@ -143,7 +143,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
         {/* ---------- Detalle ---------- */}
         <div>
           <section className="card overflow-hidden">
-            <h2 className="flex items-center gap-2 border-b border-ink-200 px-4 py-2.5 font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+            <h2 className="flex items-center gap-2 border-b border-ink-200 px-4 py-2.5 font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
               <Package className="size-3.5" />
               Lo que pediste
             </h2>
@@ -161,18 +161,18 @@ export default async function OrderPage({ params, searchParams }: { params: Para
                     ) : (
                       <p className="font-display text-lg leading-tight">{item.name}</p>
                     )}
-                    <p className="mt-0.5 font-mono text-[0.62rem] text-ink-500">
+                    <p className="mt-0.5 font-mono text-[0.64rem] text-ink-500">
                       {item.variant_label}
                       {item.sku ? ` · ${item.sku}` : ""}
                     </p>
-                    <p className="mt-1 font-mono text-[0.62rem] text-ink-500">
+                    <p className="mt-1 font-mono text-[0.64rem] text-ink-500">
                       {item.quantity} × {formatVes(item.unit_price_ves)}
                     </p>
                   </div>
                   <div className="shrink-0 text-right">
                     <p className="font-semibold tabular">{formatVes(item.subtotal_ves)}</p>
                     {item.discount_ves > 0 && (
-                      <p className="font-mono text-[0.6rem] text-ink-500">
+                      <p className="font-mono text-[0.62rem] text-ink-500">
                         −{formatVes(item.discount_ves)}
                       </p>
                     )}
@@ -201,7 +201,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
 
           {order.notes && (
             <section className="mt-4 card p-4">
-              <h3 className="font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+              <h3 className="font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
                 Tus notas
               </h3>
               <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-ink-700">
@@ -214,7 +214,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
         {/* ---------- Lateral ---------- */}
         <aside className="space-y-4">
           <div className="card p-4">
-            <h3 className="mb-3 flex items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+            <h3 className="mb-3 flex items-center gap-2 font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
               <MapPin className="size-3.5" />
               Entrega
             </h3>
@@ -234,7 +234,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
           </div>
 
           <div className="card p-4">
-            <h3 className="mb-3 flex items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+            <h3 className="mb-3 flex items-center gap-2 font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
               <CreditCard className="size-3.5" />
               Pago
             </h3>
@@ -250,7 +250,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
               </p>
             )}
             {paid && order.paid_at && (
-              <p className="mt-2 font-mono text-[0.62rem] text-ink-500">
+              <p className="mt-2 font-mono text-[0.64rem] text-ink-500">
                 Confirmado el {formatDate(order.paid_at)}
               </p>
             )}

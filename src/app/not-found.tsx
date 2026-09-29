@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="relative overflow-hidden border-2 border-ink p-8 sm:p-14">
         <div className="halftone absolute inset-0 opacity-[0.07]" aria-hidden />
         <div className="relative max-w-xl">
-          <p className="font-mono text-[0.6rem] tracking-[0.24em] text-ink-500 uppercase">
+          <p className="font-mono text-[0.62rem] tracking-[0.24em] text-ink-500 uppercase">
             Error 404
           </p>
           <h1 className="mt-3 text-6xl leading-[0.85] sm:text-7xl">

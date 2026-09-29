@@ -141,7 +141,7 @@ export default async function AdminInventoryPage({ searchParams }: { searchParam
                           >
                             {row.product_name}
                           </Link>
-                          <span className="font-mono text-[0.6rem] text-ink-500">
+                          <span className="font-mono text-[0.62rem] text-ink-500">
                             {row.sku ?? "—"}
                           </span>
                         </div>
@@ -226,7 +226,7 @@ export default async function AdminInventoryPage({ searchParams }: { searchParam
                       {row?.product_name ?? movement.variant_id}
                       {movement.note ? ` — ${movement.note}` : ""}
                     </span>
-                    <span className="font-mono text-[0.62rem] text-ink-500">
+                    <span className="font-mono text-[0.64rem] text-ink-500">
                       {movement.reason} · {formatDateTime(movement.created_at)}
                     </span>
                   </li>

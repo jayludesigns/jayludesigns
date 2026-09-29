@@ -42,7 +42,7 @@ export function TechniquesSection() {
             <span className="grid size-12 place-items-center rounded-xl bg-ember-600/20 text-ember-300 transition-transform duration-300 group-hover:scale-110">
               <Layers className="size-6" />
             </span>
-            <p className="mt-6 text-[0.62rem] font-bold tracking-[0.18em] text-ember-300 uppercase">
+            <p className="mt-6 text-[0.64rem] font-bold tracking-[0.18em] text-ember-300 uppercase">
               Técnica estrella
             </p>
             <h3 className="mt-2 text-2xl">Impresión DTF</h3>
@@ -70,7 +70,7 @@ export function TechniquesSection() {
             <span className="grid size-12 place-items-center rounded-xl bg-white/10 text-ink-200 transition-transform duration-300 group-hover:scale-110">
               <Sun className="size-6" />
             </span>
-            <p className="mt-6 text-[0.62rem] font-bold tracking-[0.18em] text-ink-400 uppercase">
+            <p className="mt-6 text-[0.64rem] font-bold tracking-[0.18em] text-ink-400 uppercase">
               Tacto cero
             </p>
             <h3 className="mt-2 text-2xl">Sublimación de alta definición</h3>

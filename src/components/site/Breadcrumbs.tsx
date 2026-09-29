@@ -10,7 +10,7 @@ export function Breadcrumbs({ items, invert = false }: { items: Crumb[]; invert?
   return (
     <nav aria-label="Migas de pan" className="min-w-0">
       <ol
-        className={`flex flex-wrap items-center gap-1 font-mono text-[0.6rem] tracking-[0.14em] uppercase ${
+        className={`flex flex-wrap items-center gap-1 font-mono text-[0.62rem] tracking-[0.14em] uppercase ${
           invert ? "text-ink-400" : "text-ink-500"
         }`}
       >

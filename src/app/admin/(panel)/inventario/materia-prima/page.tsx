@@ -149,7 +149,7 @@ export default async function RawMaterialsPage({ searchParams }: { searchParams:
                       <tr key={material.id}>
                         <td>
                           <p className="truncate font-semibold">{material.name}</p>
-                          <p className="font-mono text-[0.6rem] text-ink-500">
+                          <p className="font-mono text-[0.62rem] text-ink-500">
                             {material.sku ?? "—"} · {material.location ?? "sin ubicación"}
                           </p>
                         </td>
@@ -166,7 +166,7 @@ export default async function RawMaterialsPage({ searchParams }: { searchParams:
                           >
                             {material.stock}
                           </span>
-                          <span className="block font-mono text-[0.55rem] text-ink-500">
+                          <span className="block font-mono text-[0.57rem] text-ink-500">
                             {material.unit} · mín {material.min_stock}
                           </span>
                         </td>
@@ -246,7 +246,7 @@ export default async function RawMaterialsPage({ searchParams }: { searchParams:
                         {material?.name ?? movement.material_id}
                         {movement.type === "waste" ? " · merma" : ""}
                       </span>
-                      <span className="font-mono text-[0.62rem] text-ink-500">
+                      <span className="font-mono text-[0.64rem] text-ink-500">
                         {movement.reason} · {formatDateTime(movement.created_at)}
                       </span>
                     </li>

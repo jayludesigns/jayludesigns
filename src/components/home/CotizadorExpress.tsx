@@ -209,7 +209,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                         >
                           {option.label}
                         </span>
-                        <span className="mt-1 block font-mono text-[0.62rem] text-ember-300">
+                        <span className="mt-1 block font-mono text-[0.64rem] text-ember-300">
                           ${option.price.toFixed(2)}
                         </span>
                       </button>
@@ -235,7 +235,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                   aria-label="Cantidad de franelas"
                   className="mt-4 w-full accent-ember-600"
                 />
-                <div className="mt-2 flex justify-between font-mono text-[0.55rem] tracking-[0.14em] text-ink-400 uppercase">
+                <div className="mt-2 flex justify-between font-mono text-[0.57rem] tracking-[0.14em] text-ink-400 uppercase">
                   <span>1 unidad</span>
                   <span>100 unidades</span>
                 </div>
@@ -267,7 +267,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                 <div className="shirt-design">
                   <div className="flex flex-col items-center gap-1.5 px-2 text-center">
                     <Logo invert={isDarkShirt} className="h-9 w-auto" />
-                    <span className="shirt-text text-[0.62rem] tracking-[0.22em] text-ink-700">
+                    <span className="shirt-text text-[0.64rem] tracking-[0.22em] text-ink-700">
                       TU DISEÑO
                     </span>
                   </div>
@@ -323,7 +323,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
           {VENTAJAS.map((item) => (
             <div key={item.title} className="bg-ink-900 p-5">
               <item.icon className="size-5 text-ember-400" />
-              <h3 className="mt-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-300 uppercase">
+              <h3 className="mt-3 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
                 {item.title}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-ink-200">{item.body}</p>

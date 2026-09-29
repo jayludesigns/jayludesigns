@@ -88,12 +88,12 @@ export default async function AdminPromotionsPage({ searchParams }: { searchPara
                               : `−${formatVes(promotion.value)}`}
                           </Pill>
                         </p>
-                        <p className="mt-0.5 font-mono text-[0.62rem] text-ink-500">
+                        <p className="mt-0.5 font-mono text-[0.64rem] text-ink-500">
                           {promotion.scope === "product" ? "Producto" : "Colección"}:{" "}
                           {promotion.target} · prioridad {promotion.priority}
                         </p>
                         {(promotion.starts_at || promotion.ends_at) && (
-                          <p className="font-mono text-[0.62rem] text-ink-500">
+                          <p className="font-mono text-[0.64rem] text-ink-500">
                             {promotion.starts_at ? formatDate(promotion.starts_at) : "siempre"} →{" "}
                             {promotion.ends_at ? formatDate(promotion.ends_at) : "sin fin"}
                           </p>
@@ -205,7 +205,7 @@ export default async function AdminPromotionsPage({ searchParams }: { searchPara
                           {coupon.used_count}
                           {coupon.max_uses ? ` / ${coupon.max_uses}` : ""}
                         </td>
-                        <td className="font-mono text-[0.62rem] text-ink-600">
+                        <td className="font-mono text-[0.64rem] text-ink-600">
                           {coupon.starts_at ? formatDate(coupon.starts_at) : "siempre"}
                           {coupon.ends_at ? ` → ${formatDate(coupon.ends_at)}` : ""}
                         </td>

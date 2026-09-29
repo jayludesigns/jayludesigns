@@ -37,7 +37,7 @@ export default function TrackOrderPage() {
       />
 
       <header className="mt-5 max-w-2xl">
-        <p className="mb-2 font-mono text-[0.6rem] tracking-[0.24em] text-ink-500 uppercase">
+        <p className="mb-2 font-mono text-[0.62rem] tracking-[0.24em] text-ink-500 uppercase">
           Seguimiento
         </p>
         <h1 className="text-4xl sm:text-5xl">Rastrear mi pedido</h1>

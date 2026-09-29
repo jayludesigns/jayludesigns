@@ -50,7 +50,7 @@ export default async function ContactPage() {
             )}
 
             <div className="card-dark p-5">
-              <h2 className="mb-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+              <h2 className="mb-3 font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
                 Datos
               </h2>
               <ul className="space-y-3 text-sm text-ink-200">
@@ -99,7 +99,7 @@ export default async function ContactPage() {
             </div>
 
             <div className="card-dark p-5">
-              <h2 className="mb-3 flex items-center gap-2 font-mono text-[0.62rem] font-bold tracking-[0.18em] uppercase">
+              <h2 className="mb-3 flex items-center gap-2 font-mono text-[0.64rem] font-bold tracking-[0.18em] uppercase">
                 <Clock className="size-3.5" />
                 Horario
               </h2>

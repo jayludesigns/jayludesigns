@@ -57,14 +57,14 @@ export function PriceDisplay({
         <span
           className={cn(
             "font-normal text-ink-500",
-            size === "sm" ? "text-[0.68rem]" : "text-xs sm:text-sm",
+            size === "sm" ? "text-[0.7rem]" : "text-xs sm:text-sm",
           )}
         >
           {eurText}
         </span>
       )}
       {showRate && mode !== "ves" && rate > 0 && (
-        <span className="mt-0.5 text-[0.6rem] tracking-wide text-ink-500">
+        <span className="mt-0.5 text-[0.62rem] tracking-wide text-ink-500">
           1 € = {formatVes(rate, "Bs", false)} {stale ? "· tasa orientativa" : `· ${source}`}
         </span>
       )}
@@ -89,7 +89,7 @@ export function CurrencyToggle({ className }: { className?: string }) {
             onClick={() => setMode(option.value)}
             aria-pressed={mode === option.value}
             className={cn(
-              "px-2 py-1 font-mono text-[0.6rem] font-bold tracking-wider uppercase transition-colors",
+              "px-2 py-1 font-mono text-[0.62rem] font-bold tracking-wider uppercase transition-colors",
               mode === option.value
                 ? "bg-ember-600 text-paper"
                 : "bg-paper text-ink hover:bg-ink-100",
@@ -101,7 +101,7 @@ export function CurrencyToggle({ className }: { className?: string }) {
       </div>
       {rate > 0 && (
         <span
-          className="hidden font-mono text-[0.6rem] text-ink-500 lg:inline"
+          className="hidden font-mono text-[0.62rem] text-ink-500 lg:inline"
           title={stale ? "No pudimos actualizar la tasa; se muestra la última conocida" : "Tasa BCV vigente"}
         >
           {stale ? "~" : ""}

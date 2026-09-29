@@ -47,11 +47,13 @@ export function CatalogFilters({
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  // Búsqueda desplegable del catálogo: el botón «Buscar» es la única orden
-  // que la despliega, y el mismo botón la repliega. En escritorio el campo
-  // entra de izquierda a derecha y el grid se comprime hacia la derecha para
-  // no dejar espacio muerto; en móvil/tablet el cajón cae desde la barra
-  // superior. Ya no se autoabre al llegar con ?q=.
+  // El botón «Buscar» despliega y repliega a la vez el campo de búsqueda y la
+  // barra de filtros. En reposo el catálogo ocupa todo el ancho; al pulsarlo,
+  // la barra entra de izquierda a derecha hasta su posición y el grid se
+  // comprime hacia la derecha. En móvil/tablet el campo cae desde la barra
+  // superior y los filtros siguen en su drawer propio. No se autoabre al
+  // llegar con ?q= ni con filtros puestos: si hay filtros activos, el botón
+  // muestra cuántos para que no queden invisibles con la barra cerrada.
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
@@ -218,7 +220,7 @@ export function CatalogFilters({
                   type="button"
                   onClick={() => toggle("talla", size)}
                   className={cn(
-                    "min-w-9 rounded-full border border-ink-700 px-2 py-1 font-mono text-[0.65rem] font-bold transition-colors",
+                    "min-w-9 rounded-full border border-ink-700 px-2 py-1 font-mono text-[0.67rem] font-bold transition-colors",
                     active
                       ? "border-ember-600 bg-ember-600 text-paper shadow-ember"
                       : "text-ink-300 hover:border-ember-400 hover:bg-ember-600/20 hover:text-ember-300",
@@ -353,8 +355,13 @@ export function CatalogFilters({
           >
             {searchOpen ? <X className="size-3" /> : <Search className="size-3" />}
             <span className="hidden sm:inline">Buscar</span>
+            {!searchOpen && activeCount > 0 && (
+              <span className="grid size-5 place-items-center rounded-full bg-ember-600 font-mono text-[0.62rem] font-bold text-paper">
+                {activeCount}
+              </span>
+            )}
           </button>
-          <p className="font-mono text-[0.62rem] tracking-[0.14em] text-ink-300 uppercase">
+          <p className="font-mono text-[0.64rem] tracking-[0.14em] text-ink-300 uppercase">
             {pending ? (
               <span className="inline-flex items-center gap-1.5">
                 <Loader2 className="size-3 animate-spin" /> filtrando
@@ -375,7 +382,7 @@ export function CatalogFilters({
             Filtros{activeCount ? ` (${activeCount})` : ""}
           </button>
           <label className="flex items-center gap-2">
-            <span className="font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
+            <span className="font-mono text-[0.62rem] tracking-wider text-ink-400 uppercase">
               Orden
             </span>
             <select
@@ -423,12 +430,23 @@ export function CatalogFilters({
         </div>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
-        <aside className="hidden lg:block">
-          <div className="sticky top-32 max-h-[calc(100dvh-9rem)] overflow-y-auto pr-2">
-            {filterBody}
-          </div>
-        </aside>
+      {/* La barra de filtros está oculta mientras no se busca: el grid de
+          prendas usa todo el ancho. Al pulsar «Buscar» aparece y se desliza
+          de izquierda a derecha hasta el sitio que ocupa, y el grid se
+          comprime a la derecha. */}
+      <div
+        className={cn(
+          "grid gap-8",
+          searchOpen ? "lg:grid-cols-[16rem_minmax(0,1fr)]" : "lg:grid-cols-1",
+        )}
+      >
+        {searchOpen && (
+          <aside className="hidden lg:block">
+            <div className="sticky top-32 max-h-[calc(100dvh-9rem)] animate-slide-in-left overflow-y-auto pr-2">
+              {filterBody}
+            </div>
+          </aside>
+        )}
 
         {open && (
           <div className="animate-fade-in fixed inset-0 z-90 overflow-y-auto bg-ink-950 lg:hidden">

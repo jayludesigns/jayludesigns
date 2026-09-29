@@ -199,7 +199,7 @@ export function ProductImagesEditor({
                   <Star className="size-3" />
                 </button>
               )}
-              <span className="min-w-0 flex-1 truncate font-mono text-[0.55rem] text-ink-500">
+              <span className="min-w-0 flex-1 truncate font-mono text-[0.57rem] text-ink-500">
                 {image.kind} · {image.sort_order}
               </span>
               <button

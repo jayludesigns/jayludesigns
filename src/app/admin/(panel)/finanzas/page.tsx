@@ -50,7 +50,7 @@ export default async function AdminFinancePage({ searchParams }: { searchParams:
         description="Cómo va el negocio en números: lo cobrado, lo que está por cobrar y el margen real una vez descontada la tela y la impresión."
       >
         <form method="get" className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
+          <span className="font-mono text-[0.62rem] tracking-wider text-ink-500 uppercase">
             Periodo
           </span>
           {RANGES.map((option) => (
@@ -128,7 +128,7 @@ export default async function AdminFinancePage({ searchParams }: { searchParams:
                       style={{ width: `${Math.max(3, (row.amount_ves / methodMax) * 100)}%` }}
                     />
                   </div>
-                  <p className="mt-0.5 font-mono text-[0.58rem] text-ink-500">
+                  <p className="mt-0.5 font-mono text-[0.6rem] text-ink-500">
                     {row.count} {row.count === 1 ? "pedido" : "pedidos"} ·{" "}
                     {Math.round((row.amount_ves / methodMax) * 100)}% del máximo
                   </p>

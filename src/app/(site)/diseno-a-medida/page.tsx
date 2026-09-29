@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Brush, Clock, MessageCircle, Truck, Wallet } from "lucide-react";
+import { Clock, MessageCircle, Truck, Wallet } from "lucide-react";
 import { CustomDesignForm } from "@/components/design/CustomDesignForm";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SectionHeading } from "@/components/site/SectionHeading";
@@ -61,9 +61,10 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
           />
           <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-end">
             <div>
-              <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[0.6rem] font-bold tracking-[0.18em] text-ink-200 uppercase backdrop-blur">
-                <Brush className="size-3" />
-                Diseño a medida
+              {/* Distintivo: el eslogan de la marca hace de eyebrow sobre el
+                  título, como el de la portada. */}
+              <p className="mb-3 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
+                La vida es muy corta para usar ropa aburrida
               </p>
               <h1 className="text-5xl leading-[0.9] sm:text-6xl lg:text-7xl">
                 Cuéntanos qué
@@ -203,6 +204,23 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
             ¿Te piden bordado o serigrafía? Todavía no lo hacemos. Cuéntanos y te
             avisamos el día que abramos esa fecha.
           </p>
+        </div>
+      </section>
+
+      <div className="divider-glow" aria-hidden />
+
+      {/* Cierre de marca: desarrolla el eslogan del hero. Cualquier tema que
+          te guste puede volverse la frase que va en tu camiseta. */}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+        <div className="glow-ember absolute inset-0 opacity-20" aria-hidden />
+        <div className="wrap relative pb-16">
+          <SectionHeading
+            invert
+            eyebrow="Tu tema, tu frase"
+            title="Si te gusta, se lleva puesto"
+            description="Un personaje, una banda, tu equipo, tu marca o un recuerdo. El tema es tuyo, la frase la armamos nosotros: mándanos la referencia y la escribimos para que se lea a un metro de distancia."
+          />
         </div>
       </section>
     </div>

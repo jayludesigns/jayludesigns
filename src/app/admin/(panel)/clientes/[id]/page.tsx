@@ -158,7 +158,7 @@ export default async function CustomerDetailPage({ params }: { params: Params })
                       >
                         {design.name ?? design.code}
                       </Link>
-                      <span className="font-mono text-[0.6rem] text-ink-500">
+                      <span className="font-mono text-[0.62rem] text-ink-500">
                         {design.code} · {relativeTime(design.created_at)}
                       </span>
                     </div>
@@ -208,7 +208,7 @@ export default async function CustomerDetailPage({ params }: { params: Params })
                       {activity.body && (
                         <p className="text-xs leading-relaxed text-ink-600">{activity.body}</p>
                       )}
-                      <p className="font-mono text-[0.6rem] text-ink-500">
+                      <p className="font-mono text-[0.62rem] text-ink-500">
                         {CRM_KIND_LABELS[activity.kind]} ·{" "}
                         {formatDateTime(activity.created_at)}
                         {activity.due_at && !activity.is_done && (

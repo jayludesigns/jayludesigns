@@ -51,7 +51,7 @@ export function FeaturedTabs({
               onClick={() => setActive(tab.key)}
               aria-pressed={active === tab.key}
               className={cn(
-                "-mb-px shrink-0 border-b-2 pb-3 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase transition-colors",
+                "-mb-px shrink-0 border-b-2 pb-3 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase transition-colors",
                 active === tab.key
                   ? dark
                     ? "border-ember-400 text-ember-400"
@@ -68,7 +68,7 @@ export function FeaturedTabs({
         <a
           href="/catalogo"
           className={cn(
-            "hidden pb-3 font-mono text-[0.62rem] font-bold tracking-[0.14em] uppercase transition-colors md:block",
+            "hidden pb-3 font-mono text-[0.64rem] font-bold tracking-[0.14em] uppercase transition-colors md:block",
             dark
               ? "text-ink-400 hover:text-ember-400"
               : "text-ink-500 hover:text-ember-600",

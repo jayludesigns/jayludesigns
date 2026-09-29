@@ -172,7 +172,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                         {order.order_number}
                       </Link>
                       {order.kind !== "product" && (
-                        <span className="mt-0.5 block font-mono text-[0.55rem] text-ink-500">
+                        <span className="mt-0.5 block font-mono text-[0.57rem] text-ink-500">
                           {order.kind === "wholesale" ? "mayorista" : "a medida"}
                         </span>
                       )}
@@ -181,7 +181,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                       <p className="truncate text-sm font-semibold">
                         {order.customer_name}
                       </p>
-                      <p className="font-mono text-[0.6rem] text-ink-500">
+                      <p className="font-mono text-[0.62rem] text-ink-500">
                         {order.customer_phone ?? "—"}
                       </p>
                     </td>
@@ -191,7 +191,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                     <td className="text-right font-mono text-xs font-bold tabular">
                       {formatVes(order.total_ves)}
                       {order.discount_ves > 0 && (
-                        <span className="block font-mono text-[0.55rem] text-ink-500">
+                        <span className="block font-mono text-[0.57rem] text-ink-500">
                           −{formatVes(order.discount_ves)}
                         </span>
                       )}
@@ -202,7 +202,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                         label={PAYMENT_STATUS_LABELS[order.payment_status]}
                       />
                       {order.payment_method && (
-                        <span className="mt-0.5 block font-mono text-[0.55rem] text-ink-500">
+                        <span className="mt-0.5 block font-mono text-[0.57rem] text-ink-500">
                           {PAYMENT_METHOD_LABELS[order.payment_method]}
                         </span>
                       )}
@@ -213,7 +213,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
                         label={ORDER_STATUS_LABELS[order.status]}
                       />
                     </td>
-                    <td className="font-mono text-[0.62rem] text-ink-600">
+                    <td className="font-mono text-[0.64rem] text-ink-600">
                       {formatDateTime(order.created_at)}
                     </td>
                     <td className="text-right">

@@ -47,7 +47,7 @@ export default async function AdminSettingsPage() {
           submitClassName="btn btn-sm btn-solid mt-4"
           className="card p-4"
         >
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <Store className="size-3.5" />
             Identidad
           </h2>
@@ -84,7 +84,7 @@ export default async function AdminSettingsPage() {
           submitClassName="btn btn-sm btn-solid mt-4"
           className="card p-4"
         >
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <Building2 className="size-3.5" />
             Contacto
           </h2>
@@ -116,7 +116,7 @@ export default async function AdminSettingsPage() {
           submitClassName="btn btn-sm btn-solid mt-4"
           className="card p-4"
         >
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <Wallet className="size-3.5" />
             Envío
           </h2>
@@ -147,7 +147,7 @@ export default async function AdminSettingsPage() {
 
         {/* ---------- BCV ---------- */}
         <div className="card p-4">
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <RefreshCw className="size-3.5" />
             Tasa del BCV
           </h2>
@@ -218,7 +218,7 @@ export default async function AdminSettingsPage() {
 
         {/* ---------- Cuentas para cobrar ---------- */}
         <div className="card p-4 xl:col-span-2">
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <CreditCard className="size-3.5" />
             Cuentas para cobrar
           </h2>
@@ -309,7 +309,7 @@ export default async function AdminSettingsPage() {
 
         {/* ---------- Sistema ---------- */}
         <div className="card p-4">
-          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="flex items-center gap-2 border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             <Info className="size-3.5" />
             Sistema
           </h2>
@@ -350,7 +350,7 @@ export default async function AdminSettingsPage() {
 
         {/* ---------- Estado ---------- */}
         <div className="card p-4">
-          <h2 className="border-b border-ink-200 pb-2.5 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="border-b border-ink-200 pb-2.5 font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Estado actual
           </h2>
 

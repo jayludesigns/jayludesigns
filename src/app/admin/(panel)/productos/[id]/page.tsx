@@ -205,7 +205,7 @@ export default async function EditProductPage({ params }: { params: Params }) {
                     >
                       <button
                         type="submit"
-                        className="font-mono text-[0.6rem] text-ink-500 uppercase hover:text-ink hover:underline"
+                        className="font-mono text-[0.62rem] text-ink-500 uppercase hover:text-ink hover:underline"
                       >
                         Eliminar variante
                       </button>

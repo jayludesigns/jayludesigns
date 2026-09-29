@@ -58,19 +58,19 @@ export default async function HomePage() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />
                 <span className="relative inline-flex size-2 rounded-full bg-ember-300" />
               </span>
-              <span className="text-[0.62rem] font-bold tracking-[0.22em] text-ink-200 uppercase">
-                Calidad premium en estampados · Caracas
+              <span className="text-[0.64rem] font-bold tracking-[0.22em] text-ink-200 uppercase">
+                Tu idea estampada en una franela
               </span>
             </p>
 
             <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.84] text-paper">
-              Tu idea,
+              La vida es muy
+              <br />
+              corta para usar
               <br />
               <span className="bg-gradient-to-r from-ember-300 via-ember-400 to-paper bg-clip-text text-transparent">
-                estampada
+                ropa aburrida
               </span>
-              <br />
-              en una franela
             </h1>
 
             <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
@@ -98,7 +98,7 @@ export default async function HomePage() {
               ].map(([value, label]) => (
                 <div key={label} className="px-4 py-5">
                   <dt className="font-display text-2xl leading-none text-ember-300">{value}</dt>
-                  <dd className="mt-1 font-mono text-[0.55rem] tracking-[0.14em] text-ink-300/90 uppercase">
+                  <dd className="mt-1 font-mono text-[0.57rem] tracking-[0.14em] text-ink-300/90 uppercase">
                     {label}
                   </dd>
                 </div>
@@ -109,7 +109,7 @@ export default async function HomePage() {
           {/* Collage de producto */}
           <div className="lg:col-span-5">
             <div className="relative">
-              <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.55rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
+              <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.57rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
                 Destacado DTF
               </span>
               <div className="grid grid-cols-2 gap-4">
@@ -131,14 +131,14 @@ export default async function HomePage() {
                       />
                     )}
                     {product.discount_percent > 0 && (
-                      <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.55rem] font-bold text-paper shadow-ember">
+                      <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.57rem] font-bold text-paper shadow-ember">
                         −{product.discount_percent}%
                       </span>
                     )}
                   </Link>
                 ))}
               </div>
-              <p className="mt-4 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.16em] text-ink-300/90 uppercase">
+              <p className="mt-4 flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.16em] text-ink-300/90 uppercase">
                 <Sparkles className="size-3.5" />
                 Se estampa al pedido · DTF y sublimación
               </p>
@@ -179,12 +179,12 @@ export default async function HomePage() {
                     className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"
                     aria-hidden
                   />
-                  <span className="absolute top-3 right-3 font-mono text-[0.6rem] text-ink-300">
+                  <span className="absolute top-3 right-3 font-mono text-[0.62rem] text-ink-300">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="relative">
                     <span className="block font-display text-2xl text-white">{category.name}</span>
-                    <span className="mt-0.5 block font-mono text-[0.58rem] tracking-[0.14em] text-ink-300 uppercase">
+                    <span className="mt-0.5 block font-mono text-[0.6rem] tracking-[0.14em] text-ink-300 uppercase">
                       {count} {count === 1 ? "modelo" : "modelos"}
                     </span>
                   </span>
@@ -278,7 +278,7 @@ export default async function HomePage() {
                         {collection.tagline}
                       </span>
                     )}
-                    <span className="mt-2 block font-mono text-[0.58rem] tracking-[0.14em] text-ink-300 uppercase">
+                    <span className="mt-2 block font-mono text-[0.6rem] tracking-[0.14em] text-ink-300 uppercase">
                       {collection.product_count} modelos
                     </span>
                   </span>
@@ -301,7 +301,7 @@ export default async function HomePage() {
         <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
         <div className="wrap relative grid gap-10 py-14 sm:py-18 lg:grid-cols-2">
           <div>
-            <p className="mb-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-300 uppercase">
+            <p className="mb-3 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
               Diseño a medida
             </p>
             <h2 className="text-4xl sm:text-5xl">
@@ -429,7 +429,7 @@ export default async function HomePage() {
                   <blockquote className="text-sm leading-relaxed text-ink-200">
                     {review.body}
                   </blockquote>
-                  <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
+                  <p className="mt-auto font-mono text-[0.62rem] tracking-wider text-ink-400 uppercase">
                     {review.author_name}
                   </p>
                 </figure>

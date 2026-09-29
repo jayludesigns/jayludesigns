@@ -16,7 +16,7 @@ export default function OfflinePage() {
           <CloudOff className="size-7" strokeWidth={1.8} />
         </span>
 
-        <p className="mt-6 font-mono text-[0.6rem] tracking-[0.24em] text-ink-500 uppercase">
+        <p className="mt-6 font-mono text-[0.62rem] tracking-[0.24em] text-ink-500 uppercase">
           Sin conexión
         </p>
         <h1 className="mt-3 text-4xl leading-[0.9] sm:text-5xl">

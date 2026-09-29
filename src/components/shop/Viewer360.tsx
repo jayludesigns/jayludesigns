@@ -157,7 +157,7 @@ export function Viewer360({
         {/* Pista de arrastre */}
         <span
           className={cn(
-            "pointer-events-none absolute inset-x-3 bottom-3 mx-auto flex w-fit items-center justify-center gap-2 rounded-full bg-ink/80 py-2 pr-4 pl-3.5 font-mono text-[0.58rem] tracking-[0.18em] text-paper uppercase backdrop-blur-sm transition-opacity duration-200",
+            "pointer-events-none absolute inset-x-3 bottom-3 mx-auto flex w-fit items-center justify-center gap-2 rounded-full bg-ink/80 py-2 pr-4 pl-3.5 font-mono text-[0.6rem] tracking-[0.18em] text-paper uppercase backdrop-blur-sm transition-opacity duration-200",
             dragging ? "opacity-0" : "opacity-100",
           )}
         >
@@ -165,7 +165,7 @@ export function Viewer360({
           Arrastra para girar
         </span>
 
-        <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-ink-950/80 px-2.5 py-1 font-mono text-[0.58rem] font-bold tracking-[0.14em] text-paper uppercase backdrop-blur-sm">
+        <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-ink-950/80 px-2.5 py-1 font-mono text-[0.6rem] font-bold tracking-[0.14em] text-paper uppercase backdrop-blur-sm">
           360°
         </span>
       </div>
@@ -197,7 +197,7 @@ export function Viewer360({
             style={{ width: `${progress}%` }}
           />
         </div>
-        <span className="font-mono text-[0.6rem] text-ink-400 tabular">
+        <span className="font-mono text-[0.62rem] text-ink-400 tabular">
           {String(index + 1).padStart(2, "0")}/{count}
         </span>
       </div>

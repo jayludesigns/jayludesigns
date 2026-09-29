@@ -154,7 +154,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             )}
           </div>
           {product.promotion && (
-            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.6rem] font-bold tracking-wider text-paper uppercase">
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.62rem] font-bold tracking-wider text-paper uppercase">
               Promo: {product.promotion.name} −
               {product.promotion.kind === "percent"
                 ? `${product.promotion.value}%`
@@ -264,7 +264,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
               <Plus className="size-3.5" />
             </button>
           </div>
-          <p className="ml-3 self-center font-mono text-[0.65rem] text-ink-400">
+          <p className="ml-3 self-center font-mono text-[0.67rem] text-ink-400">
             {stock > 0 ? `${stock} disponibles` : "Sin stock"}
             {selected?.sku ? ` · ${selected.sku}` : ""}
           </p>
@@ -294,7 +294,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
         {/* Volumen */}
         {product.bulk_prices.length > 0 && (
           <div className="card-dark mt-6 overflow-hidden">
-            <p className="bg-ink-900 px-3.5 py-2.5 font-mono text-[0.6rem] font-bold tracking-[0.14em] text-paper uppercase">
+            <p className="bg-ink-900 px-3.5 py-2.5 font-mono text-[0.62rem] font-bold tracking-[0.14em] text-paper uppercase">
               Precio por volumen
             </p>
             <ul className="divide-y divide-ink-800">
@@ -321,7 +321,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             .filter(([, value]) => Boolean(value))
             .map(([label, value]) => (
               <div key={label} className="flex justify-between gap-4 py-2.5">
-                <dt className="font-mono text-[0.65rem] tracking-wider text-ink-400 uppercase">
+                <dt className="font-mono text-[0.67rem] tracking-wider text-ink-400 uppercase">
                   {label}
                 </dt>
                 <dd className="text-right font-medium text-ink-200">{value}</dd>

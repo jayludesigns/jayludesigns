@@ -41,7 +41,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
               La misma paleta, las mismas reglas.
             </p>
           </div>
-          <p className="absolute bottom-10 left-0 right-0 font-mono text-[0.6rem] tracking-[0.2em] text-paper/40 uppercase">
+          <p className="absolute bottom-10 left-0 right-0 font-mono text-[0.62rem] tracking-[0.2em] text-paper/40 uppercase">
             JayLu · administración
           </p>
         </div>

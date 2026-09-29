@@ -80,7 +80,7 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
             return (
               <li key={status} className="flex items-center gap-1.5">
                 <span
-                  className={`border px-2 py-1 font-mono text-[0.6rem] tracking-wider uppercase ${
+                  className={`border px-2 py-1 font-mono text-[0.62rem] tracking-wider uppercase ${
                     current
                       ? "border-ember-600 bg-ember-600 text-paper"
                       : done
@@ -160,7 +160,7 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
                     <tr key={item.id}>
                       <td>
                         <p className="text-sm font-semibold">{item.name}</p>
-                        <p className="font-mono text-[0.6rem] text-ink-500">
+                        <p className="font-mono text-[0.62rem] text-ink-500">
                           {item.sku ?? "—"}
                           {item.custom_design_id ? " · diseño a medida" : ""}
                         </p>
@@ -204,7 +204,7 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
                   </div>
                 ))}
             </dl>
-            <p className="mt-2 font-mono text-[0.62rem] text-ink-500">
+            <p className="mt-2 font-mono text-[0.64rem] text-ink-500">
               Tasa del pedido: 1 € = {formatVes(order.bcv_rate, "Bs", false)} ·{" "}
               {formatVes(order.total_eur, "€")} al momento de la compra
             </p>
@@ -253,12 +253,12 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
                 {order.customer_id ? (
                   <Link
                     href={`/admin/clientes/${order.customer_id}`}
-                    className="font-mono text-[0.62rem] underline"
+                    className="font-mono text-[0.64rem] underline"
                   >
                     Ver ficha
                   </Link>
                 ) : (
-                  <span className="font-mono text-[0.62rem] text-ink-500">
+                  <span className="font-mono text-[0.64rem] text-ink-500">
                     invitado (sin cuenta)
                   </span>
                 )}
@@ -303,7 +303,7 @@ export default async function AdminOrderPage({ params }: { params: Params }) {
 
             {order.shipping_address && (
               <div className="mt-3 border-t border-ink-200 pt-3">
-                <p className="mb-1 flex items-center gap-2 font-mono text-[0.6rem] tracking-wider uppercase">
+                <p className="mb-1 flex items-center gap-2 font-mono text-[0.62rem] tracking-wider uppercase">
                   <MapPin className="size-3" />
                   Entrega
                 </p>

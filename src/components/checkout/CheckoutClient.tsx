@@ -298,7 +298,7 @@ export function CheckoutClient({
       {/* ---------- Resumen ---------- */}
       <aside className="lg:sticky lg:top-32 lg:self-start">
         <div className="card overflow-hidden">
-          <p className="bg-ink-950 px-4 py-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] text-paper uppercase">
+          <p className="bg-ink-950 px-4 py-3 font-mono text-[0.64rem] font-bold tracking-[0.18em] text-paper uppercase">
             Tu pedido
           </p>
 
@@ -313,7 +313,7 @@ export function CheckoutClient({
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-bold">{item.name}</span>
-                  <span className="block font-mono text-[0.6rem] text-ink-500">
+                  <span className="block font-mono text-[0.62rem] text-ink-500">
                     {item.variantLabel} · {item.quantity} × {formatVes(item.unitPrice)}
                   </span>
                 </span>
@@ -484,13 +484,13 @@ function PaymentInstructions({
   return (
     <div className="card mt-4 overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-ink-100 bg-ember-50 px-3.5 py-2.5">
-        <span className="font-mono text-[0.6rem] font-bold tracking-[0.14em] text-ember-700 uppercase">
+        <span className="font-mono text-[0.62rem] font-bold tracking-[0.14em] text-ember-700 uppercase">
           Datos para pagar
         </span>
         <button
           type="button"
           onClick={copyAll}
-          className="flex items-center gap-1.5 font-mono text-[0.6rem] font-bold uppercase text-ember-700 transition-colors hover:text-ember-900"
+          className="flex items-center gap-1.5 font-mono text-[0.62rem] font-bold uppercase text-ember-700 transition-colors hover:text-ember-900"
         >
           {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
           {copied ? "Copiado" : "Copiar"}
@@ -499,7 +499,7 @@ function PaymentInstructions({
       <dl className="divide-y divide-ink-100 text-sm">
         {data.map((row) => (
           <div key={row.label} className="flex justify-between gap-3 px-3.5 py-2.5">
-            <dt className="font-mono text-[0.65rem] tracking-wider text-ink-500 uppercase">
+            <dt className="font-mono text-[0.67rem] tracking-wider text-ink-500 uppercase">
               {row.label}
             </dt>
             <dd className="break-all text-right font-mono text-xs font-bold">{row.value}</dd>

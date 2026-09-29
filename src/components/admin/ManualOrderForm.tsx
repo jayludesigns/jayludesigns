@@ -117,7 +117,7 @@ export function ManualOrderForm({
       {/* ---------- Productos ---------- */}
       <section className="card overflow-hidden">
         <div className="flex items-center justify-between border-b border-ink-200 bg-ink-50 px-4 py-2.5">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Artículos
           </h2>
           <button type="button" onClick={addLine} className="btn btn-sm">
@@ -213,7 +213,7 @@ export function ManualOrderForm({
         <p className="border-t border-ink-200 px-4 py-3 text-sm">
           <span className="text-ink-600">Estimado sin promociones ni envío: </span>
           <strong className="font-mono tabular">{formatVes(estimate)}</strong>
-          <span className="ml-2 font-mono text-[0.62rem] text-ink-500">
+          <span className="ml-2 font-mono text-[0.64rem] text-ink-500">
             ≈ {formatVes(rate > 0 ? estimate / rate : 0, "€")}
           </span>
         </p>
@@ -222,7 +222,7 @@ export function ManualOrderForm({
       {/* ---------- Cliente ---------- */}
       <section className="grid gap-4 card p-4 lg:grid-cols-2">
         <div className="space-y-3">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Quién recibe
           </h2>
           <div>
@@ -269,7 +269,7 @@ export function ManualOrderForm({
         </div>
 
         <div className="space-y-3">
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] uppercase">
             Pago y envío
           </h2>
           <div>

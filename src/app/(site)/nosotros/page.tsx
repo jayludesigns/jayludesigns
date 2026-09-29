@@ -105,7 +105,7 @@ export default async function AboutPage() {
 
             <aside className="space-y-3">
               <div className="card-dark p-5">
-                <p className="font-mono text-[0.6rem] tracking-[0.2em] text-ink-400 uppercase">
+                <p className="font-mono text-[0.62rem] tracking-[0.2em] text-ink-400 uppercase">
                   Datos rápidos
                 </p>
                 <dl className="mt-3 space-y-2.5 text-sm">
@@ -197,7 +197,7 @@ export default async function AboutPage() {
           <div className="card-dark p-6 sm:p-10">
             <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
               <div className="max-w-2xl">
-                <p className="mb-2 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.2em] text-ink-400 uppercase">
+                <p className="mb-2 flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.2em] text-ink-400 uppercase">
                   <Truck className="size-3.5" />
                   Uniformes y lotes
                 </p>

@@ -71,7 +71,7 @@ export function CartClient({
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     {item.collection && (
-                      <p className="font-mono text-[0.55rem] tracking-[0.16em] text-ink-400 uppercase">
+                      <p className="font-mono text-[0.57rem] tracking-[0.16em] text-ink-400 uppercase">
                         {item.collection}
                       </p>
                     )}
@@ -80,7 +80,7 @@ export function CartClient({
                         {item.name}
                       </Link>
                     </h3>
-                    <p className="mt-0.5 font-mono text-[0.62rem] text-ink-400">
+                    <p className="mt-0.5 font-mono text-[0.64rem] text-ink-400">
                       {item.variantLabel}
                     </p>
                   </div>
@@ -129,7 +129,7 @@ export function CartClient({
                       className="text-ember-400"
                     />
                     {item.quantity > 1 && (
-                      <p className="font-mono text-[0.58rem] text-ink-400">
+                      <p className="font-mono text-[0.6rem] text-ink-400">
                         {formatVes(item.unitPrice)} c/u
                       </p>
                     )}
@@ -160,7 +160,7 @@ export function CartClient({
       {/* -------- Resumen -------- */}
       <aside className="lg:sticky lg:top-32 lg:self-start">
         <div className="card-dark overflow-hidden">
-          <p className="bg-ink-950 px-4 py-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] text-paper uppercase">
+          <p className="bg-ink-950 px-4 py-3 font-mono text-[0.64rem] font-bold tracking-[0.18em] text-paper uppercase">
             Resumen
           </p>
 

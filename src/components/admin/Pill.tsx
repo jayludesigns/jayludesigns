@@ -16,7 +16,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[0.6rem] font-bold tracking-wider uppercase whitespace-nowrap",
+        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[0.62rem] font-bold tracking-wider uppercase whitespace-nowrap",
         tone === "solid" && "bg-ember-600 text-paper",
         tone === "outline" && "border border-ink-200 text-ink-700",
         tone === "plain" && "bg-ink-50 text-ink-700",
@@ -71,7 +71,7 @@ export function Bar({
   const percent = max > 0 ? Math.max(2, Math.round((value / max) * 100)) : 0;
   return (
     <div className={className}>
-      {label && <p className="mb-1 font-mono text-[0.6rem] text-ink-500">{label}</p>}
+      {label && <p className="mb-1 font-mono text-[0.62rem] text-ink-500">{label}</p>}
       <div className="h-2 w-full overflow-hidden rounded-full bg-ink-100">
         <div className="h-full rounded-full bg-ember-600" style={{ width: `${percent}%` }} />
       </div>

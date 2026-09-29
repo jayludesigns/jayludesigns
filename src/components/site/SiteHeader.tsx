@@ -128,7 +128,7 @@ export function SiteHeader({
               {TICKER.map((item) => (
                 <span
                   key={item}
-                  className="font-mono text-[0.6rem] tracking-[0.22em] uppercase"
+                  className="font-mono text-[0.62rem] tracking-[0.22em] uppercase"
                 >
                   {item} <span className="opacity-45">✦</span>
                 </span>
@@ -167,7 +167,7 @@ export function SiteHeader({
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "link-underline text-[0.72rem] font-bold tracking-[0.14em] uppercase transition-colors hover:text-ember-600",
+                      "link-underline text-[0.74rem] font-bold tracking-[0.14em] uppercase transition-colors hover:text-ember-600",
                       active && "text-ember-600",
                     )}
                   >
@@ -197,7 +197,7 @@ export function SiteHeader({
               >
                 <Heart className="size-4" />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 grid min-w-5 place-items-center rounded-full bg-ink px-1 font-mono text-[0.6rem] font-bold text-paper shadow-soft">
+                  <span className="absolute -top-1.5 -right-1.5 grid min-w-5 place-items-center rounded-full bg-ink px-1 font-mono text-[0.62rem] font-bold text-paper shadow-soft">
                     {wishlistCount > 99 ? "99+" : wishlistCount}
                   </span>
                 )}
@@ -210,7 +210,7 @@ export function SiteHeader({
               >
                 <ShoppingBag className="size-4" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 grid min-w-5 place-items-center rounded-full bg-ember-600 px-1 font-mono text-[0.6rem] font-bold text-paper shadow-ember">
+                  <span className="absolute -top-1.5 -right-1.5 grid min-w-5 place-items-center rounded-full bg-ember-600 px-1 font-mono text-[0.62rem] font-bold text-paper shadow-ember">
                     {cartCount > 99 ? "99+" : cartCount}
                   </span>
                 )}
@@ -261,7 +261,7 @@ export function SiteHeader({
                 id="hdr-cat"
                 name="categoria"
                 defaultValue=""
-                className="border-r border-paper/20 bg-ember-700 px-3 py-2.5 font-mono text-[0.65rem] font-bold tracking-wider text-paper uppercase focus:outline-none lg:max-w-52"
+                className="border-r border-paper/20 bg-ember-700 px-3 py-2.5 font-mono text-[0.67rem] font-bold tracking-wider text-paper uppercase focus:outline-none lg:max-w-52"
               >
                 <option value="">Todas</option>
                 {categories.map((category) => (
@@ -283,7 +283,7 @@ export function SiteHeader({
               />
               <button
                 type="submit"
-                className="flex items-center gap-2 bg-ink px-4 font-mono text-[0.65rem] font-bold tracking-[0.14em] text-paper uppercase transition-colors hover:bg-ink-800 sm:px-5"
+                className="flex items-center gap-2 bg-ink px-4 font-mono text-[0.67rem] font-bold tracking-[0.14em] text-paper uppercase transition-colors hover:bg-ink-800 sm:px-5"
               >
                 <Search className="size-4" />
                 <span className="hidden md:inline">Buscar</span>
@@ -296,7 +296,7 @@ export function SiteHeader({
                 onClick={toggleSearch}
                 className="flex min-w-44 flex-col justify-center rounded-xl border border-ember-200 bg-ember-50 px-4 py-2 text-center transition-colors hover:border-ember-300 hover:bg-ember-100"
               >
-                <span className="font-mono text-[0.6rem] font-bold tracking-[0.18em] text-ember-700 uppercase">
+                <span className="font-mono text-[0.62rem] font-bold tracking-[0.18em] text-ember-700 uppercase">
                   {promo.name}
                 </span>
                 <span className="mt-0.5 text-xs font-bold text-ink-700">
@@ -321,7 +321,7 @@ export function SiteHeader({
                 href={item.href}
                 className="flex items-baseline gap-3 border-b border-ink-100 py-4 font-display text-3xl uppercase transition-colors hover:text-ember-600 last:border-0"
               >
-                <span className="font-mono text-[0.6rem] text-ink-500">
+                <span className="font-mono text-[0.62rem] text-ink-500">
                   0{index + 1}
                 </span>
                 {item.label}

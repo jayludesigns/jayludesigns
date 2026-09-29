@@ -97,7 +97,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
               {collection.description}
             </p>
           )}
-          <p className="mt-6 font-mono text-[0.62rem] tracking-[0.2em] text-white/60 uppercase">
+          <p className="mt-6 font-mono text-[0.64rem] tracking-[0.2em] text-white/60 uppercase">
             {products.length} {products.length === 1 ? "modelo" : "modelos"} en esta colección
           </p>
         </div>

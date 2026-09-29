@@ -104,7 +104,7 @@ export function OfflineBanner() {
   return (
     <div
       role="status"
-      className="sticky top-0 z-95 flex items-center justify-center gap-2 border-b border-ink bg-ink px-3 py-2 text-center text-[0.65rem] font-bold uppercase tracking-widest text-paper"
+      className="sticky top-0 z-95 flex items-center justify-center gap-2 border-b border-ink bg-ink px-3 py-2 text-center text-[0.67rem] font-bold uppercase tracking-widest text-paper"
     >
       <span className="size-2 animate-pulse-dot rounded-full bg-paper" />
       Sin conexión · te mostramos lo que ya tenemos guardado

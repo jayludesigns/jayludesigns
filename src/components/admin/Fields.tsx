@@ -301,7 +301,7 @@ export function Fieldset({
     <section className={cn("card overflow-hidden", className)}>
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink-100 bg-ink-50/70 px-4 py-2.5">
         <div>
-          <h2 className="font-mono text-[0.65rem] font-bold tracking-[0.16em] text-ember-700 uppercase">
+          <h2 className="font-mono text-[0.67rem] font-bold tracking-[0.16em] text-ember-700 uppercase">
             {title}
           </h2>
           {description && <p className="mt-0.5 text-xs text-ink-600">{description}</p>}

@@ -258,7 +258,7 @@ function CollectionEditor({ collection }: { collection: Collection }) {
           <dl className="space-y-1.5">
             <div className="flex justify-between gap-2">
               <dt className="text-ink-600">Vigencia</dt>
-              <dd className="font-mono text-[0.65rem]">
+              <dd className="font-mono text-[0.67rem]">
                 {collection.starts_at ? formatDate(collection.starts_at) : "siempre"} →{" "}
                 {collection.ends_at ? formatDate(collection.ends_at) : "sin fin"}
               </dd>

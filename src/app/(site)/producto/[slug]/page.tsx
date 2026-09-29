@@ -172,7 +172,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <blockquote className="text-sm leading-relaxed text-ink-300">
                     {review.body}
                   </blockquote>
-                  <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
+                  <p className="mt-auto font-mono text-[0.62rem] tracking-wider text-ink-400 uppercase">
                     {review.author_name}
                   </p>
                 </figure>

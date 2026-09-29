@@ -99,7 +99,7 @@ export default async function CollectionsPage() {
                       {collection.tagline && (
                         <p className="mt-1.5 text-sm text-white/75">{collection.tagline}</p>
                       )}
-                      <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[0.58rem] tracking-[0.14em] text-white/60 uppercase">
+                      <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[0.6rem] tracking-[0.14em] text-white/60 uppercase">
                         <span>{collection.product_count} modelos</span>
                         {collection.ends_at && <span>Hasta el {formatDate(collection.ends_at)}</span>}
                       </p>

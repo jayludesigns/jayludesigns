@@ -50,7 +50,7 @@ export function SalesChart({
         })}
       </div>
 
-      <div className="mt-2 flex justify-between font-mono text-[0.55rem] text-ink-500">
+      <div className="mt-2 flex justify-between font-mono text-[0.57rem] text-ink-500">
         <span>{points[0]?.label}</span>
         <span>
           pico {formatVes(max)} · {points.reduce((acc, p) => acc + p.orders, 0)} pedidos
