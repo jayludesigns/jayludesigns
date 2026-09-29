@@ -41,7 +41,7 @@ const PROCESS = [
   ["Aprobamos la muestra", "Te mostramos el diseño en pantalla antes de imprimir."],
   ["Imprimimos", "Sublimación o DTF textil, según la prenda y el diseño."],
   ["Control de calidad", "Revisamos pieza por pieza antes de empacar."],
-  ["Te entregamos", "Recogida en Caracas o envío por encomienda a toda Venezuela."],
+  ["Te entregamos", "Recogida en Maracay o envío por encomienda a toda Venezuela."],
 ];
 
 export default async function AboutPage() {
@@ -67,7 +67,7 @@ export default async function AboutPage() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
             JayLu nació de una pregunta simple: ¿por qué las franelas de
             Venezuela son todas iguales? Hoy imprimimos{" "}
-            {settings.store_name} en Caracas, con catálogo propio y diseños que
+            {settings.store_name} en Maracay, con catálogo propio y diseños que
             la gente nos manda.
           </p>
         </div>
@@ -110,7 +110,7 @@ export default async function AboutPage() {
                 </p>
                 <dl className="mt-3 space-y-2.5 text-sm">
                   {[
-                    ["Fundación", "Caracas, Venezuela"],
+                    ["Fundación", "Maracay, estado Aragua"],
                     ["Pedido mínimo", "1 unidad"],
                     ["Producción", "3 a 5 días hábiles"],
                     ["Envío gratis", `desde ${formatVes(settings.free_shipping_over_ves)}`],

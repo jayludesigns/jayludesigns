@@ -707,7 +707,7 @@ export async function createManualOrderAction(
       couponCode: textOrNull(form, "couponCode"),
       shippingAddress: {
         address: text(form, "address") || "Recogida en JayLu",
-        city: text(form, "city") || "Caracas",
+        city: text(form, "city") || "Maracay",
         state: text(form, "state") || "Distrito Capital",
         ...(text(form, "zip") ? { zip: text(form, "zip") } : {}),
         ...(text(form, "notes") ? { notes: text(form, "notes") } : {}),

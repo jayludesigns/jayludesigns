@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   Brush,
+  ImageOff,
   MessageCircle,
   Palette,
   Sparkles,
@@ -106,7 +107,9 @@ export default async function HomePage() {
             </dl>
           </div>
 
-          {/* Collage de producto */}
+          {/* Collage de producto. Los cuatro cuadros miden lo mismo y llevan
+              el nombre del modelo abajo: antes iban escalonados y quedaban
+              descuadrados, sin nada que dijera qué prenda era cada uno. */}
           <div className="lg:col-span-5">
             <div className="relative">
               <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.57rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
@@ -117,24 +120,37 @@ export default async function HomePage() {
                   <Link
                     key={product.id}
                     href={`/producto/${product.slug}`}
-                    className={`group relative block overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember ${
-                      index % 3 === 0 ? "mt-6" : ""
-                    }`}
+                    title={product.name}
+                    className="group relative block aspect-square overflow-hidden rounded-xl border border-white/10 bg-ink-900 transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember"
                   >
-                    {product.images[0] && (
+                    {product.images[0] ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={product.images[0].url}
                         alt={product.name}
                         loading={index < 2 ? "eager" : "lazy"}
-                        className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
+                    ) : (
+                      <span className="grid size-full place-items-center text-ink-400">
+                        <ImageOff className="size-7" />
+                      </span>
                     )}
                     {product.discount_percent > 0 && (
                       <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.57rem] font-bold text-paper shadow-ember">
                         −{product.discount_percent}%
                       </span>
                     )}
+                    {/* Velo para que el nombre se lea sobre cualquier diseño. */}
+                    <span
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/90 via-black/45 to-transparent"
+                      aria-hidden
+                    />
+                    <span className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
+                      <span className="block truncate font-display text-sm text-white">
+                        {product.name}
+                      </span>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -365,17 +381,15 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Miniaturas de referencias */}
+          {/* Muestras de referencia. Cuadros del mismo tamaño, en fila: el
+              escalonado anterior los dejaba descuadrados. */}
           <div className="grid grid-cols-2 gap-3 self-center">
-            {["mage-1", "custom-1", "uniforme-escudo", "grupo-1"].map((name, index) => (
-              <div
-                key={name}
-                className={`card-dark overflow-hidden ${index % 2 === 1 ? "mt-6" : ""}`}
-              >
+            {["mage-1", "custom-1", "uniforme-escudo", "grupo-1"].map((name) => (
+              <div key={name} className="card-dark overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/demo/references/${name}.svg`}
-                  alt={`Ejemplo de referencia que nos envían los clientes`}
+                  alt="Ejemplo de referencia que nos envían los clientes"
                   loading="lazy"
                   className="aspect-square w-full bg-ink-900 object-cover"
                 />

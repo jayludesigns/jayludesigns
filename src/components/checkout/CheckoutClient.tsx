@@ -40,7 +40,7 @@ const METHODS: { value: PaymentMethod; hint: string }[] = [
   { value: "zelle", hint: "Para compras desde el exterior o personas en USA." },
   { value: "transferencia", hint: "Transferencia bancaria nacional." },
   { value: "binance", hint: "Paga con saldo de Binance Pay." },
-  { value: "efectivo", hint: "Pagas al recoger en Caracas." },
+  { value: "efectivo", hint: "Pagas al recoger en Maracay." },
   { value: "otro", hint: "Lo coordinamos por WhatsApp." },
 ];
 
@@ -200,7 +200,7 @@ export function CheckoutClient({
           </div>
           <p className="mt-3 flex items-start gap-2 text-xs text-ink-500">
             <ShieldCheck className="mt-0.5 size-3.5 shrink-0" />
-            Si prefieres recoger en Caracas, escríbenos por WhatsApp después de
+            Si prefieres recoger en Maracay, escríbenos por WhatsApp después de
             confirmar y cambiamos la entrega.
           </p>
         </section>

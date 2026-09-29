@@ -51,7 +51,7 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
       <section className="relative overflow-hidden bg-ink-950">
         <div className="halftone-light absolute inset-0 opacity-[0.06]" aria-hidden />
         <div className="glow-ember absolute inset-0 opacity-30" aria-hidden />
-        <div className="wrap relative py-12 sm:py-16">
+        <div className="wrap relative py-10 sm:py-14">
           <Breadcrumbs
             invert
             items={[
@@ -59,19 +59,21 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
               { href: "/diseno-a-medida", label: "Diseño a medida" },
             ]}
           />
-          <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-end">
+          {/* El título sube y crece: antes quedaba demasiado aire alrededor
+              para la importancia que tiene la página. */}
+          <div className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-end">
             <div>
               {/* Distintivo: el eslogan de la marca hace de eyebrow sobre el
                   título, como el de la portada. */}
               <p className="mb-3 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
                 La vida es muy corta para usar ropa aburrida
               </p>
-              <h1 className="text-5xl leading-[0.9] sm:text-6xl lg:text-7xl">
+              <h1 className="text-6xl leading-[0.88] sm:text-7xl lg:text-8xl">
                 Cuéntanos qué
                 <br />
                 quieres estampar
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-300">
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-300">
                 Sube una foto de referencia y cuéntanos la idea. <strong>Los dos
                 campos son opcionales</strong>: con cualquiera de los dos ya
                 empezamos, y con los dos el resultado se parece mucho más a lo

@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         {/* Garantías */}
         <ul className="mt-12 grid gap-3 border-y border-ink-800 py-6 sm:grid-cols-3">
           {[
-            { icon: Truck, title: "Envío a toda Venezuela", body: "Recogida en Caracas o envío por encomienda." },
+            { icon: Truck, title: "Envío a toda Venezuela", body: "Recogida en Maracay o envío por encomienda." },
             { icon: Check, title: "Revisa antes de imprimir", body: "Te mandamos la muestra digital y apruebas." },
             { icon: MessageCircle, title: "Hablas con quien imprime", body: "Sin bots: escribes por WhatsApp y te responde una persona." },
           ].map((item) => (

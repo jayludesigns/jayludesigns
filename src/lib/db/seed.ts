@@ -547,7 +547,7 @@ const default_settings: StoreSettings = {
   whatsapp: "584120000000",
   instagram: "jaylu.ve",
   tiktok: "jaylu.ve",
-  address: "Caracas, Venezuela",
+  address: "Maracay, estado Aragua, Venezuela",
   currency_symbol: "Bs.",
   shipping_flat_ves: 5,
   free_shipping_over_ves: 30,

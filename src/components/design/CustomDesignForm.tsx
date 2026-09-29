@@ -430,7 +430,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               ["Te cotizamos", "Precio, plazo y técnica recomendada. Gratis."],
               ["Muestra digital", "Te mostramos cómo va. Ajustas lo que quieras."],
               ["Apruebas y pagas", "Imprimimos solo con tu visto bueno."],
-              ["Entrega", "Recogida en Caracas o envío por encomienda."],
+              ["Entrega", "Recogida en Maracay o envío por encomienda."],
             ].map(([title, body], index) => (
               <li key={title} className="flex gap-3">
                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 font-mono text-[0.62rem] font-bold text-paper">

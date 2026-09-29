@@ -50,11 +50,13 @@ export async function SiteFooter() {
               con Jay<span className="text-ember-500">Lu</span>
             </h2>
           </div>
-          <div className="flex flex-col items-start gap-3">
-            <Link href="/diseno-a-medida" className="btn btn-solid btn-lg">
+          <div className="flex flex-col items-start gap-4">
+            {/* El botón era pequeño para la escala del cierre: junto al
+                bloque gigante de la marca quedaba perdido. */}
+            <Link href="/diseno-a-medida" className="btn btn-solid btn-lg px-9 py-5 text-base">
               Diseñar mi franela
             </Link>
-            <p className="max-w-56 text-xs leading-relaxed opacity-60">
+            <p className="max-w-64 text-sm leading-relaxed opacity-70">
               Mándanos una foto o cuéntanos la idea. Cotizamos sin compromiso.
             </p>
           </div>
