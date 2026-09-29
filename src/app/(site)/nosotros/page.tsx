@@ -148,14 +148,18 @@ export default async function AboutPage() {
         <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
         <div className="wrap relative py-14">
           <SectionHeading invert eyebrow="Cómo trabajamos" title="Cuatro cosas que no negociamos" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Mismas reglas que las ventajas del inicio: celdas opacas (no
+              translúcidas), icono con su propio color —los iconos heredaban
+              el negro del body y desaparecían sobre la banda— y título en
+              mono del acento para que deje de brillar sobre el negro. */}
+          <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-ink-900/60 sm:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((value) => (
-              <div key={value.title}>
-                <span className="grid size-10 place-items-center border border-paper/50">
-                  <value.icon className="size-4" />
-                </span>
-                <h3 className="mt-4 text-lg font-bold">{value.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-300">{value.body}</p>
+              <div key={value.title} className="bg-ink-900 p-5">
+                <value.icon className="size-5 text-ember-400" />
+                <h3 className="mt-3 font-mono text-[0.72rem] leading-[1.45] tracking-[0.22em] text-ember-300 uppercase">
+                  {value.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink-200">{value.body}</p>
               </div>
             ))}
           </div>

@@ -33,8 +33,11 @@ export function TechniquesSection() {
         />
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {/* Tarjetas opacas (no translúcidas): con el halo vino de la banda
+              viéndose a través del vidrio, el título blanco quedaba con un
+              resplandor alrededor. Mismo criterio que las ventajas del inicio. */}
           {/* DTF */}
-          <article className="glass-dark group relative overflow-hidden rounded-2xl p-8 transition-colors hover:border-ember-400/60">
+          <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-900 p-8 transition-colors hover:border-ember-400/60">
             <span
               className="absolute -top-10 -right-10 size-36 rounded-bl-full bg-ember-600/15"
               aria-hidden
@@ -62,7 +65,7 @@ export function TechniquesSection() {
           </article>
 
           {/* Sublimación */}
-          <article className="glass-dark group relative overflow-hidden rounded-2xl p-8 transition-colors hover:border-ember-400/60">
+          <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-ink-900 p-8 transition-colors hover:border-ember-400/60">
             <span
               className="absolute -top-10 -right-10 size-36 rounded-bl-full bg-white/5"
               aria-hidden

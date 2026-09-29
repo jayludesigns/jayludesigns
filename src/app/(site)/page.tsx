@@ -444,9 +444,15 @@ export default async function HomePage() {
       {/* ================= CIERRE ================= */}
       <section className="relative overflow-hidden bg-ink-950">
         <div className="wrap relative py-14">
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-8 sm:p-12">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-ink-900 p-8 sm:p-12">
             <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
-            <div className="glow-ember absolute inset-0 opacity-25" aria-hidden />
+            {/* El halo va a una esquina: centrado se metía debajo del título
+                y le ponía un resplandor alrededor, como pasaba en las
+                ventajas. Mismo criterio: superficie opaca y luz aparte. */}
+            <div
+              className="glow-ember pointer-events-none absolute -top-28 -right-24 size-[34rem] opacity-60"
+              aria-hidden
+            />
             <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
               <div>
                 <h2 className="max-w-2xl text-4xl text-paper sm:text-5xl">

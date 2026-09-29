@@ -218,12 +218,16 @@
 
   /* Superficie oscura tipo vidrio para tarjetas sobre las bandas negras:
      blanco al 5 % con desenfoque, levanta la tarjeta sin pintar un cuarto
-     color de marca. Combinar con rounded-2xl y border personalizado. */
+     color de marca. Combinar con rounded-2xl y border personalizado.
+     El `color` es la red de seguridad: el body pinta negro, así que un
+     icono suelto (currentColor) dentro de una tarjeta de vidrio sobre
+     banda negra se fundía con el fondo. Aquí la superficie decide. */
   .glass-dark {
     background-color: rgb(255 255 255 / 0.05);
     border: 1px solid rgb(255 255 255 / 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    color: var(--color-paper);
   }
 
   /* Puente entre secciones oscuras: un hilo de luz vino que se enciende y
