@@ -59,8 +59,12 @@ export default async function AboutPage() {
             items={[{ href: "/", label: "Inicio" }, { href: "/nosotros", label: "Nosotros" }]}
           />
           {/* A la derecha del título sobraba un vacío ancho: ahí va el isotipo
-              de la marca en blanco, del mismo color que el resto del texto. */}
-          <div className="mt-8 grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
+              de la marca, con la misma escala del H1 (a `lg` su alto es el de
+              las dos líneas primeras del título) y en blanco pleno —sin
+              opacidad— para que se lea de un vistazo sobre el negro de la
+              banda. `items-start` lo ancla al arranque del título, no al del
+              párrafo. */}
+          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
               {/* Interlineado 0.95 y no 0.88: con el display tan apretado los
                   ascendentes del título se comían la línea de arriba. */}
@@ -78,7 +82,7 @@ export default async function AboutPage() {
                 la gente nos manda.
               </p>
             </div>
-            <Logo invert className="w-32 shrink-0 opacity-90 sm:w-40 lg:w-52" />
+            <Logo invert className="w-40 shrink-0 sm:w-52 lg:w-64 xl:w-88" />
           </div>
         </div>
       </section>
