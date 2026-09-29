@@ -65,7 +65,7 @@ export default async function AboutPage() {
               eso la celda se estira (`xl:items-stretch` toma la altura de la
               fila) y el logo se dimensiona por el alto (`xl:h-full` con
               `xl:w-auto`; la proporción la impone el propio componente). */}
-          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-[minmax(0,1fr)_34rem] xl:items-stretch">
+          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-[minmax(0,36rem)_minmax(0,1fr)] xl:items-stretch xl:gap-0">
             <div>
               {/* Interlineado 0.95 y no 0.88: con el display tan apretado los
                   ascendentes del título se comían la línea de arriba. */}
@@ -83,11 +83,17 @@ export default async function AboutPage() {
                 la gente nos manda.
               </p>
             </div>
-            {/* La celda mide 34rem, lo justo para ese alto del logo (24,5rem
-                × 1,382 = 33,9rem), y el isotipo va centrado dentro: así queda
-                a media distancia entre el final del título y el borde derecho
-                de la página. El `max-h` de tope evita que, si el párrafo crece
-                y pide más alto, el logo se salga de la columna o se deforme. */}
+            {/* La primera columna mide 36rem, justo el `max-w-xl` del párrafo: la
+                celda del logo arranca entonces en su borde derecho, y al
+                centrar el isotipo en lo que queda hasta el borde de la página
+                queda a media distancia entre los dos, que es lo pedido. Sin
+                hueco entre columnas en `xl` para que el centro caiga en el
+                punto medio y no medio hueco desplazado.
+
+                El logo se dimensiona por el alto (`xl:h-full` con `xl:w-auto`;
+                la proporción la impone el componente) y con 24,5rem de tope:
+                más alto que eso se saldría de la columna, y el tope lo corta en
+                vez de deformarlo. */}
             <div className="flex h-full items-center justify-center">
               <Logo
                 invert
