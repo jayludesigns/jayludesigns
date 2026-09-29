@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export type CurrencyMode = "ambos" | "ves" | "eur";
 
@@ -24,16 +24,22 @@ export function CurrencyProvider({
   updatedAt,
   stale,
 }: { children: ReactNode } & Omit<CurrencyValue, "mode" | "setMode">) {
-  const [mode, setModeState] = useState<CurrencyMode>(() => {
-    if (typeof window === "undefined") return "ambos";
+  // Se parte de "ambos" (el valor por defecto) para que el HTML del servidor
+  // y la hidratación coincidan; la preferencia guardada se lee tras el
+  // montaje, sin provocar "hydration mismatch".
+  const [mode, setModeState] = useState<CurrencyMode>("ambos");
+
+  useEffect(() => {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
-      return stored === "ambos" || stored === "ves" || stored === "eur" ? stored : "ambos";
+      if (stored === "ambos" || stored === "ves" || stored === "eur") {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación diferida deliberada
+        setModeState(stored);
+      }
     } catch {
       /* localStorage bloqueado: se queda el valor por defecto */
-      return "ambos";
     }
-  });
+  }, []);
 
   const setMode = useCallback((next: CurrencyMode) => {
     setModeState(next);

@@ -8,7 +8,17 @@ import { useWishlist } from "@/components/wishlist/WishlistContext";
 
 /** Lista de favoritos: lee del contexto (localStorage) y pinta tarjetas. */
 export function FavoritesList() {
-  const { items, clear } = useWishlist();
+  const { items, clear, hydrated } = useWishlist();
+
+  // Antes del montaje el contexto parte vacío a propósito (para no romper la
+  // hidratación); no pintar el estado vacío real durante ese instante.
+  if (!hydrated) {
+    return (
+      <p className="py-10 text-center font-mono text-sm text-ink-500">
+        Cargando tus favoritos…
+      </p>
+    );
+  }
 
   if (items.length === 0) {
     return (

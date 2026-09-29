@@ -1,4 +1,5 @@
 import { Save } from "lucide-react";
+import Link from "next/link";
 
 import { ActionForm } from "@/components/admin/ActionForm";
 import {
@@ -77,6 +78,18 @@ export function ProductForm({
       }
     : null;
 
+  // Cada guardado confirma al instante que los cambios ya se ven en la tienda
+  // (el backend es único: guardar = publicar), con enlace a la ficha pública.
+  const storeHref = product ? `/producto/${product.slug}` : undefined;
+  const storeHint = storeHref ? (
+    <Link
+      href={storeHref}
+      className="font-bold text-ember-700 underline decoration-ember-300 underline-offset-2"
+    >
+      Ver en la tienda →
+    </Link>
+  ) : undefined;
+
   return (
     <div className="space-y-4">
       {/* ---------- Datos ---------- */}
@@ -84,6 +97,7 @@ export function ProductForm({
         action={saveProductAction}
         submitLabel={product ? "Guardar cambios" : "Crear producto"}
         submitIcon={<Save className="size-4" />}
+        successHint={storeHint}
         hiddenFields={{ id: product?.id }}
         className="card overflow-hidden"
       >
@@ -204,6 +218,7 @@ export function ProductForm({
         action={saveProductAction}
         submitLabel="Guardar precio"
         submitIcon={<Save className="size-4" />}
+        successHint={storeHint}
         hiddenFields={{ id: product?.id }}
         className="card overflow-hidden"
       >
@@ -283,6 +298,7 @@ export function ProductForm({
         action={saveProductAction}
         submitLabel="Guardar tallas y colores"
         submitIcon={<Save className="size-4" />}
+        successHint={storeHint}
         hiddenFields={{ id: product?.id }}
         className="card overflow-hidden"
       >
@@ -318,6 +334,7 @@ export function ProductForm({
         action={saveProductAction}
         submitLabel="Guardar publicación"
         submitIcon={<Save className="size-4" />}
+        successHint={storeHint}
         hiddenFields={{ id: product?.id }}
         className="card overflow-hidden"
       >
@@ -403,7 +420,11 @@ export function ProductForm({
           title="Imágenes"
           description="La primera es la portada. Cualquier imagen que subas o pegues aparece aquí al instante y se guarda en el almacenamiento local."
         >
-          <ProductImagesEditor productId={product.id} initialImages={images} />
+          <ProductImagesEditor
+            productId={product.id}
+            initialImages={images}
+            storeHref={`/producto/${product.slug}`}
+          />
         </Fieldset>
       )}
     </div>

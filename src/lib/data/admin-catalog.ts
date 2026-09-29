@@ -180,13 +180,16 @@ export async function addProductImage(input: {
   if (input.kind === "main") {
     await demoteMain(backend, current);
   }
+  // Se usa el máximo + 1 (y no `current.length`) para que añadir nunca pise
+  // un orden existente si la lista quedó con huecos tras algún borrado.
+  const lastOrder = current.reduce((max, img) => Math.max(max, img.sort_order), 0);
   return backend.insert<ProductImage>("product_images", {
     id: newId(),
     product_id: input.product_id,
     url: input.url,
     alt: input.alt ?? null,
     kind: input.kind ?? "gallery",
-    sort_order: input.kind === "main" ? 0 : current.length,
+    sort_order: input.kind === "main" ? 0 : lastOrder + 1,
   });
 }
 
@@ -237,7 +240,32 @@ export async function setCoverImage(imageId: string) {
 
 export async function removeProductImage(id: string) {
   const backend = getBackend();
+  const image = await backend.one<ProductImage>("product_images", {
+    where: [{ column: "id", op: "eq", value: id }],
+  });
+  if (!image) return;
   await backend.remove("product_images", id);
+
+  const rest = await backend.list<ProductImage>("product_images", {
+    where: [{ column: "product_id", op: "eq", value: image.product_id }],
+  });
+  if (rest.length === 0) return;
+
+  // Tras borrar se renumeran las que quedan (0..n−1) y se garantiza una sola
+  // portada, siempre en la primera posición: si se quitó la portada, la
+  // primera imagen restante pasa a ser la nueva, y cualquier otra "main"
+  // residual vuelve a galería.
+  const sorted = [...rest].sort((a, b) => a.sort_order - b.sort_order);
+  const hasMain = sorted.some((img) => img.kind === "main");
+  const coverId = hasMain ? sorted.find((img) => img.kind === "main")!.id : sorted[0].id;
+  await Promise.all(
+    sorted.map((img, index) =>
+      backend.update<ProductImage>("product_images", img.id, {
+        sort_order: index,
+        kind: img.id === coverId ? "main" : img.kind === "main" ? "gallery" : img.kind,
+      }),
+    ),
+  );
 }
 
 export async function saveSpin360(input: {

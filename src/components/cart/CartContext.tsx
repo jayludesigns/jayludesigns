@@ -55,13 +55,23 @@ function readStored(): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => readStored());
+  // Igual que favoritos: se parte del carrito vacío para que el HTML del
+  // servidor y la hidratación coincidan; lo guardado se lee tras el montaje.
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
-  // Guarda y sincroniza entre pestañas abiertas.
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación diferida deliberada
+    setItems(readStored());
+    setHydrated(true);
+  }, []);
+
+  // Guarda y sincroniza entre pestañas abiertas. No escribe hasta haber
+  // leído lo almacenado, para no pisar los datos con el carrito vacío inicial.
+  useEffect(() => {
+    if (!hydrated || typeof window === "undefined") return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, [items]);
+  }, [items, hydrated]);
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {

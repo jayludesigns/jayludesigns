@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { Check, Loader2, Star, Trash2, TriangleAlert, Upload } from "lucide-react";
 import { adminIdle, type AdminResult } from "@/components/admin/ActionForm";
@@ -20,9 +21,12 @@ import type { ProductImage } from "@/lib/types";
 export function ProductImagesEditor({
   productId,
   initialImages,
+  storeHref,
 }: {
   productId: string;
   initialImages: ProductImage[];
+  /** URL pública de la ficha, para confirmar que los cambios ya se ven. */
+  storeHref?: string;
 }) {
   const router = useRouter();
   const [images, setImages] = useState<ProductImage[]>(initialImages);
@@ -88,7 +92,22 @@ export function ProductImagesEditor({
   function handleDelete(imageId: string) {
     setBusyId(imageId);
     void runAction(deleteImageAction, requestForm({ image_id: imageId }), () => {
-      setImages((prev) => prev.filter((img) => img.id !== imageId));
+      setImages((prev) => {
+        const removed = prev.find((img) => img.id === imageId);
+        const rest = prev
+          .filter((img) => img.id !== imageId)
+          .sort((a, b) => a.sort_order - b.sort_order);
+        // El servidor renumera tras borrar (0..n−1) y, si se quitó la
+        // portada, la primera imagen restante pasa a ser la portada nueva.
+        if (removed?.kind === "main" && rest.length > 0) {
+          return rest.map((img, index) => ({
+            ...img,
+            sort_order: index,
+            kind: index === 0 ? "main" : img.kind,
+          }));
+        }
+        return rest.map((img, index) => ({ ...img, sort_order: index }));
+      });
     }).finally(() => setBusyId(null));
   }
 
@@ -137,7 +156,17 @@ export function ProductImagesEditor({
           ) : (
             <Check className="mt-0.5 size-4 shrink-0 text-ember-600" />
           )}
-          {notice.message}
+          <span>
+            {notice.message}
+            {notice.status === "ok" && storeHref && (
+              <Link
+                href={storeHref}
+                className="ml-1.5 font-bold text-ember-700 underline decoration-ember-300 underline-offset-2"
+              >
+                Ver en la tienda →
+              </Link>
+            )}
+          </span>
         </p>
       )}
 

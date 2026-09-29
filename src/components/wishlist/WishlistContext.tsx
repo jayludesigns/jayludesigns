@@ -14,10 +14,16 @@ import type { CardProduct } from "@/components/shop/ProductCard";
  * Favoritos en localStorage, con la misma filosofía que el carrito: se guarda
  * una instantánea del producto (precio incluido) para que la lista funcione
  * sin servidor y sobreviva a cambios de catálogo.
+ *
+ * El almacenamiento se lee recién tras el montaje (nunca en el render inicial):
+ * así el HTML del servidor y la hidratación coinciden y no hay aviso de
+ * "hydration mismatch" por leer localStorage en el primer render.
  */
 interface WishlistValue {
   items: CardProduct[];
   count: number;
+  /** true a partir del primer render en el navegador (datos ya cargados). */
+  hydrated: boolean;
   has(id: string): boolean;
   toggle(product: CardProduct): void;
   remove(id: string): void;
@@ -40,16 +46,30 @@ function readStored(): CardProduct[] {
 }
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CardProduct[]>(() => readStored());
+  const [items, setItems] = useState<CardProduct[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
-  // Guarda y sincroniza entre pestañas abiertas.
+  // El primer render (servidor e hidratación) usa la lista vacía; los
+  // favoritos reales se leen aquí, una sola vez, en el navegador. Leer
+  // localStorage en un efecto tras montar evita el "hydration mismatch"
+  // (la alternativa useSyncExternalStore exige un snapshot estable con cache
+  // global para arrays, sin ganancia real aquí).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hidratación diferida deliberada
+    setItems(readStored());
+    setHydrated(true);
+  }, []);
+
+  // Guarda y sincroniza entre pestañas abiertas. No escribe hasta haber
+  // leído lo almacenado, para no pisar los datos con la lista vacía inicial.
+  useEffect(() => {
+    if (!hydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
       // Almacenamiento lleno o bloqueado: los favoritos seguirán en memoria.
     }
-  }, [items]);
+  }, [items, hydrated]);
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
@@ -77,7 +97,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   return (
     <WishlistContext.Provider
-      value={{ items, count: items.length, has, toggle, remove, clear }}
+      value={{ items, count: items.length, hydrated, has, toggle, remove, clear }}
     >
       {children}
     </WishlistContext.Provider>

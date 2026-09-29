@@ -46,6 +46,7 @@ export function ActionForm({
   resetOnSuccess,
   hiddenFields,
   id,
+  successHint,
 }: {
   action: (previous: AdminResult, formData: FormData) => Promise<AdminResult>;
   children?: ReactNode;
@@ -57,6 +58,8 @@ export function ActionForm({
   resetOnSuccess?: boolean;
   hiddenFields?: Record<string, string | number | null | undefined>;
   id?: string;
+  /** Contenido extra junto al mensaje de éxito (por ejemplo, "ver en la tienda"). */
+  successHint?: ReactNode;
 }) {
   const router = useRouter();
   const [state, formAction, pending] = useActionState<AdminResult, FormData>(
@@ -109,7 +112,12 @@ export function ActionForm({
           ) : (
             <Check className="mt-0.5 size-4 shrink-0 text-ember-600" />
           )}
-          {state.message}
+          <span>
+            {state.message}
+            {state.status === "ok" && successHint && (
+              <span className="ml-1.5 inline-flex items-center">{successHint}</span>
+            )}
+          </span>
         </p>
       )}
 
