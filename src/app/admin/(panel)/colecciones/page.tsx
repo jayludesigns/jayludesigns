@@ -3,6 +3,7 @@ import { Eye, Trash2 } from "lucide-react";
 
 import { ActionForm, FormSubmit } from "@/components/admin/ActionForm";
 import { Card, PageHeader } from "@/components/admin/AdminUI";
+import { CollectionBannerField } from "@/components/admin/CollectionBannerField";
 import { Pill } from "@/components/admin/Pill";
 import { SelectField, TextAreaField, TextField } from "@/components/admin/Fields";
 import {
@@ -92,11 +93,7 @@ export default async function AdminCollectionsPage() {
                   <TextField name="starts_at" label="Empieza" type="date" />
                   <TextField name="ends_at" label="Termina" type="date" />
                 </div>
-                <TextField
-                  name="banner_url"
-                  label="Imagen de portada"
-                  placeholder="/demo/collections/…"
-                />
+                <CollectionBannerField />
                 <TextField
                   name="sort_order"
                   label="Orden"
@@ -204,10 +201,9 @@ function CollectionEditor({ collection }: { collection: Collection }) {
               type="date"
               value={collection.ends_at?.slice(0, 10)}
             />
-            <TextField
-              name="banner_url"
+            <CollectionBannerField
               label="Imagen"
-              value={collection.banner_url}
+              defaultValue={collection.banner_url}
               className="sm:col-span-2"
             />
             <TextAreaField

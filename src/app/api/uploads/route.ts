@@ -36,6 +36,35 @@ export async function POST(request: Request) {
 
   try {
     const form = await request.formData();
+
+    // Portada de colección: la imagen se guarda en el almacenamiento y la URL
+    // la conserva el formulario que la está editando, así que aquí no hay
+    // fila que crear. Va a una carpeta propia porque, al crear la colección,
+    // su id todavía no existe.
+    if (String(form.get("target") ?? "") === "coleccion") {
+      const banner = form.get("file");
+      if (!(banner instanceof File) || banner.size === 0) {
+        return json({ error: "Elige una imagen de tu equipo." }, 400);
+      }
+      const bannerExt = IMAGE_MIME[banner.type];
+      if (!bannerExt) {
+        return json({ error: "Formato no permitido: usa JPG, PNG, WebP, GIF o AVIF." }, 400);
+      }
+      if (banner.size > MAX_IMAGE_BYTES) {
+        return json({ error: "La imagen supera el máximo de 6 MB." }, 400);
+      }
+      const dir = path.join(process.cwd(), "public", "uploads", "colecciones");
+      await mkdir(dir, { recursive: true });
+      const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${bannerExt}`;
+      await writeFile(path.join(dir, name), Buffer.from(await banner.arrayBuffer()));
+      revalidatePath("/admin/colecciones");
+      return json({
+        ok: true,
+        url: `/uploads/colecciones/${name}`,
+        message: "Imagen subida al almacenamiento. Guarda la colección para aplicarla.",
+      });
+    }
+
     const productId = String(form.get("product_id") ?? "").trim();
     if (!productId) return json({ error: "Falta el producto." }, 400);
 
