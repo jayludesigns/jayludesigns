@@ -151,7 +151,7 @@ export function SiteHeader({
               aria-label="JayLu, ir al inicio"
               className="shrink-0"
             >
-              <Wordmark priority />
+              <Wordmark priority mono />
             </Link>
 
             <nav

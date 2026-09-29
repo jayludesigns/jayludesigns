@@ -233,6 +233,13 @@
     background-image: linear-gradient(to right, transparent, rgb(107 32 26 / 0.6), transparent);
   }
 
+  /* Primitivos dentro de una banda oscura (bg-ink-950): los que por
+     defecto pintan tinta oscura sobre superficies claras deben volverse
+     grises claros para mantener la lectura. Misma especificidad que las
+     definiciones base, por eso van después en este mismo layer. */
+  :where(.bg-ink-950) .label { color: var(--color-ink-300); }
+  :where(.bg-ink-950) .hint { color: var(--color-ink-400); }
+
   /* Retícula de puntos tipo semitono: la textura base de la marca. */
   .halftone {
     background-image: radial-gradient(var(--color-ink) 0.75px, transparent 0.75px);

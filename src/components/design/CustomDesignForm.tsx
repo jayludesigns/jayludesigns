@@ -70,16 +70,16 @@ export function CustomDesignForm({ model }: { model?: string }) {
 
   if (state.status === "ok") {
     return (
-      <div className="card p-8 text-center">
-        <span className="mx-auto grid size-14 place-items-center rounded-full bg-ember-50 text-ember-600">
+      <div className="card-dark p-8 text-center">
+        <span className="mx-auto grid size-14 place-items-center rounded-full bg-ember-500/15 text-ember-400">
           <Check className="size-7" strokeWidth={2.5} />
         </span>
         <h2 className="mt-5 font-display text-3xl">Recibimos tu idea</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-ink-600">{state.message}</p>
+        <p className="mx-auto mt-3 max-w-md text-sm text-ink-300">{state.message}</p>
         <p className="mt-5 inline-block rounded-full bg-ember-600 px-5 py-2 font-mono text-xl text-paper">
           {state.designCode}
         </p>
-        <p className="mx-auto mt-5 max-w-md text-sm text-ink-600">
+        <p className="mx-auto mt-5 max-w-md text-sm text-ink-300">
           Guarda ese código. Lo revisamos y te escribimos por WhatsApp o correo
           con la cotización y una muestra digital, normalmente en menos de 48
           horas.
@@ -90,7 +90,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
             setPreviews([]);
             window.location.reload();
           }}
-          className="btn mt-6"
+          className="btn btn-ghost-light mt-6"
         >
           Enviar otra solicitud
         </button>
@@ -114,16 +114,16 @@ export function CustomDesignForm({ model }: { model?: string }) {
       <div className="space-y-8">
         {/* ---------- Referencias ---------- */}
         <section>
-          <h2 className="mb-2 flex items-center gap-2.5 border-b border-ink-200 pb-3 font-display text-2xl">
-            <span className="grid size-8 place-items-center rounded-full bg-ember-50 text-ember-600">
+          <h2 className="mb-2 flex items-center gap-2.5 border-b border-ink-800 pb-3 font-display text-2xl">
+            <span className="grid size-8 place-items-center rounded-full bg-ember-500/15 text-ember-400">
               <ImagePlus className="size-4" strokeWidth={2} />
             </span>
             1. Sube tu referencia
-            <span className="ml-auto rounded-full bg-ink-50 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-500 uppercase">
+            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-300 uppercase">
               opcional
             </span>
           </h2>
-          <p className="mb-4 text-sm text-ink-600">
+          <p className="mb-4 text-sm text-ink-300">
             Una foto, un dibujo, un logo o una captura de pantalla. Mientras más
             clara, más se parece lo que imprimimos. Hasta {MAX_IMAGES} fotos de
             2,5 MB.
@@ -131,7 +131,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {previews.map((preview, index) => (
-              <div key={preview.url} className="card relative overflow-hidden">
+              <div key={preview.url} className="card-dark relative overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={preview.url}
@@ -153,9 +153,9 @@ export function CustomDesignForm({ model }: { model?: string }) {
               <button
                 type="button"
                 onClick={() => fileInput.current?.click()}
-                className="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-ink-300 transition-colors hover:border-ember-600 hover:bg-ember-50"
+                className="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-ink-700 text-ink-300 transition-colors hover:border-ember-400 hover:bg-ember-600/10"
               >
-                <span className="flex flex-col items-center gap-1.5 text-ink-500">
+                <span className="flex flex-col items-center gap-1.5 text-ink-400">
                   <Paperclip className="size-5" />
                   <span className="font-mono text-[0.58rem] tracking-wider uppercase">
                     Añadir foto
@@ -176,14 +176,14 @@ export function CustomDesignForm({ model }: { model?: string }) {
           />
 
           {tooBig && (
-            <p role="alert" className="mt-3 flex items-start gap-2 text-xs font-bold text-ember-700">
+            <p role="alert" className="mt-3 flex items-start gap-2 text-xs font-bold text-ember-400">
               <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
               {tooBig}
             </p>
           )}
 
           {errorFor("description") && (
-            <p role="alert" className="mt-3 text-xs font-bold text-ember-700">
+            <p role="alert" className="mt-3 text-xs font-bold text-ember-400">
               {errorFor("description")}
             </p>
           )}
@@ -191,16 +191,16 @@ export function CustomDesignForm({ model }: { model?: string }) {
 
         {/* ---------- Descripción ---------- */}
         <section>
-          <h2 className="mb-2 flex items-center gap-2.5 border-b border-ink-200 pb-3 font-display text-2xl">
-            <span className="grid size-8 place-items-center rounded-full bg-ember-50 text-ember-600">
+          <h2 className="mb-2 flex items-center gap-2.5 border-b border-ink-800 pb-3 font-display text-2xl">
+            <span className="grid size-8 place-items-center rounded-full bg-ember-500/15 text-ember-400">
               <Paperclip className="size-4" strokeWidth={2} />
             </span>
             2. Cuéntanos la idea
-            <span className="ml-auto rounded-full bg-ink-50 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-500 uppercase">
+            <span className="ml-auto rounded-full bg-ink-800 px-2.5 py-1 font-mono text-[0.6rem] font-normal tracking-wider text-ink-300 uppercase">
               opcional
             </span>
           </h2>
-          <p className="mb-4 text-sm text-ink-600">
+          <p className="mb-4 text-sm text-ink-300">
             Texto, colores, frases, nombres, estilo. Si ya subiste una foto esto
             es para aclarar detalles.
           </p>
@@ -211,14 +211,14 @@ export function CustomDesignForm({ model }: { model?: string }) {
             placeholder="Ejemplo: franela negra, logo de mi equipo de fútbol en el pecho, 3 colores, nombre del grupo debajo."
             className={cn("field resize-y", errorFor("description") && "border-ember-600 bg-ember-50")}
           />
-          <p className="mt-2 text-xs text-ink-500">
+          <p className="mt-2 text-xs text-ink-400">
             Con la foto o con este texto basta para arrancar. Con los dos, mejor.
           </p>
         </section>
 
         {/* ---------- Detalles ---------- */}
         <section>
-          <h2 className="mb-4 border-b border-ink-200 pb-3 font-display text-2xl">
+          <h2 className="mb-4 border-b border-ink-800 pb-3 font-display text-2xl">
             3. Detalles de la prenda
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -256,7 +256,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
               {GARMENTS.map((garment) => (
                 <label
                   key={garment}
-                  className="cursor-pointer rounded-lg border border-ink-200 px-2.5 py-1.5 font-mono text-[0.65rem] transition-colors hover:border-ink-300 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                  className="cursor-pointer rounded-lg border border-ink-700 px-2.5 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                 >
                   <input
                     type="radio"
@@ -278,7 +278,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 {SIZES.map((size) => (
                   <label
                     key={size}
-                    className="cursor-pointer rounded-lg border border-ink-200 px-2 py-1.5 font-mono text-[0.65rem] transition-colors hover:border-ink-300 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                   >
                     <input type="checkbox" name="sizes" value={size} className="sr-only" />
                     {size}
@@ -293,7 +293,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 {COLORS.map((color) => (
                   <label
                     key={color}
-                    className="cursor-pointer rounded-lg border border-ink-200 px-2 py-1.5 font-mono text-[0.65rem] transition-colors hover:border-ink-300 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
+                    className="cursor-pointer rounded-lg border border-ink-700 px-2 py-1.5 font-mono text-[0.65rem] text-ink-200 transition-colors hover:border-ink-400 has-checked:border-ember-600 has-checked:bg-ember-600 has-checked:text-paper"
                   >
                     <input type="checkbox" name="colors" value={color} className="sr-only" />
                     {color}
@@ -317,7 +317,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 ))}
                 <option>No sé, recomiéndame</option>
               </select>
-              <p className="mt-1.5 text-xs text-ink-500">
+              <p className="mt-1.5 text-xs text-ink-400">
                 Hoy trabajamos {PRINT_TECHNIQUES.map((t) => t.label.toLowerCase()).join(" y ")}.
                 {PRODUCT_GARMENTS_NOTE}
               </p>
@@ -339,7 +339,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
 
         {/* ---------- Contacto ---------- */}
         <section>
-          <h2 className="mb-4 border-b border-ink-200 pb-3 font-display text-2xl">4. ¿Cómo te escribimos?</h2>
+          <h2 className="mb-4 border-b border-ink-800 pb-3 font-display text-2xl">4. ¿Cómo te escribimos?</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="d-cname" className="label">
@@ -354,7 +354,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 placeholder="Tu nombre"
               />
               {errorFor("contactName") && (
-                <p role="alert" className="mt-1 text-xs font-bold text-ember-700">
+                <p role="alert" className="mt-1 text-xs font-bold text-ember-400">
                   {errorFor("contactName")}
                 </p>
               )}
@@ -385,7 +385,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 placeholder="tu@correo.com"
               />
               {errorFor("contactEmail") && (
-                <p role="alert" className="mt-1 text-xs font-bold text-ember-700">
+                <p role="alert" className="mt-1 text-xs font-bold text-ember-400">
                   {errorFor("contactEmail")}
                 </p>
               )}
@@ -396,9 +396,9 @@ export function CustomDesignForm({ model }: { model?: string }) {
         {state.status === "error" && state.message && (
           <p
             role="alert"
-            className="flex items-start gap-2.5 rounded-xl border border-ember-600 bg-ember-50 p-4 text-sm font-bold text-ember-900"
+            className="flex items-start gap-2.5 rounded-xl border border-ember-500/40 bg-ember-600/15 p-4 text-sm font-bold text-ember-300"
           >
-            <TriangleAlert className="mt-0.5 size-4 shrink-0 text-ember-600" />
+            <TriangleAlert className="mt-0.5 size-4 shrink-0 text-ember-400" />
             {state.message}
           </p>
         )}
@@ -413,15 +413,15 @@ export function CustomDesignForm({ model }: { model?: string }) {
             "Enviar mi solicitud"
           )}
         </button>
-        <p className="text-center text-xs text-ink-500">
+        <p className="text-center text-xs text-ink-400">
           Sin compromiso. Cotizamos gratis y solo imprime si apruebas la muestra.
         </p>
       </div>
 
       {/* ---------- Aside ---------- */}
       <aside className="lg:sticky lg:top-32 lg:self-start">
-        <div className="card overflow-hidden">
-          <p className="bg-ink-950 px-4 py-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] text-paper uppercase">
+        <div className="card-dark overflow-hidden">
+          <p className="bg-ember-600 px-4 py-3 font-mono text-[0.62rem] font-bold tracking-[0.18em] text-paper uppercase">
             Cómo funciona
           </p>
           <ol className="space-y-4 p-4 text-sm">
@@ -438,7 +438,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
                 </span>
                 <span>
                   <span className="block font-bold">{title}</span>
-                  <span className="mt-0.5 block text-xs text-ink-600">{body}</span>
+                  <span className="mt-0.5 block text-xs text-ink-300">{body}</span>
                 </span>
               </li>
             ))}

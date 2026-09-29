@@ -68,68 +68,74 @@ export default async function CatalogPage({
   const activeCategory = categories.find((c) => c.slug === category) ?? null;
 
   return (
-    <div className="wrap py-8">
-      <Breadcrumbs
-        items={[
-          { href: "/", label: "Inicio" },
-          ...(activeCollection
-            ? [{ href: `/colecciones/${activeCollection.slug}`, label: activeCollection.name }]
-            : []),
-          { href: "/catalogo", label: activeCategory?.name ?? "Catálogo" },
-        ]}
-      />
+    <section className="relative overflow-hidden bg-ink-950">
+      <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+      <div className="wrap relative py-8">
+        <Breadcrumbs
+          invert
+          items={[
+            { href: "/", label: "Inicio" },
+            ...(activeCollection
+              ? [{ href: `/colecciones/${activeCollection.slug}`, label: activeCollection.name }]
+              : []),
+            { href: "/catalogo", label: activeCategory?.name ?? "Catálogo" },
+          ]}
+        />
 
-      <header className="mt-5 border-b border-ink-200 pb-6">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl">
-          {activeCollection?.name ?? activeCategory?.name ?? "Catálogo"}
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-600 sm:text-base">
-          {activeCollection?.description ??
-            activeCategory?.description ??
-            "Franelas, hoodies, polos, gorras y accesorios. Filtra por talla, color y precio; todos los precios se muestran en bolívares y euros con la tasa BCV del día."}
-        </p>
-      </header>
+        <header className="mt-5 border-b border-ink-800 pb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl">
+            {activeCollection?.name ?? activeCategory?.name ?? "Catálogo"}
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-300 sm:text-base">
+            {activeCollection?.description ??
+              activeCategory?.description ??
+              "Franelas, hoodies, polos, gorras y accesorios. Filtra por talla, color y precio; todos los precios se muestran en bolívares y euros con la tasa BCV del día."}
+          </p>
+        </header>
 
-      <div className="mt-6">
-        <Suspense fallback={<div className="h-96 animate-pulse bg-ink-50" />}>
-          <CatalogFilters
-            facets={facets}
-            categories={categories.map((c) => ({ slug: c.slug, name: c.name }))}
-            collections={collections.map((c) => ({ slug: c.slug, name: c.name }))}
-            total={products.length}
-          />
-        </Suspense>
-      </div>
-
-      {products.length > 0 ? (
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-          {products.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={toCardProduct(product)}
-              priority={index < 4}
+        <div className="mt-6">
+          <Suspense fallback={<div className="h-96 animate-pulse bg-ink-900" />}>
+            <CatalogFilters
+              facets={facets}
+              categories={categories.map((c) => ({ slug: c.slug, name: c.name }))}
+              collections={collections.map((c) => ({ slug: c.slug, name: c.name }))}
+              total={products.length}
             />
-          ))}
+          </Suspense>
         </div>
-      ) : (
-        <div className="mt-10">
-          <EmptyState
-            icon={SearchX}
-            title="No encontramos nada con eso"
-            description="Prueba quitando algún filtro. Si buscas algo puntual que no está en el catálogo, pídelo a medida y lo hacemos."
-            actions={
-              <>
-                <Link href="/catalogo" className="btn btn-solid">
-                  Limpiar filtros
-                </Link>
-                <Link href="/diseno-a-medida" className="btn">
-                  Pedir diseño a medida
-                </Link>
-              </>
-            }
-          />
-        </div>
-      )}
-    </div>
+
+        {products.length > 0 ? (
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            {products.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={toCardProduct(product)}
+                priority={index < 4}
+                dark
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10">
+            <EmptyState
+              dark
+              icon={SearchX}
+              title="No encontramos nada con eso"
+              description="Prueba quitando algún filtro. Si buscas algo puntual que no está en el catálogo, pídelo a medida y lo hacemos."
+              actions={
+                <>
+                  <Link href="/catalogo" className="btn btn-solid">
+                    Limpiar filtros
+                  </Link>
+                  <Link href="/diseno-a-medida" className="btn btn-ghost-light">
+                    Pedir diseño a medida
+                  </Link>
+                </>
+              }
+            />
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

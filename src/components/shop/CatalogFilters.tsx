@@ -136,14 +136,14 @@ export function CatalogFilters({
                       )
                     }
                     className={cn(
-                      "flex w-full items-center justify-between border-b border-ink-100 py-1.5 text-left text-sm transition-colors",
-                      active && "font-bold text-ember-600",
+                      "flex w-full items-center justify-between border-b border-ink-800 py-1.5 text-left text-sm text-ink-300 transition-colors",
+                      active && "font-bold text-ember-400",
                     )}
                   >
                     <span className={cn(active && "underline decoration-2 underline-offset-4")}>
                       {category.name}
                     </span>
-                    {active && <span className="size-1.5 rounded-full bg-ember-600" aria-hidden />}
+                    {active && <span className="size-1.5 rounded-full bg-ember-400" aria-hidden />}
                   </button>
                 </li>
               );
@@ -170,7 +170,7 @@ export function CatalogFilters({
                         : next.set("coleccion", collection.slug),
                     )
                   }
-                  className={cn("tag", active && "bg-ember-600 text-paper shadow-ember")}
+                  className={cn("tag text-ink-300", active && "bg-ember-600 text-paper shadow-ember")}
                 >
                   {collection.name}
                 </button>
@@ -193,10 +193,10 @@ export function CatalogFilters({
                   type="button"
                   onClick={() => toggle("talla", size)}
                   className={cn(
-                    "min-w-9 rounded-full border border-ink-200 px-2 py-1 font-mono text-[0.65rem] font-bold transition-colors",
+                    "min-w-9 rounded-full border border-ink-700 px-2 py-1 font-mono text-[0.65rem] font-bold transition-colors",
                     active
                       ? "border-ember-600 bg-ember-600 text-paper shadow-ember"
-                      : "hover:border-ember-300 hover:bg-ember-50 hover:text-ember-700",
+                      : "text-ink-300 hover:border-ember-400 hover:bg-ember-600/20 hover:text-ember-300",
                   )}
                 >
                   {size}
@@ -223,13 +223,13 @@ export function CatalogFilters({
                 >
                   <span
                     className={cn(
-                      "grid size-5 shrink-0 place-items-center rounded-full border border-ink-200 transition-all",
-                      active && "border-ember-600 ring-2 ring-ember-600/30 ring-offset-1",
+                      "grid size-5 shrink-0 place-items-center rounded-full border border-ink-700 transition-all",
+                      active && "border-ember-600 ring-2 ring-ember-600/30 ring-offset-1 ring-offset-ink-950",
                     )}
                     style={{ backgroundColor: color.hex }}
                     aria-hidden
                   />
-                  <span className={cn(active && "font-bold")}>{color.name}</span>
+                  <span className={cn("text-ink-300", active && "font-bold")}>{color.name}</span>
                 </button>
               );
             })}
@@ -259,7 +259,7 @@ export function CatalogFilters({
               className="field text-sm"
               aria-label="Precio mínimo"
             />
-            <span className="text-ink-500">—</span>
+            <span className="text-ink-400">—</span>
             <input
               type="number"
               inputMode="numeric"
@@ -283,7 +283,7 @@ export function CatalogFilters({
 
       {/* Disponibilidad */}
       <div>
-        <label className="flex cursor-pointer items-center gap-2.5 text-sm">
+        <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink-300">
           <input
             type="checkbox"
             checked={current.stock}
@@ -302,7 +302,7 @@ export function CatalogFilters({
         <button
           type="button"
           onClick={() => startTransition(() => router.replace("/catalogo"))}
-          className="btn w-full"
+          className="btn btn-ghost-light w-full"
         >
           <X className="size-3.5" />
           Limpiar ({activeCount})
@@ -314,8 +314,8 @@ export function CatalogFilters({
   return (
     <div>
       {/* Orden + móvil */}
-      <div className="mb-4 flex items-center justify-between gap-3 border-y border-ink-200 py-2.5">
-        <p className="font-mono text-[0.62rem] tracking-[0.14em] uppercase">
+      <div className="mb-4 flex items-center justify-between gap-3 border-y border-ink-800 py-2.5">
+        <p className="font-mono text-[0.62rem] tracking-[0.14em] text-ink-300 uppercase">
           {pending ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="size-3 animate-spin" /> filtrando
@@ -329,13 +329,13 @@ export function CatalogFilters({
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            className="btn btn-sm lg:hidden"
+            className="btn btn-sm btn-ghost-light lg:hidden"
           >
             <SlidersHorizontal className="size-3" />
             Filtros{activeCount ? ` (${activeCount})` : ""}
           </button>
           <label className="flex items-center gap-2">
-            <span className="font-mono text-[0.6rem] tracking-wider uppercase text-ink-500">
+            <span className="font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
               Orden
             </span>
             <select
@@ -366,14 +366,14 @@ export function CatalogFilters({
         </aside>
 
         {open && (
-          <div className="animate-fade-in fixed inset-0 z-90 overflow-y-auto bg-paper lg:hidden">
-            <div className="flex items-center justify-between rounded-t-xl border-b border-ink-200 bg-paper px-4 py-3">
-              <span className="font-display text-2xl">Filtros</span>
+          <div className="animate-fade-in fixed inset-0 z-90 overflow-y-auto bg-ink-950 lg:hidden">
+            <div className="flex items-center justify-between rounded-t-xl border-b border-ink-800 bg-ink-950 px-4 py-3">
+              <span className="font-display text-2xl text-paper">Filtros</span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Cerrar filtros"
-                className="grid size-9 place-items-center rounded-full border border-ink-200 text-ink transition-colors hover:border-ember-600 hover:text-ember-600"
+                className="grid size-9 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
               >
                 <X className="size-4" />
               </button>

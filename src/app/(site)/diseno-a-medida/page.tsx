@@ -48,10 +48,12 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
 
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-ink-200">
-        <div className="grid-paper absolute inset-0 opacity-70" aria-hidden />
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.06]" aria-hidden />
+        <div className="glow-ember absolute inset-0 opacity-30" aria-hidden />
         <div className="wrap relative py-12 sm:py-16">
           <Breadcrumbs
+            invert
             items={[
               { href: "/", label: "Inicio" },
               { href: "/diseno-a-medida", label: "Diseño a medida" },
@@ -59,7 +61,7 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
           />
           <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-end">
             <div>
-              <p className="mb-3 inline-flex items-center gap-2 border border-ink bg-ink px-2.5 py-1 font-mono text-[0.6rem] font-bold tracking-[0.18em] text-paper uppercase">
+              <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[0.6rem] font-bold tracking-[0.18em] text-ink-200 uppercase backdrop-blur">
                 <Brush className="size-3" />
                 Diseño a medida
               </p>
@@ -68,7 +70,7 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
                 <br />
                 quieres estampar
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-700">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-ink-300">
                 Sube una foto de referencia y cuéntanos la idea. <strong>Los dos
                 campos son opcionales</strong>: con cualquiera de los dos ya
                 empezamos, y con los dos el resultado se parece mucho más a lo
@@ -77,13 +79,13 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
             </div>
             <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {BENEFITS.map((item) => (
-                <li key={item.title} className="flex gap-3 border border-ink bg-paper p-3">
-                  <span className="grid size-9 shrink-0 place-items-center border border-ink">
+                <li key={item.title} className="card-dark flex gap-3 p-3">
+                  <span className="grid size-9 shrink-0 place-items-center border border-ink-700">
                     <item.icon className="size-4" />
                   </span>
                   <span>
                     <span className="block text-sm font-bold">{item.title}</span>
-                    <span className="mt-0.5 block text-xs text-ink-600">{item.body}</span>
+                    <span className="mt-0.5 block text-xs text-ink-300">{item.body}</span>
                   </span>
                 </li>
               ))}
@@ -91,7 +93,7 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
           </div>
 
           {model && (
-            <p className="mt-6 inline-flex items-center gap-2 border-2 border-ink px-3 py-2 text-sm">
+            <p className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm text-ink-200">
               Tomando como base: <strong>{model}</strong>. Cambia lo que quieras
               abajo.
             </p>
@@ -99,95 +101,109 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
         </div>
       </section>
 
-      <div className="wrap py-12">
-        <CustomDesignForm model={model} />
-      </div>
+      <div className="divider-glow" aria-hidden />
 
-      <div className="wrap pb-16">
-        <SectionHeading
-          eyebrow="Antes de mandar"
-          title="Lo que conviene saber"
-          description="Tres cosas que evitan la mayoría de los rehaceres."
-        />
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {[
-            {
-              title: "Manda la referencia más nitida que tengas",
-              body: "Una foto de tu teléfono bien iluminada sirve más que un escaneo. Si tienes el archivo original (PNG, AI, PDF), mejor todavía.",
-            },
-            {
-              title: "Escribe los textos exactos",
-              body: "Mayúsculas, tildes y cómo quieres el orden. Lo que no se escribe, se imprime mal.",
-            },
-            {
-              title: "Define para cuántas personas es",
-              body: "Una talla es un diseño. Para grupos hacemos directamente la versión con los nombres de cada persona.",
-            },
-          ].map((item) => (
-            <article key={item.title} className="card p-5">
-              <h3 className="font-display text-xl leading-tight">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-600">{item.body}</p>
-            </article>
-          ))}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="wrap relative py-12">
+          <CustomDesignForm model={model} />
         </div>
+      </section>
 
-        {settings.whatsapp && (
-          <div className="mt-8 flex flex-col items-start justify-between gap-4 border-2 border-ink p-6 sm:flex-row sm:items-center">
-            <p className="text-sm">
-              ¿Prefieres mandarlo por WhatsApp? Mándanos la foto y la idea, y te
-              cotizamos ahí mismo.
-            </p>
-            <a
-              href={whatsappUrl(
-                settings.whatsapp,
-                "Hola JayLu, quiero cotizar un diseño a medida. Te mando la referencia.",
-              )}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="btn btn-solid"
-            >
-              <MessageCircle className="size-4" />
-              Mandar por WhatsApp
-            </a>
+      <div className="divider-glow" aria-hidden />
+
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="wrap relative pb-16">
+          <SectionHeading
+            invert
+            eyebrow="Antes de mandar"
+            title="Lo que conviene saber"
+            description="Tres cosas que evitan la mayoría de los rehaceres."
+          />
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {[
+              {
+                title: "Manda la referencia más nitida que tengas",
+                body: "Una foto de tu teléfono bien iluminada sirve más que un escaneo. Si tienes el archivo original (PNG, AI, PDF), mejor todavía.",
+              },
+              {
+                title: "Escribe los textos exactos",
+                body: "Mayúsculas, tildes y cómo quieres el orden. Lo que no se escribe, se imprime mal.",
+              },
+              {
+                title: "Define para cuántas personas es",
+                body: "Una talla es un diseño. Para grupos hacemos directamente la versión con los nombres de cada persona.",
+              },
+            ].map((item) => (
+              <article key={item.title} className="card-dark p-5">
+                <h3 className="font-display text-xl leading-tight">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-300">{item.body}</p>
+              </article>
+            ))}
           </div>
-        )}
 
-        <p className="mt-6 text-sm text-ink-600">
-          ¿Solo querías comprar algo del catálogo?{" "}
-          <Link href="/catalogo" className="link-underline font-bold">
-            Mira el catálogo completo
-          </Link>
-          .
-        </p>
-      </div>
+          {settings.whatsapp && (
+            <div className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:flex-row sm:items-center">
+              <p className="text-sm text-ink-200">
+                ¿Prefieres mandarlo por WhatsApp? Mándanos la foto y la idea, y te
+                cotizamos ahí mismo.
+              </p>
+              <a
+                href={whatsappUrl(
+                  settings.whatsapp,
+                  "Hola JayLu, quiero cotizar un diseño a medida. Te mando la referencia.",
+                )}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="btn btn-solid"
+              >
+                <MessageCircle className="size-4" />
+                Mandar por WhatsApp
+              </a>
+            </div>
+          )}
+
+          <p className="mt-6 text-sm text-ink-300">
+            ¿Solo querías comprar algo del catálogo?{" "}
+            <Link href="/catalogo" className="link-underline font-bold">
+              Mira el catálogo completo
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
+      <div className="divider-glow" aria-hidden />
 
       {/* Técnicas: hoy solo dos. La lista sale de PRINT_TECHNIQUES, así que
           cuando el taller sume otra, esta página ya la anuncia sola. */}
-      <section className="wrap pb-16">
-        <SectionHeading
-          eyebrow="Con qué lo imprimimos"
-          title={PRINT_TECHNIQUES.map((technique) => technique.label).join(" y ")}
-          description="Son las únicas dos técnicas del taller por ahora. Las dos entran en la fibra, así que el estampado no se agrieta ni se despega con los lavados."
-        />
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {PRINT_TECHNIQUES.map((technique, index) => (
-            <article key={technique.value} className="card card-hover p-5">
-              <div className="flex items-center gap-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-ember-50 font-mono text-sm font-bold text-ember-600">
-                  {index + 1}
-                </span>
-                <h3 className="font-display text-xl leading-tight">{technique.label}</h3>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-ink-600">
-                {technique.detail}
-              </p>
-            </article>
-          ))}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="wrap relative pb-16">
+          <SectionHeading
+            invert
+            eyebrow="Con qué lo imprimimos"
+            title={PRINT_TECHNIQUES.map((technique) => technique.label).join(" y ")}
+            description="Son las únicas dos técnicas del taller por ahora. Las dos entran en la fibra, así que el estampado no se agrieta ni se despega con los lavados."
+          />
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            {PRINT_TECHNIQUES.map((technique, index) => (
+              <article key={technique.value} className="card-dark card-hover p-5">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-ember-500/15 font-mono text-sm font-bold text-ember-400">
+                    {index + 1}
+                  </span>
+                  <h3 className="font-display text-xl leading-tight">{technique.label}</h3>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-ink-300">
+                  {technique.detail}
+                </p>
+              </article>
+            ))}
+          </div>
+          <p className="mt-6 text-sm text-ink-300">
+            ¿Te piden bordado o serigrafía? Todavía no lo hacemos. Cuéntanos y te
+            avisamos el día que abramos esa fecha.
+          </p>
         </div>
-        <p className="mt-6 text-sm text-ink-600">
-          ¿Te piden bordado o serigrafía? Todavía no lo hacemos. Cuéntanos y te
-          avisamos el día que abramos esa fecha.
-        </p>
       </section>
     </div>
   );

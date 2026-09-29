@@ -11,10 +11,13 @@ const INK = { x: 0.0111, y: 0.16495, w: 0.97911, h: 0.7085 };
 export function Logo({
   className,
   invert = false,
+  mono = false,
   priority = false,
 }: {
   className?: string;
   invert?: boolean;
+  /** Fuerza el isotipo a negro puro (brightness(0)), para superficies claras. */
+  mono?: boolean;
   priority?: boolean;
 }) {
   const scaleY = 1 / INK.h;
@@ -42,7 +45,7 @@ export function Logo({
           height: `${scaleY * 100}%`,
           left: `${-INK.x * scaleX * 100}%`,
           top: `${-INK.y * scaleY * 100}%`,
-          filter: invert ? "invert(1)" : undefined,
+          filter: mono ? "brightness(0)" : invert ? "invert(1)" : undefined,
         }}
       />
     </span>
@@ -60,16 +63,21 @@ const MARK_SIZES = {
  *
  * El archivo del logo es del cliente y no se toca: sin fondo detrás, el
  * isotipo negro se apoya sobre superficies claras y se invierte a blanco
- * sobre las oscuras; el "Lu" en burdeos da el acento de marca.
+ * sobre las oscuras; el "Lu" en burdeos da el acento de marca. `mono`
+ * fuerza el lockup completo a negro (isotipo con brightness(0) y "Lu"
+ * también negro) para la barra de navegación clara.
  */
 export function Wordmark({
   className,
   invert = false,
+  mono = false,
   priority = false,
   size = "md",
 }: {
   className?: string;
   invert?: boolean;
+  /** Lockup completo en negro, para superficies claras. */
+  mono?: boolean;
   priority?: boolean;
   size?: keyof typeof MARK_SIZES;
 }) {
@@ -77,16 +85,23 @@ export function Wordmark({
 
   return (
     <span className={cn("flex items-center", marks.gap, className)}>
-      <Logo className={cn(marks.mark, "w-auto")} invert={invert} priority={priority} />
+      <Logo
+        className={cn(marks.mark, "w-auto")}
+        invert={invert}
+        mono={mono}
+        priority={priority}
+      />
       <span
         className={cn(
           "font-display leading-none tracking-[0.02em] uppercase",
           marks.text,
-          invert ? "text-paper" : "text-ink",
+          mono || !invert ? "text-ink" : "text-paper",
         )}
       >
         Jay
-        <span className={invert ? "text-paper/55" : "text-ember-600"}>Lu</span>
+        <span className={mono ? "text-ink" : invert ? "text-paper/55" : "text-ember-600"}>
+          Lu
+        </span>
       </span>
     </span>
   );
