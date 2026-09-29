@@ -101,7 +101,7 @@ export function CustomDesignForm({ model }: { model?: string }) {
   const errorFor = (key: string) => state.fields?.[key];
 
   return (
-    <form action={formAction} className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_21rem]">
+    <form action={formAction}>
       {/* Se mandan como data URL en un campo oculto: con el backend local no
           hay almacenamiento de archivos, y así funciona en los dos modos. */}
       <input
@@ -111,7 +111,9 @@ export function CustomDesignForm({ model }: { model?: string }) {
       />
       {model && <input type="hidden" name="name" value={`Personalizado sobre ${model}`} />}
 
-      <div className="space-y-8">
+      {/* "Cómo funciona" salió a su propia sección, así que el formulario
+          usa todo el ancho: los cuatro bloques van en dos columnas. */}
+      <div className="grid items-start gap-8 lg:grid-cols-2">
         {/* ---------- Referencias ---------- */}
         <section>
           <h2 className="mb-2 flex items-center gap-2.5 border-b border-ink-800 pb-3 font-display text-2xl">
@@ -393,6 +395,9 @@ export function CustomDesignForm({ model }: { model?: string }) {
           </div>
         </section>
 
+      </div>
+
+      <div className="mt-10 space-y-3">
         {state.status === "error" && state.message && (
           <p
             role="alert"
@@ -416,40 +421,11 @@ export function CustomDesignForm({ model }: { model?: string }) {
         <p className="text-center text-xs text-ink-400">
           Sin compromiso. Cotizamos gratis y solo imprime si apruebas la muestra.
         </p>
-      </div>
-
-      {/* ---------- Aside ---------- */}
-      <aside className="lg:sticky lg:top-32 lg:self-start">
-        <div className="card-dark overflow-hidden">
-          <p className="bg-ember-600 px-4 py-3 font-mono text-[0.64rem] font-bold tracking-[0.18em] text-paper uppercase">
-            Cómo funciona
-          </p>
-          <ol className="space-y-4 p-4 text-sm">
-            {[
-              ["Nos llega tu idea", "Foto, texto o las dos cosas. Sin registro ni tarjeta."],
-              ["Te cotizamos", "Precio, plazo y técnica recomendada. Gratis."],
-              ["Muestra digital", "Te mostramos cómo va. Ajustas lo que quieras."],
-              ["Apruebas y pagas", "Imprimimos solo con tu visto bueno."],
-              ["Entrega", "Recogida en Maracay o envío por encomienda."],
-            ].map(([title, body], index) => (
-              <li key={title} className="flex gap-3">
-                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ember-600 font-mono text-[0.62rem] font-bold text-paper">
-                  {index + 1}
-                </span>
-                <span>
-                  <span className="block font-bold">{title}</span>
-                  <span className="mt-0.5 block text-xs text-ink-300">{body}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        <p className="hint mt-3">
+        <p className="hint text-center">
           Las fotos que subes son material de referencia del taller. No las
           usamos en el catálogo ni las compartimos.
         </p>
-      </aside>
+      </div>
     </form>
   );
 }

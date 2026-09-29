@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, MessageCircle, Truck, Wallet } from "lucide-react";
 import { CustomDesignForm } from "@/components/design/CustomDesignForm";
+import { ComoFuncionaSection } from "@/components/design/ComoFuncionaSection";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { getStoreSettings } from "@/lib/db";
@@ -64,11 +65,13 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
           <div className="mt-4 grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-end">
             <div>
               {/* Distintivo: el eslogan de la marca hace de eyebrow sobre el
-                  título, como el de la portada. */}
-              <p className="mb-3 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
+                  título, como el de la portada. Sube con `mb-5` porque el
+                  interlineado justo del display hacía que los ascendentes del
+                  título se comieran el distintivo. */}
+              <p className="mb-5 font-mono text-[0.62rem] tracking-[0.28em] text-ember-300 uppercase">
                 La vida es muy corta para usar ropa aburrida
               </p>
-              <h1 className="text-6xl leading-[0.88] sm:text-7xl lg:text-8xl">
+              <h1 className="text-6xl leading-[0.92] sm:text-7xl lg:text-8xl">
                 Cuéntanos qué
                 <br />
                 quieres estampar
@@ -94,28 +97,19 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
               ))}
             </ul>
           </div>
-
-          {model && (
-            <p className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm text-ink-200">
-              Tomando como base: <strong>{model}</strong>. Cambia lo que quieras
-              abajo.
-            </p>
-          )}
         </div>
       </section>
 
       <div className="divider-glow" aria-hidden />
 
-      <section className="relative overflow-hidden bg-ink-950">
-        <div className="wrap relative py-12">
-          <CustomDesignForm model={model} />
-        </div>
-      </section>
+      {/* Cómo funciona va primero, justo debajo del H1: el visitante sabe
+          en qué se mete antes de ver los consejos y el formulario. */}
+      <ComoFuncionaSection />
 
       <div className="divider-glow" aria-hidden />
 
       <section className="relative overflow-hidden bg-ink-950">
-        <div className="wrap relative pb-16">
+        <div className="wrap relative py-14">
           <SectionHeading
             invert
             eyebrow="Antes de mandar"
@@ -172,6 +166,33 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
             </Link>
             .
           </p>
+        </div>
+      </section>
+
+      <div className="divider-glow" aria-hidden />
+
+      {/* Carga del pedido: ya sabe cómo funciona y qué conviene mandar, así
+          que el formulario entra solo y ocupa todo el ancho. */}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+        <div className="wrap relative py-14">
+          <SectionHeading
+            invert
+            eyebrow="Tu pedido"
+            title="Carga tu pedido"
+            description="Sube la referencia, cuéntanos la idea y déjanos cómo contactarte. Cotizamos gratis y respondemos en menos de 48 horas."
+          />
+
+          {model && (
+            <p className="mt-6 inline-flex items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm text-ink-200">
+              Tomando como base: <strong>{model}</strong>. Cambia lo que quieras
+              abajo.
+            </p>
+          )}
+
+          <div className="mt-8">
+            <CustomDesignForm model={model} />
+          </div>
         </div>
       </section>
 

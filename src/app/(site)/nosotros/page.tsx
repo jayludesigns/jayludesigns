@@ -57,7 +57,9 @@ export default async function AboutPage() {
             invert
             items={[{ href: "/", label: "Inicio" }, { href: "/nosotros", label: "Nosotros" }]}
           />
-          <h1 className="mt-6 max-w-4xl text-5xl leading-[0.88] sm:text-6xl lg:text-8xl">
+          {/* Interlineado 0.95 y no 0.88: con el display tan apretado la tilde
+              de "pequeño" se comía la línea de arriba. */}
+          <h1 className="mt-6 max-w-4xl text-5xl leading-[0.95] sm:text-6xl lg:text-8xl">
             Un taller
             <br />
             pequeño con
