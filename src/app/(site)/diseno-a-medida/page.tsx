@@ -52,7 +52,11 @@ export default async function CustomDesignPage({ searchParams }: { searchParams:
       <section className="relative overflow-hidden bg-ink-950">
         <div className="halftone-light absolute inset-0 opacity-[0.06]" aria-hidden />
         <div className="glow-ember absolute inset-0 opacity-30" aria-hidden />
-        <div className="wrap relative py-10 sm:py-14">
+        {/* Arriba `pt-8`, el mismo aire que dejan la barra de navegación y las
+            migas en catálogo y contacto; antes esta portada se abría con 40px
+            y esas con 32px. El aire de abajo sí se deja generoso, que separa
+            el título del bloque. */}
+        <div className="wrap relative pt-8 pb-10 sm:pb-14">
           <Breadcrumbs
             invert
             items={[

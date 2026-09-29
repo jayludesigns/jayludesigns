@@ -22,7 +22,11 @@ export default async function CollectionsPage() {
       {/* Portada */}
       <section className="relative overflow-hidden bg-ink-950">
         <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
-        <div className="wrap relative py-12">
+        {/* Arriba `pt-8`, el mismo aire que dejan la barra de navegación y las
+            migas en catálogo y contacto; antes esta portada se abría con 48px
+            y esas con 32px. El aire de abajo sí se deja generoso, que separa
+            el título del bloque. */}
+        <div className="wrap relative pt-8 pb-12">
           <Breadcrumbs
             invert
             items={[{ href: "/", label: "Inicio" }, { href: "/colecciones", label: "Colecciones" }]}

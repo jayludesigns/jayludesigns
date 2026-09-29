@@ -53,7 +53,11 @@ export default async function AboutPage() {
       {/* Portada */}
       <section className="relative overflow-hidden bg-ink-950">
         <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
-        <div className="wrap relative py-14 sm:py-20">
+        {/* Arriba `pt-8`, el mismo aire que dejan la barra de navegación y las
+            migas en catálogo y contacto; antes esta portada se abría con 56px
+            y el resto con 32px y las tres no emparejaban. El aire de abajo sí
+            se deja generoso, que separa el título del bloque. */}
+        <div className="wrap relative pt-8 pb-14 sm:pb-20">
           <Breadcrumbs
             invert
             items={[{ href: "/", label: "Inicio" }, { href: "/nosotros", label: "Nosotros" }]}
