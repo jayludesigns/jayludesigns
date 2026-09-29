@@ -94,138 +94,144 @@ export default async function ProductPage({ params }: { params: Params }) {
   };
 
   return (
-    <div className="wrap py-8">
+    <div className="relative overflow-hidden bg-ink-950">
+      <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <Breadcrumbs
-        items={[
-          { href: "/", label: "Inicio" },
-          { href: "/catalogo", label: "Catálogo" },
-          ...(product.category
-            ? [
-                {
-                  href: `/catalogo?categoria=${product.category.slug}`,
-                  label: product.category.name,
-                },
-              ]
-            : []),
-          { href: `/producto/${product.slug}`, label: product.name },
-        ]}
-      />
+      <div className="wrap relative py-8">
+        <Breadcrumbs
+          invert
+          items={[
+            { href: "/", label: "Inicio" },
+            { href: "/catalogo", label: "Catálogo" },
+            ...(product.category
+              ? [
+                  {
+                    href: `/catalogo?categoria=${product.category.slug}`,
+                    label: product.category.name,
+                  },
+                ]
+              : []),
+            { href: `/producto/${product.slug}`, label: product.name },
+          ]}
+        />
 
-      <div className="mt-6">
-        <ProductDetailClient product={product} />
-      </div>
-
-      {/* Garantías */}
-      <ul className="mt-12 grid gap-3 border-y border-ink-200 py-6 sm:grid-cols-3">
-        {[
-          { icon: Truck, title: "Envío a toda Venezuela", body: "Recogida en Caracas o envío por encomienda." },
-          { icon: Check, title: "Revisa antes de imprimir", body: "Te mandamos la muestra digital y apruebas." },
-          { icon: MessageCircle, title: "Hablas con quien imprime", body: "Sin bots: escribes por WhatsApp y te responde una persona." },
-        ].map((item) => (
-          <li key={item.title} className="flex gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-ink-200">
-              <item.icon className="size-4" />
-            </span>
-            <span>
-              <span className="block text-sm font-bold">{item.title}</span>
-              <span className="mt-0.5 block text-sm text-ink-600">{item.body}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      {/* Reseñas */}
-      {reviews.length > 0 && (
-        <section className="mt-12">
-          <SectionHeading
-            eyebrow="Reseñas"
-            title={`Lo que dicen de ${product.name}`}
-            description={`${reviews.length} ${reviews.length === 1 ? "reseña" : "reseñas"} verificadas de compradores.`}
-          />
-          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {reviews.map((review) => (
-              <figure key={review.id} className="card flex flex-col gap-2.5 p-5">
-                <div
-                  className="flex gap-1"
-                  aria-label={`${review.rating} de 5 estrellas`}
-                >
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <span
-                      key={i}
-                      className={`size-3 border ${i < review.rating ? "border-ember-600 bg-ember-600" : "border-ink-300"}`}
-                      aria-hidden
-                    />
-                  ))}
-                </div>
-                {review.title && (
-                  <figcaption className="font-display text-xl">{review.title}</figcaption>
-                )}
-                <blockquote className="text-sm leading-relaxed text-ink-700">
-                  {review.body}
-                </blockquote>
-                <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
-                  {review.author_name}
-                </p>
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* CTA a medida */}
-      <section className="mt-12 card p-6 sm:p-8">
-        <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-2xl sm:text-3xl">
-              ¿Lo quieres con tu propio diseño?
-            </h2>
-            <p className="mt-2 max-w-xl text-sm text-ink-600">
-              Mismo modelo de prenda, con tu imagen, tu logo o el nombre de tu
-              grupo. Desde una unidad.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href={`/diseno-a-medida?modelo=${product.slug}`} className="btn btn-solid">
-              Usar como base
-            </Link>
-            {settings.whatsapp && (
-              <a
-                href={whatsappUrl(
-                  settings.whatsapp,
-                  `Hola JayLu, quiero este modelo (${product.name}) con diseño propio`,
-                )}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="btn"
-              >
-                <MessageCircle className="size-4" />
-                Consultar
-              </a>
-            )}
-          </div>
+        <div className="mt-6">
+          <ProductDetailClient product={product} />
         </div>
-      </section>
 
-      {/* Relacionados */}
-      {related.length > 0 && (
-        <section className="mt-14">
-          <SectionHeading
-            eyebrow="También te puede gustar"
-            title="Del mismo universo"
-            action={{ href: "/catalogo", label: "Ver todo" }}
-          />
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {related.map((item) => (
-              <ProductCard key={item.id} product={toCardProduct(item)} size="sm" />
-            ))}
+        {/* Garantías */}
+        <ul className="mt-12 grid gap-3 border-y border-ink-800 py-6 sm:grid-cols-3">
+          {[
+            { icon: Truck, title: "Envío a toda Venezuela", body: "Recogida en Caracas o envío por encomienda." },
+            { icon: Check, title: "Revisa antes de imprimir", body: "Te mandamos la muestra digital y apruebas." },
+            { icon: MessageCircle, title: "Hablas con quien imprime", body: "Sin bots: escribes por WhatsApp y te responde una persona." },
+          ].map((item) => (
+            <li key={item.title} className="flex gap-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-ink-800">
+                <item.icon className="size-4" />
+              </span>
+              <span>
+                <span className="block text-sm font-bold">{item.title}</span>
+                <span className="mt-0.5 block text-sm text-ink-300">{item.body}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Reseñas */}
+        {reviews.length > 0 && (
+          <section className="mt-12">
+            <SectionHeading
+              invert
+              eyebrow="Reseñas"
+              title={`Lo que dicen de ${product.name}`}
+              description={`${reviews.length} ${reviews.length === 1 ? "reseña" : "reseñas"} verificadas de compradores.`}
+            />
+            <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {reviews.map((review) => (
+                <figure key={review.id} className="card-dark flex flex-col gap-2.5 p-5">
+                  <div
+                    className="flex gap-1"
+                    aria-label={`${review.rating} de 5 estrellas`}
+                  >
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span
+                        key={i}
+                        className={`size-3 border ${i < review.rating ? "border-ember-600 bg-ember-600" : "border-ink-700"}`}
+                        aria-hidden
+                      />
+                    ))}
+                  </div>
+                  {review.title && (
+                    <figcaption className="font-display text-xl">{review.title}</figcaption>
+                  )}
+                  <blockquote className="text-sm leading-relaxed text-ink-300">
+                    {review.body}
+                  </blockquote>
+                  <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
+                    {review.author_name}
+                  </p>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* CTA a medida */}
+        <section className="card-dark mt-12 p-6 sm:p-8">
+          <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
+            <div>
+              <h2 className="text-2xl sm:text-3xl">
+                ¿Lo quieres con tu propio diseño?
+              </h2>
+              <p className="mt-2 max-w-xl text-sm text-ink-300">
+                Mismo modelo de prenda, con tu imagen, tu logo o el nombre de tu
+                grupo. Desde una unidad.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link href={`/diseno-a-medida?modelo=${product.slug}`} className="btn btn-solid">
+                Usar como base
+              </Link>
+              {settings.whatsapp && (
+                <a
+                  href={whatsappUrl(
+                    settings.whatsapp,
+                    `Hola JayLu, quiero este modelo (${product.name}) con diseño propio`,
+                  )}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="btn btn-ghost-light"
+                >
+                  <MessageCircle className="size-4" />
+                  Consultar
+                </a>
+              )}
+            </div>
           </div>
         </section>
-      )}
+
+        {/* Relacionados */}
+        {related.length > 0 && (
+          <section className="mt-14">
+            <SectionHeading
+              invert
+              eyebrow="También te puede gustar"
+              title="Del mismo universo"
+              action={{ href: "/catalogo", label: "Ver todo" }}
+            />
+            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {related.map((item) => (
+                <ProductCard key={item.id} product={toCardProduct(item)} size="sm" dark />
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
     </div>
   );
 }

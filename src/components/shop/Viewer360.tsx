@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 /** Botón de la barra de control del visor. */
 const CONTROL =
-  "grid size-8 shrink-0 place-items-center rounded-full border border-ink-200 text-ink-600 transition-all duration-200 hover:-translate-y-0.5 hover:border-ember-600 hover:bg-ember-600 hover:text-paper";
+  "grid size-8 shrink-0 place-items-center rounded-full border border-ink-800 text-ink-200 transition-all duration-200 hover:-translate-y-0.5 hover:border-ember-600 hover:bg-ember-600 hover:text-paper";
 
 /**
  * Visor 360° por arrastre.
@@ -129,7 +129,7 @@ export function Viewer360({
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         className={cn(
-          "glow-ember-soft relative w-full cursor-grab touch-none overflow-hidden rounded-2xl border border-ink-200 bg-paper active:cursor-grabbing",
+          "glow-ember-soft relative w-full cursor-grab touch-none overflow-hidden rounded-2xl border border-ink-800 bg-ink-900 active:cursor-grabbing",
           dragging && "cursor-grabbing",
         )}
       >
@@ -170,7 +170,7 @@ export function Viewer360({
         </span>
       </div>
 
-      <div className="flex items-center gap-3 rounded-b-2xl border border-ink-200 px-3 py-2">
+      <div className="flex items-center gap-3 rounded-b-2xl border border-ink-800 bg-ink-950 px-3 py-2">
         <button
           type="button"
           onClick={() => setSpinning((v) => !v)}
@@ -191,13 +191,13 @@ export function Viewer360({
           <RotateCcw className="size-3.5" />
         </button>
 
-        <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-ink-100" aria-hidden>
+        <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-ink-800" aria-hidden>
           <div
             className="absolute inset-y-0 left-0 rounded-full bg-ember-600 transition-[width] duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <span className="font-mono text-[0.6rem] text-ink-500 tabular">
+        <span className="font-mono text-[0.6rem] text-ink-400 tabular">
           {String(index + 1).padStart(2, "0")}/{count}
         </span>
       </div>

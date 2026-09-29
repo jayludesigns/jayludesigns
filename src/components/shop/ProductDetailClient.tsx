@@ -102,7 +102,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             <div
               key={image.id}
               className={cn(
-                "card overflow-hidden",
+                "card-dark overflow-hidden",
                 index === 0 && "sm:col-span-2",
               )}
             >
@@ -116,7 +116,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             </div>
           ))}
           {gallery.length === 0 && (
-            <span className="card grid aspect-square place-items-center text-ink-300 sm:col-span-2">
+            <span className="card-dark grid aspect-square place-items-center text-ink-400 sm:col-span-2">
               <ImageOff className="size-10" />
             </span>
           )}
@@ -131,7 +131,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
               <Link
                 key={collection.id}
                 href={`/colecciones/${collection.slug}`}
-                className="tag text-ink-600 transition-colors hover:border-ember-600 hover:bg-ember-600 hover:text-paper"
+                className="tag text-ink-300 transition-colors hover:border-ember-400 hover:bg-ember-600 hover:text-paper"
               >
                 {collection.name}
               </Link>
@@ -141,14 +141,14 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
 
         <h1 className="font-display text-4xl leading-[0.9] sm:text-5xl">{product.name}</h1>
         {product.subtitle && (
-          <p className="mt-2 text-sm leading-relaxed text-ink-600">{product.subtitle}</p>
+          <p className="mt-2 text-sm leading-relaxed text-ink-300">{product.subtitle}</p>
         )}
 
-        <div className="mt-5 rounded-2xl bg-ink-50 p-4">
+        <div className="mt-5 rounded-2xl bg-ink-900/60 p-4">
           <div className="flex items-end justify-between gap-3">
-            <PriceDisplay ves={unitPrice} size="xl" className="text-ember-600" />
+            <PriceDisplay ves={unitPrice} size="xl" className="text-ember-400" />
             {listPrice > unitPrice && (
-              <span className="font-mono text-sm text-ink-500 line-through">
+              <span className="font-mono text-sm text-ink-400 line-through">
                 {formatVes(listPrice)}
               </span>
             )}
@@ -168,7 +168,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
           <div className="mt-6">
             <p className="label flex items-center gap-1.5">
               <Ruler className="size-3" /> Talla
-              {size && <span className="font-normal text-ink-500 normal-case">· {size}</span>}
+              {size && <span className="font-normal text-ink-400 normal-case">· {size}</span>}
             </p>
             <div className="flex flex-wrap gap-2">
               {sizes.map((value) => {
@@ -185,7 +185,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
                       "min-w-11 rounded-lg px-3 py-2 font-mono text-xs font-bold transition-all duration-200",
                       size === value
                         ? "bg-ember-600 text-paper shadow-ember"
-                        : "border border-ink-200 text-ink-600 hover:border-ember-300 hover:bg-ember-50",
+                        : "border border-ink-800 text-ink-200 hover:border-ember-400 hover:bg-ember-950/60",
                       !inStock && "cursor-not-allowed opacity-30 line-through",
                     )}
                   >
@@ -201,7 +201,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
         {colors.length > 0 && (
           <div className="mt-5">
             <p className="label">
-              Color{color && <span className="font-normal text-ink-500 normal-case">· {color}</span>}
+              Color{color && <span className="font-normal text-ink-400 normal-case">· {color}</span>}
             </p>
             <div className="flex flex-wrap gap-2.5">
               {colors.map(([name, hex]) => {
@@ -220,8 +220,8 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
                     className={cn(
                       "grid size-9 place-items-center rounded-full border transition-all duration-200",
                       color === name
-                        ? "border-ember-600 ring-2 ring-ember-600 ring-offset-2"
-                        : "border-ink-200 hover:border-ink-400",
+                        ? "border-ember-600 ring-2 ring-ember-600 ring-offset-2 ring-offset-ink-950"
+                        : "border-ink-700 hover:border-ink-400",
                       !inStock && "cursor-not-allowed opacity-25",
                     )}
                     style={{ backgroundColor: hex }}
@@ -230,7 +230,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
                       (hex.toUpperCase() === "#000000" ? (
                         <Check className="size-4 text-paper" strokeWidth={3} />
                       ) : (
-                        <Check className="size-4 text-ink" strokeWidth={3} />
+                        <Check className="size-4 text-ink-950" strokeWidth={3} />
                       ))}
                   </button>
                 );
@@ -241,7 +241,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
 
         {/* Cantidad */}
         <div className="mt-7 flex items-stretch gap-0">
-          <div className="flex items-center rounded-full border border-ink-200">
+          <div className="flex items-center rounded-full border border-ink-800">
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -251,7 +251,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             >
               <Minus className="size-3.5" />
             </button>
-            <span className="grid w-11 place-items-center border-x border-ink-100 font-mono text-sm tabular">
+            <span className="grid w-11 place-items-center border-x border-ink-800 font-mono text-sm tabular">
               {quantity}
             </span>
             <button
@@ -264,7 +264,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
               <Plus className="size-3.5" />
             </button>
           </div>
-          <p className="ml-3 self-center font-mono text-[0.65rem] text-ink-500">
+          <p className="ml-3 self-center font-mono text-[0.65rem] text-ink-400">
             {stock > 0 ? `${stock} disponibles` : "Sin stock"}
             {selected?.sku ? ` · ${selected.sku}` : ""}
           </p>
@@ -284,7 +284,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
           <p className="hint">
             Pedido mínimo de {product.min_order_qty} unidades. Para pedidos al
             mayoreo o uniformes,{" "}
-            <Link href="/diseno-a-medida" className="link-underline font-semibold text-ember-600">
+            <Link href="/diseno-a-medida" className="link-underline font-semibold text-ember-400">
               cuéntanos tu cantidad
             </Link>
             .
@@ -293,15 +293,15 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
 
         {/* Volumen */}
         {product.bulk_prices.length > 0 && (
-          <div className="card mt-6 overflow-hidden">
-            <p className="bg-ink-950 px-3.5 py-2.5 font-mono text-[0.6rem] font-bold tracking-[0.14em] text-paper uppercase">
+          <div className="card-dark mt-6 overflow-hidden">
+            <p className="bg-ink-900 px-3.5 py-2.5 font-mono text-[0.6rem] font-bold tracking-[0.14em] text-paper uppercase">
               Precio por volumen
             </p>
-            <ul className="divide-y divide-ink-100">
+            <ul className="divide-y divide-ink-800">
               {product.bulk_prices.map((tier) => (
                 <li key={tier.min_qty} className="flex items-center justify-between px-3.5 py-2.5 text-sm">
                   <span className="font-mono text-xs">Desde {tier.min_qty} uds.</span>
-                  <span className="font-semibold text-ember-600 tabular">{formatVes(tier.unit_price_ves)}</span>
+                  <span className="font-semibold text-ember-400 tabular">{formatVes(tier.unit_price_ves)}</span>
                 </li>
               ))}
             </ul>
@@ -309,7 +309,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
         )}
 
         {/* Ficha técnica */}
-        <dl className="mt-6 divide-y divide-ink-100 text-sm">
+        <dl className="mt-6 divide-y divide-ink-800 text-sm">
           {[
             ["Prenda", product.garment_type],
             ["Tela", product.material],
@@ -321,7 +321,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             .filter(([, value]) => Boolean(value))
             .map(([label, value]) => (
               <div key={label} className="flex justify-between gap-4 py-2.5">
-                <dt className="font-mono text-[0.65rem] tracking-wider text-ink-500 uppercase">
+                <dt className="font-mono text-[0.65rem] tracking-wider text-ink-400 uppercase">
                   {label}
                 </dt>
                 <dd className="text-right font-medium">{value}</dd>
@@ -332,14 +332,14 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
         {product.description && (
           <div className="mt-6">
             <h2 className="mb-2 font-display text-xl">El detalle</h2>
-            <p className="text-sm leading-relaxed whitespace-pre-line text-ink-700">
+            <p className="text-sm leading-relaxed whitespace-pre-line text-ink-300">
               {product.description}
             </p>
           </div>
         )}
 
         {product.care_instructions && (
-          <p className="hint mt-4 rounded-xl bg-ink-50 p-3.5">
+          <p className="hint mt-4 rounded-xl bg-ink-900/60 p-3.5 text-ink-300">
             <strong className="font-bold uppercase">Cuidado:</strong> {product.care_instructions}
           </p>
         )}
