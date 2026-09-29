@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Eye, Trash2 } from "lucide-react";
 
-import { ActionForm } from "@/components/admin/ActionForm";
+import { ActionForm, FormSubmit } from "@/components/admin/ActionForm";
 import { Card, PageHeader } from "@/components/admin/AdminUI";
 import { Pill } from "@/components/admin/Pill";
 import { SelectField, TextAreaField, TextField } from "@/components/admin/Fields";
@@ -239,16 +239,13 @@ function CollectionEditor({ collection }: { collection: Collection }) {
               Promocionar
             </Link>
             <span className="ml-auto">
-              <ActionForm
-                action={deleteCollectionAction}
-                hiddenFields={{ id: collection.id }}
+              <FormSubmit
+                formId={`delete-col-${collection.id}`}
                 confirm={`Se elimina la colección "${collection.name}". Los productos quedan sin colección.`}
               >
-                <button type="submit" className="btn btn-sm">
-                  <Trash2 className="size-3.5" />
-                  Eliminar
-                </button>
-              </ActionForm>
+                <Trash2 className="size-3.5" />
+                Eliminar
+              </FormSubmit>
             </span>
           </div>
         </ActionForm>
@@ -276,6 +273,14 @@ function CollectionEditor({ collection }: { collection: Collection }) {
           </p>
         </div>
       </div>
+
+      {/* El botón "Eliminar" de arriba dispara este form por id. Vive fuera del
+          form de guardar: un <form> no puede anidarse dentro de otro <form>. */}
+      <ActionForm
+        id={`delete-col-${collection.id}`}
+        action={deleteCollectionAction}
+        hiddenFields={{ id: collection.id }}
+      />
     </Card>
   );
 }
