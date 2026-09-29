@@ -38,12 +38,15 @@ export function ProductCard({
   size = "md",
   priority = false,
   showQuickAdd = true,
+  dark = false,
 }: {
   product: CardProduct;
   className?: string;
   size?: "sm" | "md" | "lg";
   priority?: boolean;
   showQuickAdd?: boolean;
+  /** Variante sobre fondo oscuro: superficie card-dark y textos en gris cálido. */
+  dark?: boolean;
 }) {
   const hasDiscount = product.listPrice > product.unitPrice;
   const soldOut = product.maxQuantity <= 0;
@@ -51,13 +54,17 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        "card card-hover group relative flex flex-col overflow-hidden",
+        dark ? "card-dark" : "card",
+        "card-hover group relative flex flex-col overflow-hidden",
         className,
       )}
     >
       <Link
         href={`/producto/${product.slug}`}
-        className="relative block overflow-hidden bg-ink-50"
+        className={cn(
+          "relative block overflow-hidden",
+          dark ? "bg-ink-900" : "bg-ink-50",
+        )}
         tabIndex={-1}
         aria-hidden
       >
@@ -103,7 +110,12 @@ export function ProductCard({
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         {product.collection && (
-          <p className="font-mono text-[0.55rem] tracking-[0.18em] text-ink-500 uppercase">
+          <p
+            className={cn(
+              "font-mono text-[0.55rem] tracking-[0.18em] uppercase",
+              dark ? "text-ink-400" : "text-ink-500",
+            )}
+          >
             {product.collection}
           </p>
         )}
@@ -115,8 +127,13 @@ export function ProductCard({
 
         {product.rating != null && (
           <div className="flex items-center gap-1.5">
-            <Stars rating={product.rating} />
-            <span className="font-mono text-[0.58rem] tracking-wide text-ink-500">
+            <Stars rating={product.rating} className={dark ? "text-ember-400" : undefined} />
+            <span
+              className={cn(
+                "font-mono text-[0.58rem] tracking-wide",
+                dark ? "text-ink-400" : "text-ink-500",
+              )}
+            >
               {product.reviewCount} {product.reviewCount === 1 ? "reseña" : "reseñas"}
             </span>
           </div>
@@ -130,9 +147,13 @@ export function ProductCard({
               // El precio es el acento más repetido de la tienda: con el
               // burdeos, la vista va directo a la cifra sin tener que leer
               // el nombre. El tachado se apaga para no competir.
-              hasDiscount
-                ? "[&>span:first-child]:text-ink-500 [&>span:first-child]:line-through"
-                : "text-ember-600",
+              dark
+                ? hasDiscount
+                  ? "[&>span:first-child]:text-ink-400 [&>span:first-child]:line-through [&>span:last-child]:text-ink-400"
+                  : "text-ember-400 [&>span:last-child]:text-ink-400"
+                : hasDiscount
+                  ? "[&>span:first-child]:text-ink-500 [&>span:first-child]:line-through"
+                  : "text-ember-600",
             )}
           />
           {showQuickAdd && !soldOut && (

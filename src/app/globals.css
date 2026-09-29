@@ -225,6 +225,14 @@
     -webkit-backdrop-filter: blur(10px);
   }
 
+  /* Puente entre secciones oscuras: un hilo de luz vino que se enciende y
+     se apaga en los bordes, en lugar del borde duro. Es la "transición"
+     entre bandas del mismo negro: deja respirar sin cortar. */
+  .divider-glow {
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, rgb(107 32 26 / 0.6), transparent);
+  }
+
   /* Retícula de puntos tipo semitono: la textura base de la marca. */
   .halftone {
     background-image: radial-gradient(var(--color-ink) 0.75px, transparent 0.75px);

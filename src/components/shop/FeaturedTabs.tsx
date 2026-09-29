@@ -14,10 +14,13 @@ export function FeaturedTabs({
   featured,
   all,
   categories,
+  dark = false,
 }: {
   featured: CardProduct[];
   all: CardProduct[];
   categories: { slug: string; name: string }[];
+  /** Variante sobre fondo oscuro: borde y pestañas en gris cálido. */
+  dark?: boolean;
 }) {
   const tabs = [
     { key: "destacados", label: "Destacados" },
@@ -34,7 +37,12 @@ export function FeaturedTabs({
 
   return (
     <div>
-      <div className="flex items-end justify-between gap-4 border-b border-ink-200">
+      <div
+        className={cn(
+          "flex items-end justify-between gap-4 border-b",
+          dark ? "border-ink-800" : "border-ink-200",
+        )}
+      >
         <div className="flex gap-5 overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -45,8 +53,12 @@ export function FeaturedTabs({
               className={cn(
                 "-mb-px shrink-0 border-b-2 pb-3 font-mono text-[0.65rem] font-bold tracking-[0.16em] uppercase transition-colors",
                 active === tab.key
-                  ? "border-ember-600 text-ember-600"
-                  : "border-transparent text-ink-500 hover:text-ink-900",
+                  ? dark
+                    ? "border-ember-400 text-ember-400"
+                    : "border-ember-600 text-ember-600"
+                  : dark
+                    ? "border-transparent text-ink-400 hover:text-paper"
+                    : "border-transparent text-ink-500 hover:text-ink-900",
               )}
             >
               {tab.label}
@@ -55,7 +67,12 @@ export function FeaturedTabs({
         </div>
         <a
           href="/catalogo"
-          className="hidden pb-3 font-mono text-[0.62rem] font-bold tracking-[0.14em] text-ink-500 uppercase transition-colors hover:text-ember-600 md:block"
+          className={cn(
+            "hidden pb-3 font-mono text-[0.62rem] font-bold tracking-[0.14em] uppercase transition-colors md:block",
+            dark
+              ? "text-ink-400 hover:text-ember-400"
+              : "text-ink-500 hover:text-ember-600",
+          )}
         >
           Ver catálogo →
         </a>
@@ -63,7 +80,7 @@ export function FeaturedTabs({
 
       <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {shown.map((product) => (
-          <ProductCard key={product.id} product={product} size="lg" />
+          <ProductCard key={product.id} product={product} size="lg" dark={dark} />
         ))}
       </div>
     </div>

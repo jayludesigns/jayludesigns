@@ -97,9 +97,9 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
   };
 
   return (
-    <section className="relative overflow-hidden border-y border-white/10 bg-ink-950">
-      <div className="glow-ember absolute inset-0 opacity-50" aria-hidden />
-      <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
+    <section className="relative overflow-hidden bg-ink-950">
+      <div className="glow-ember absolute inset-0 opacity-30" aria-hidden />
+      <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
 
       <div className="wrap relative py-16 sm:py-20">
         <SectionHeading
@@ -146,7 +146,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                       </button>
                     );
                   })}
-                  <span className="text-sm text-white/60">{color.name}</span>
+                  <span className="text-sm text-ink-300">{color.name}</span>
                 </div>
               </fieldset>
 
@@ -170,13 +170,13 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                       >
                         <span
                           className={cn(
-                            "block font-display text-xl",
-                            active ? "text-paper" : "text-white/70",
+                            "font-display text-xl",
+                            active ? "text-paper" : "text-ink-200",
                           )}
                         >
                           {option.name}
                         </span>
-                        <span className="mt-0.5 block text-xs text-white/50">{option.tagline}</span>
+                        <span className="mt-0.5 block text-xs text-ink-400">{option.tagline}</span>
                       </button>
                     );
                   })}
@@ -204,7 +204,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                         <span
                           className={cn(
                             "block text-xs leading-snug font-bold",
-                            active ? "text-paper" : "text-white/75",
+                            active ? "text-paper" : "text-ink-200",
                           )}
                         >
                           {option.label}
@@ -235,11 +235,11 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                   aria-label="Cantidad de franelas"
                   className="mt-4 w-full accent-ember-600"
                 />
-                <div className="mt-2 flex justify-between font-mono text-[0.55rem] tracking-[0.14em] text-white/45 uppercase">
+                <div className="mt-2 flex justify-between font-mono text-[0.55rem] tracking-[0.14em] text-ink-400 uppercase">
                   <span>1 unidad</span>
                   <span>100 unidades</span>
                 </div>
-                <p className="mt-3 text-xs leading-relaxed text-white/55">
+                <p className="mt-3 text-xs leading-relaxed text-ink-300">
                   Descuento por volumen: −10 % desde 12 unidades, −20 % desde 50.
                   {discount > 0 && (
                     <>
@@ -276,13 +276,13 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
             </div>
 
             <div className="glass-dark mt-6 rounded-2xl p-6 sm:p-8">
-              <div className="flex items-center justify-between text-sm text-white/60">
+              <div className="flex items-center justify-between text-sm text-ink-300">
                 <span>{color.name}</span>
                 <span>{technique === "dtf" ? "DTF" : "Sublimación"}</span>
               </div>
               <dl className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm">
                 <div className="flex items-center justify-between gap-3">
-                  <dt className="text-white/60">Precio por unidad</dt>
+                  <dt className="text-ink-300">Precio por unidad</dt>
                   <dd className="text-paper">
                     ${unit.toFixed(2)}{" "}
                     {discount > 0 && (
@@ -291,7 +291,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                   </dd>
                 </div>
                 <div className="flex items-center justify-between gap-3">
-                  <dt className="text-white/60">Cantidad</dt>
+                  <dt className="text-ink-300">Cantidad</dt>
                   <dd className="font-mono text-paper">× {quantity}</dd>
                 </div>
                 <div className="flex items-baseline justify-between gap-3 border-t border-white/10 pt-4">
@@ -299,7 +299,7 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
                   <dd className="font-display text-3xl text-ember-300">${total.toFixed(2)}</dd>
                 </div>
               </dl>
-              <p className="mt-3 text-xs leading-relaxed text-white/45">
+              <p className="mt-3 text-xs leading-relaxed text-ink-400">
                 Valor referencial en USD. La cotización cerrada llega con la muestra
                 digital y la tasa del día.
               </p>
@@ -318,10 +318,10 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
         {/* Ventajas */}
         <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
           {VENTAJAS.map((item) => (
-            <div key={item.title} className="bg-ink-950 p-5">
+            <div key={item.title} className="bg-ink-900/80 p-5">
               <item.icon className="size-5 text-ember-400" />
-              <h3 className="mt-3 text-sm font-bold text-paper">{item.title}</h3>
-              <p className="mt-1 text-xs leading-relaxed text-white/55">{item.body}</p>
+              <h3 className="mt-3 text-[0.95rem] font-bold text-paper">{item.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-ink-300">{item.body}</p>
             </div>
           ))}
         </div>

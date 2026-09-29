@@ -36,12 +36,18 @@ export default async function HomePage() {
   return (
     <>
       {/* ================= HERO ================= */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-ink-950">
+      <section className="relative overflow-hidden bg-ink-950">
         <div className="gradient-wine absolute inset-0" aria-hidden />
         <div className="halftone-light absolute inset-0 opacity-[0.08]" aria-hidden />
         <div className="glow-ember absolute inset-0 opacity-50" aria-hidden />
         <div
           className="rays-light absolute -top-40 -right-32 size-[36rem] rounded-full opacity-[0.04]"
+          aria-hidden
+        />
+        {/* Fundido de salida: el vino se apaga hacia el negro de la sección
+            siguiente, la transición que pide el cliente. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-950 to-transparent"
           aria-hidden
         />
 
@@ -52,7 +58,7 @@ export default async function HomePage() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />
                 <span className="relative inline-flex size-2 rounded-full bg-ember-300" />
               </span>
-              <span className="text-[0.62rem] font-bold tracking-[0.22em] text-white/70 uppercase">
+              <span className="text-[0.62rem] font-bold tracking-[0.22em] text-ink-200 uppercase">
                 Calidad premium en estampados · Caracas
               </span>
             </p>
@@ -67,7 +73,7 @@ export default async function HomePage() {
               en una franela
             </h1>
 
-            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
+            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
               Catálogo de anime, fantasía, videojuegos y streetwear. Uniformes para
               colegios, empresas y grupos. Y si no existe, lo hacemos a medida: sube
               tu foto o cuéntanos la idea y cotizamos sin compromiso.
@@ -92,7 +98,7 @@ export default async function HomePage() {
               ].map(([value, label]) => (
                 <div key={label} className="px-4 py-5">
                   <dt className="font-display text-2xl leading-none text-ember-300">{value}</dt>
-                  <dd className="mt-1 font-mono text-[0.55rem] tracking-[0.14em] text-white/50 uppercase">
+                  <dd className="mt-1 font-mono text-[0.55rem] tracking-[0.14em] text-ink-300/90 uppercase">
                     {label}
                   </dd>
                 </div>
@@ -132,7 +138,7 @@ export default async function HomePage() {
                   </Link>
                 ))}
               </div>
-              <p className="mt-4 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.16em] text-white/50 uppercase">
+              <p className="mt-4 flex items-center gap-2 font-mono text-[0.6rem] tracking-[0.16em] text-ink-300/90 uppercase">
                 <Sparkles className="size-3.5" />
                 Se estampa al pedido · DTF y sublimación
               </p>
@@ -142,138 +148,160 @@ export default async function HomePage() {
       </section>
 
       {/* ================= CATEGORÍAS ================= */}
-      <section className="wrap py-14 sm:py-18">
-        <SectionHeading
-          eyebrow="Explora"
-          title="Por dónde empezar"
-          action={{ href: "/catalogo", label: "Ver todo" }}
-        />
-        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-          {categories.map((category, index) => {
-            const count = catalog.filter((p) => p.category?.slug === category.slug).length;
-            return (
-              <Link
-                key={category.id}
-                href={`/catalogo?categoria=${category.slug}`}
-                className="card card-hover group relative flex min-h-40 flex-col justify-end overflow-hidden p-4"
-              >
-                {category.hero_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={category.hero_url}
-                    alt=""
-                    loading="lazy"
-                    className="absolute inset-0 size-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+        <div className="wrap relative py-14 sm:py-18">
+          <SectionHeading
+            invert
+            eyebrow="Explora"
+            title="Por dónde empezar"
+            action={{ href: "/catalogo", label: "Ver todo" }}
+          />
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+            {categories.map((category, index) => {
+              const count = catalog.filter((p) => p.category?.slug === category.slug).length;
+              return (
+                <Link
+                  key={category.id}
+                  href={`/catalogo?categoria=${category.slug}`}
+                  className="card-dark card-hover group relative flex min-h-40 flex-col justify-end overflow-hidden p-4"
+                >
+                  {category.hero_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={category.hero_url}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+                  <span
+                    className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"
+                    aria-hidden
                   />
-                )}
-                <span
-                  className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"
-                  aria-hidden
-                />
-                <span className="absolute top-3 right-3 font-mono text-[0.6rem] text-white/70">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="relative">
-                  <span className="block font-display text-2xl text-white">{category.name}</span>
-                  <span className="mt-0.5 block font-mono text-[0.58rem] tracking-[0.14em] text-white/70 uppercase">
-                    {count} {count === 1 ? "modelo" : "modelos"}
+                  <span className="absolute top-3 right-3 font-mono text-[0.6rem] text-ink-300">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                </span>
-              </Link>
-            );
-          })}
+                  <span className="relative">
+                    <span className="block font-display text-2xl text-white">{category.name}</span>
+                    <span className="mt-0.5 block font-mono text-[0.58rem] tracking-[0.14em] text-ink-300 uppercase">
+                      {count} {count === 1 ? "modelo" : "modelos"}
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
+
+      <div className="divider-glow" aria-hidden />
 
       {/* ================= TÉCNICAS ================= */}
       <TechniquesSection />
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= DESTACADOS ================= */}
       {featured.length > 0 && (
-        <section className="wrap py-14 sm:py-18">
-          <SectionHeading
-            eyebrow="Selección JayLu"
-            title="Los que más se van"
-            description="Los modelos con más movimiento esta semana, con la promoción que esté activa."
-          />
-          <div className="mt-8">
-            <FeaturedTabs
-              featured={featured.map(toCardProduct)}
-              all={catalog.map(toCardProduct)}
-              categories={categories.map((category) => ({ slug: category.slug, name: category.name }))}
+        <section className="relative overflow-hidden bg-ink-950">
+          <div className="glow-ember absolute inset-0 opacity-20" aria-hidden />
+          <div className="wrap relative py-14 sm:py-18">
+            <SectionHeading
+              invert
+              eyebrow="Selección JayLu"
+              title="Los que más se van"
+              description="Los modelos con más movimiento esta semana, con la promoción que esté activa."
             />
+            <div className="mt-8">
+              <FeaturedTabs
+                dark
+                featured={featured.map(toCardProduct)}
+                all={catalog.map(toCardProduct)}
+                categories={categories.map((category) => ({ slug: category.slug, name: category.name }))}
+              />
+            </div>
           </div>
         </section>
       )}
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= COLECCIONES ================= */}
       {collections.length > 0 && (
-        <section className="wrap py-14 sm:py-18">
-          <SectionHeading
-            eyebrow="Colecciones"
-            title="Historias completas, no prendas sueltas"
-            description="Cada colección reúne diseños de un mismo universo, con promotions que se activan por fecha."
-            action={{ href: "/colecciones", label: "Ver colecciones" }}
-          />
-          <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {collections.slice(0, 6).map((collection) => (
-              <Link
-                key={collection.id}
-                href={`/colecciones/${collection.slug}`}
-                className="card card-hover group relative flex min-h-64 flex-col justify-end overflow-hidden"
-              >
-                {collection.banner_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={collection.banner_url}
-                    alt=""
-                    loading="lazy"
-                    className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+        <section className="relative overflow-hidden bg-ink-950">
+          <div className="wrap relative py-14 sm:py-18">
+            <SectionHeading
+              invert
+              eyebrow="Colecciones"
+              title="Historias completas, no prendas sueltas"
+              description="Cada colección reúne diseños de un mismo universo, con promotions que se activan por fecha."
+              action={{ href: "/colecciones", label: "Ver colecciones" }}
+            />
+            <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {collections.slice(0, 6).map((collection) => (
+                <Link
+                  key={collection.id}
+                  href={`/colecciones/${collection.slug}`}
+                  className="card-dark card-hover group relative flex min-h-64 flex-col justify-end overflow-hidden"
+                >
+                  {collection.banner_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={collection.banner_url}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+                  <span
+                    className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
+                    aria-hidden
                   />
-                )}
-                <span
-                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"
-                  aria-hidden
-                />
-                <span className="absolute top-3 left-3 flex gap-1.5">
-                  <span className="tag border-white/60 text-white">{collection.theme}</span>
-                  {collection.active_promotion && (
-                    <span className="tag border-ember-600 bg-ember-600 text-white">
-                      −
-                      {collection.active_promotion.kind === "percent"
-                        ? `${collection.active_promotion.value}%`
-                        : "Oferta"}
-                    </span>
-                  )}
-                </span>
-                <span className="relative p-4">
-                  <span className="block font-display text-3xl text-white">
-                    {collection.name}
+                  <span className="absolute top-3 left-3 flex gap-1.5">
+                    <span className="tag border-white/60 text-white">{collection.theme}</span>
+                    {collection.active_promotion && (
+                      <span className="tag border-ember-600 bg-ember-600 text-white">
+                        −
+                        {collection.active_promotion.kind === "percent"
+                          ? `${collection.active_promotion.value}%`
+                          : "Oferta"}
+                      </span>
+                    )}
                   </span>
-                  {collection.tagline && (
-                    <span className="mt-1 block text-sm text-white/70">
-                      {collection.tagline}
+                  <span className="relative p-4">
+                    <span className="block font-display text-3xl text-white">
+                      {collection.name}
                     </span>
-                  )}
-                  <span className="mt-2 block font-mono text-[0.58rem] tracking-[0.14em] text-white/60 uppercase">
-                    {collection.product_count} modelos
+                    {collection.tagline && (
+                      <span className="mt-1 block text-sm text-ink-200">
+                        {collection.tagline}
+                      </span>
+                    )}
+                    <span className="mt-2 block font-mono text-[0.58rem] tracking-[0.14em] text-ink-300 uppercase">
+                      {collection.product_count} modelos
+                    </span>
                   </span>
-                </span>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}
+
+      <div className="divider-glow" aria-hidden />
 
       {/* ================= COTIZADOR EXPRESS ================= */}
       <CotizadorExpress whatsapp={settings.whatsapp || "04141234567"} />
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= DISEÑO A MEDIDA ================= */}
-      <section className="relative overflow-hidden border-y border-ink-200">
-        <div className="grid-paper absolute inset-0" aria-hidden />
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
         <div className="wrap relative grid gap-10 py-14 sm:py-18 lg:grid-cols-2">
           <div>
-            <p className="mb-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-600 uppercase">
+            <p className="mb-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-300 uppercase">
               Diseño a medida
             </p>
             <h2 className="text-4xl sm:text-5xl">
@@ -281,7 +309,7 @@ export default async function HomePage() {
               <br />
               en el catálogo?
             </h2>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-700 sm:text-base">
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-300 sm:text-base">
               Sube una foto de referencia y cuéntanos la idea. Los dos campos son
               opcionales: con uno basta para empezar. Te devolvemos una muestra
               digital en 48 horas y solo entonces se paga.
@@ -306,12 +334,12 @@ export default async function HomePage() {
                 },
               ].map((item) => (
                 <li key={item.title} className="flex gap-4">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-ember-50 text-ember-600 ring-1 ring-ember-100">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-ember-500/15 text-ember-300 ring-1 ring-ember-500/30">
                     <item.icon className="size-4" />
                   </span>
                   <span>
-                    <span className="block text-sm font-bold">{item.title}</span>
-                    <span className="mt-0.5 block text-sm text-ink-600">{item.body}</span>
+                    <span className="block text-sm font-bold text-paper">{item.title}</span>
+                    <span className="mt-0.5 block text-sm text-ink-300">{item.body}</span>
                   </span>
                 </li>
               ))}
@@ -329,7 +357,7 @@ export default async function HomePage() {
                 )}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="btn btn-lg"
+                className="btn btn-ghost-light btn-lg"
               >
                 <MessageCircle className="size-4" />
                 WhatsApp
@@ -342,14 +370,14 @@ export default async function HomePage() {
             {["mage-1", "custom-1", "uniforme-escudo", "grupo-1"].map((name, index) => (
               <div
                 key={name}
-                className={`card overflow-hidden ${index % 2 === 1 ? "mt-6" : ""}`}
+                className={`card-dark overflow-hidden ${index % 2 === 1 ? "mt-6" : ""}`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/demo/references/${name}.svg`}
                   alt={`Ejemplo de referencia que nos envían los clientes`}
                   loading="lazy"
-                  className="aspect-square w-full bg-ink-50 object-cover"
+                  className="aspect-square w-full bg-ink-900 object-cover"
                 />
               </div>
             ))}
@@ -357,73 +385,87 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= FRESCOS ================= */}
-      <section className="wrap py-14 sm:py-18">
-        <SectionHeading
-          eyebrow="Recién llegados"
-          title="Lo último del taller"
-          action={{ href: "/catalogo?orden=nuevos", label: "Ver novedades" }}
-        />
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {fresh.map((product) => (
-            <ProductCard key={product.id} product={toCardProduct(product)} size="sm" />
-          ))}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="wrap relative py-14 sm:py-18">
+          <SectionHeading
+            invert
+            eyebrow="Recién llegados"
+            title="Lo último del taller"
+            action={{ href: "/catalogo?orden=nuevos", label: "Ver novedades" }}
+          />
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {fresh.map((product) => (
+              <ProductCard key={product.id} product={toCardProduct(product)} size="sm" dark />
+            ))}
+          </div>
         </div>
       </section>
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= RESEÑAS ================= */}
       {reviews.length > 0 && (
-        <section className="wrap pb-16">
-          <SectionHeading eyebrow="Lo que dicen" title={`Reseñas de ${spinProduct!.name}`} />
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
-            {reviews.slice(0, 3).map((review) => (
-              <figure key={review.id} className="card flex flex-col gap-3 p-5">
-                <div className="flex gap-0.5" aria-label={`${review.rating} de 5 estrellas`}>
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <span
-                      key={i}
-                      className={`size-2.5 border ${i < review.rating ? "border-ember-600 bg-ember-600" : "border-ink-300"}`}
-                      aria-hidden
-                    />
-                  ))}
-                </div>
-                {review.title && (
-                  <figcaption className="font-display text-xl">{review.title}</figcaption>
-                )}
-                <blockquote className="text-sm leading-relaxed text-ink-700">
-                  {review.body}
-                </blockquote>
-                <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-500 uppercase">
-                  {review.author_name}
-                </p>
-              </figure>
-            ))}
+        <section className="relative overflow-hidden bg-ink-950">
+          <div className="wrap relative py-14 sm:py-18">
+            <SectionHeading invert eyebrow="Lo que dicen" title={`Reseñas de ${spinProduct!.name}`} />
+            <div className="mt-6 grid gap-3 md:grid-cols-3">
+              {reviews.slice(0, 3).map((review) => (
+                <figure key={review.id} className="card-dark flex flex-col gap-3 p-5">
+                  <div className="flex gap-0.5" aria-label={`${review.rating} de 5 estrellas`}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span
+                        key={i}
+                        className={`size-2.5 border ${i < review.rating ? "border-ember-600 bg-ember-600" : "border-ink-600"}`}
+                        aria-hidden
+                      />
+                    ))}
+                  </div>
+                  {review.title && (
+                    <figcaption className="font-display text-xl">{review.title}</figcaption>
+                  )}
+                  <blockquote className="text-sm leading-relaxed text-ink-200">
+                    {review.body}
+                  </blockquote>
+                  <p className="mt-auto font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
+                    {review.author_name}
+                  </p>
+                </figure>
+              ))}
+            </div>
           </div>
         </section>
       )}
 
+      <div className="divider-glow" aria-hidden />
+
       {/* ================= CIERRE ================= */}
-      <section className="wrap pb-4">
-        <div className="relative overflow-hidden border border-ink bg-paper p-8 sm:p-12">
-          <div className="halftone absolute inset-0 opacity-[0.06]" aria-hidden />
-          <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-            <div>
-              <h2 className="max-w-2xl text-4xl sm:text-5xl">
-                Uniformes para tu colegio, empresa o grupo
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-600">
-                Estampamos tu logo con sublimación o DTF textil, el nombre de
-                cada persona y el escudo de tu institución. Entregamos por lotes
-                con tallas ya medidas. Cotización cerrada en 24 horas.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/catalogo?categoria=uniformes" className="btn btn-solid btn-lg">
-                Ver uniformes
-              </Link>
-              <Link href="/contacto" className="btn btn-lg">
-                Cotizar lote
-              </Link>
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="wrap relative py-14">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-8 sm:p-12">
+            <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
+            <div className="glow-ember absolute inset-0 opacity-25" aria-hidden />
+            <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+              <div>
+                <h2 className="max-w-2xl text-4xl text-paper sm:text-5xl">
+                  Uniformes para tu colegio, empresa o grupo
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-300">
+                  Estampamos tu logo con sublimación o DTF textil, el nombre de
+                  cada persona y el escudo de tu institución. Entregamos por lotes
+                  con tallas ya medidas. Cotización cerrada en 24 horas.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/catalogo?categoria=uniformes" className="btn btn-solid btn-lg">
+                  Ver uniformes
+                </Link>
+                <Link href="/contacto" className="btn btn-ghost-light btn-lg">
+                  Cotizar lote
+                </Link>
+              </div>
             </div>
           </div>
         </div>

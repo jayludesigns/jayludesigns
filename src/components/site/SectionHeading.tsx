@@ -41,7 +41,9 @@ export function SectionHeading({
           <p
             className={cn(
               "mt-3 text-sm leading-relaxed sm:text-base",
-              invert ? "opacity-70" : "text-ink-600",
+              // Con invert el color oscuro por defecto queda invisible sobre
+              // la banda negra: el texto secundario pasa al blanco atenuado.
+              invert ? "text-paper/80" : "text-ink-600",
             )}
           >
             {description}
