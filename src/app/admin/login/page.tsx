@@ -19,27 +19,29 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: S
       <div className="relative hidden overflow-hidden bg-ember-600 text-paper lg:block">
         <div className="speed-lines-light absolute inset-0 opacity-30" aria-hidden />
         <div className="halftone-lg-light absolute inset-0 opacity-40" aria-hidden />
-        <div className="relative flex h-full flex-col justify-between p-10">
+        <div className="relative flex h-full flex-col items-center justify-center gap-12 p-10 text-center">
+          {/* El logo manda en este lado: ocupa el centro y el mensaje de marca
+              queda debajo, no al revés. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/logo-jaylu.svg"
             alt="JayLu"
-            className="h-10 w-auto invert"
+            className="h-28 w-auto invert sm:h-36"
           />
           <div>
-            <p className="font-display text-6xl leading-[0.85]">
+            <p className="font-display text-5xl leading-[0.9] sm:text-6xl">
               Todo el
               <br />
               negocio
               <br />
               <span className="text-ember-400">en un</span> sitio
             </p>
-            <p className="mt-6 max-w-sm text-sm leading-relaxed opacity-70">
+            <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed opacity-70">
               Catálogo, promociones, pedidos, inventario, clientes y finanzas.
               La misma paleta, las mismas reglas.
             </p>
           </div>
-          <p className="font-mono text-[0.6rem] tracking-[0.2em] text-paper/40 uppercase">
+          <p className="absolute bottom-10 left-0 right-0 font-mono text-[0.6rem] tracking-[0.2em] text-paper/40 uppercase">
             JayLu · administración
           </p>
         </div>

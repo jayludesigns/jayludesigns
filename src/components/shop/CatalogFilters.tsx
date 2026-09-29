@@ -5,7 +5,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
   useTransition,
   type ReactNode,
@@ -48,21 +47,12 @@ export function CatalogFilters({
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  // Búsqueda desplegable del catálogo (escritorio): entra de izquierda a
-  // derecha al pulsar «Buscar» y el grid se comprime hacia la derecha para no
-  // dejar espacio muerto. Si ya hay una consulta activa (q) arranca abierta
-  // para poder refinarla. En móvil la búsqueda vive en el drawer de filtros.
+  // Búsqueda desplegable del catálogo: el botón «Buscar» es la única orden
+  // que la despliega, y el mismo botón la repliega. En escritorio el campo
+  // entra de izquierda a derecha y el grid se comprime hacia la derecha para
+  // no dejar espacio muerto; en móvil/tablet el cajón cae desde la barra
+  // superior. Ya no se autoabre al llegar con ?q=.
   const [searchOpen, setSearchOpen] = useState(false);
-  // Solo se autoabre al llegar con una consulta activa; si el usuario lo
-  // cierra no vuelve a abrirse en cada navegación de filtros.
-  const autoOpened = useRef(false);
-
-  useEffect(() => {
-    if (!autoOpened.current && params.get("q")) {
-      autoOpened.current = true;
-      setSearchOpen(true);
-    }
-  }, [params]);
 
   useEffect(() => {
     if (!searchOpen) return;

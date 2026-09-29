@@ -274,7 +274,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
           type="button"
           onClick={onAdd}
           disabled={stock === 0 || !selected}
-          className="btn btn-solid btn-lg mt-5 w-full"
+          className="btn btn-light btn-lg mt-5 w-full"
         >
           <ShoppingBag className="size-4" />
           {stock === 0 ? "Agotado por ahora" : "Añadir al carrito"}

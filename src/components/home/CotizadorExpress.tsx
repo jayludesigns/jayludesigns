@@ -315,13 +315,16 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
           </div>
         </div>
 
-        {/* Ventajas */}
-        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+        {/* Ventajas. Las celdas van opacas (no translúcidas) y el contenedor
+            es oscuro: con el halo vino de la sección viéndose a través, la
+            letra blanca quedaba con un resplandor alrededor que la volvía
+            ilegible. */}
+        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-ink-900/60 sm:grid-cols-3">
           {VENTAJAS.map((item) => (
-            <div key={item.title} className="bg-ink-900/80 p-5">
+            <div key={item.title} className="bg-ink-900 p-5">
               <item.icon className="size-5 text-ember-400" />
               <h3 className="mt-3 text-[0.95rem] font-bold text-paper">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-ink-300">{item.body}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-ink-200">{item.body}</p>
             </div>
           ))}
         </div>

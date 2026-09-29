@@ -600,6 +600,23 @@
     box-shadow: var(--shadow-ember);
   }
 
+  /* Relleno blanco: el botón principal de la ficha de producto. Sobre el
+     negro de la banda, el burdeos de .btn-solid se leía casi tan oscuro
+     como el fondo; el blanco es lo que hace que el gesto se vea de un
+     vistazo. */
+  .btn-light {
+    background: var(--color-paper);
+    border-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-lg);
+  }
+  .btn-light:hover:not(:disabled) {
+    background: var(--color-ember-600);
+    border-color: var(--color-ember-600);
+    color: var(--color-paper);
+    box-shadow: var(--shadow-ember);
+  }
+
   /* Relleno negro, para cuando el acento ya está dirigiendo la mirada. */
   .btn-ink {
     background: var(--color-ink);
