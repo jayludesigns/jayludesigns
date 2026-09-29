@@ -27,7 +27,9 @@ export default async function HomePage() {
   ]);
 
   const featured = catalog.filter((p) => p.is_featured).slice(0, 4);
-  const spotlight = catalog.slice(0, 4);
+  // Tres modelos para el collage del hero. El cuarto cuadro de la cuadrícula
+  // lo ocupa la salida al catálogo, así que la retícula nunca queda con hueco.
+  const spotlight = catalog.slice(0, 3);
   const fresh = [...catalog].slice(0, 8);
   const spinProduct = catalog.find((p) => (p.spin?.frames?.length ?? 0) >= 2) ?? catalog[0];
   const reviews = spinProduct
@@ -52,112 +54,136 @@ export default async function HomePage() {
           aria-hidden
         />
 
-        <div className="wrap relative grid items-center gap-12 py-16 lg:grid-cols-12 lg:py-24">
-          <div className="lg:col-span-7">
-            <p className="rise mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur">
-              <span className="relative flex size-2" aria-hidden>
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />
-                <span className="relative inline-flex size-2 rounded-full bg-ember-300" />
-              </span>
-              <span className="text-[0.64rem] font-bold tracking-[0.22em] text-ink-200 uppercase">
-                Tu idea estampada en una franela
-              </span>
-            </p>
+        {/* El distintivo vive fuera de la rejilla a propósito: así el borde
+            superior de la rejilla es exactamente el del H1 y el collage se
+            alinea con el arranque del título sin inventar márgenes. */}
+        <div className="wrap relative py-16 lg:py-24">
+          <p className="rise mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur">
+            <span className="relative flex size-2" aria-hidden>
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-ember-300 opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-ember-300" />
+            </span>
+            <span className="text-[0.64rem] font-bold tracking-[0.22em] text-ink-200 uppercase">
+              Tu idea estampada en una franela
+            </span>
+          </p>
 
-            <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.84] text-paper">
-              La vida es muy
-              <br />
-              corta para usar
-              <br />
-              <span className="bg-gradient-to-r from-ember-300 via-ember-400 to-paper bg-clip-text text-transparent">
-                ropa aburrida
-              </span>
-            </h1>
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-7">
+              <h1 className="rise rise-d1 text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.84] text-paper">
+                La vida es muy
+                <br />
+                corta para usar
+                <br />
+                <span className="bg-gradient-to-r from-ember-300 via-ember-400 to-paper bg-clip-text text-transparent">
+                  ropa aburrida
+                </span>
+              </h1>
 
-            <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
-              Catálogo de anime, fantasía, videojuegos y streetwear. Uniformes para
-              colegios, empresas y grupos. Y si no existe, lo hacemos a medida: sube
-              tu foto o cuéntanos la idea y cotizamos sin compromiso.
-            </p>
+              <p className="rise rise-d2 mt-6 max-w-xl text-base leading-relaxed text-ink-300 sm:text-lg">
+                Catálogo de anime, fantasía, videojuegos y streetwear. Uniformes para
+                colegios, empresas y grupos. Y si no existe, lo hacemos a medida: sube
+                tu foto o cuéntanos la idea y cotizamos sin compromiso.
+              </p>
 
-            <div className="rise rise-d3 mt-8 flex flex-wrap gap-3">
-              <Link href="/catalogo" className="btn btn-solid btn-lg">
-                Ver catálogo
-                <ArrowRight className="size-4" />
-              </Link>
-              <Link href="/diseno-a-medida" className="btn btn-ghost-light btn-lg">
-                <Brush className="size-4" />
-                Diseñar la mía
-              </Link>
+              <div className="rise rise-d3 mt-8 flex flex-wrap gap-3">
+                <Link href="/catalogo" className="btn btn-solid btn-lg">
+                  Ver catálogo
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link href="/diseno-a-medida" className="btn btn-ghost-light btn-lg">
+                  <Brush className="size-4" />
+                  Diseñar la mía
+                </Link>
+              </div>
+
+              <dl className="rise rise-d4 mt-10 grid max-w-lg grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
+                {[
+                  ["1 ud.", "Pedido mínimo"],
+                  ["48 h", "Muestra digital"],
+                  ["Bs + €", "Precio con tasa BCV"],
+                ].map(([value, label]) => (
+                  <div key={label} className="px-4 py-5">
+                    <dt className="font-display text-2xl leading-none text-ember-300">{value}</dt>
+                    <dd className="mt-1 font-mono text-[0.57rem] tracking-[0.14em] text-ink-300/90 uppercase">
+                      {label}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
-            <dl className="rise rise-d4 mt-10 grid max-w-lg grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur">
-              {[
-                ["1 ud.", "Pedido mínimo"],
-                ["48 h", "Muestra digital"],
-                ["Bs + €", "Precio con tasa BCV"],
-              ].map(([value, label]) => (
-                <div key={label} className="px-4 py-5">
-                  <dt className="font-display text-2xl leading-none text-ember-300">{value}</dt>
-                  <dd className="mt-1 font-mono text-[0.57rem] tracking-[0.14em] text-ink-300/90 uppercase">
-                    {label}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          {/* Collage de producto. Los cuatro cuadros miden lo mismo y llevan
-              el nombre del modelo abajo: antes iban escalonados y quedaban
-              descuadrados, sin nada que dijera qué prenda era cada uno. */}
+            {/* Collage de producto. Tres modelos y una casilla al catálogo: los
+                cuatro cuadros miden lo mismo, van en 2x2 sin huecos y llevan el
+                nombre abajo. Arranca a la altura del H1 porque la rejilla
+                padre usa items-start. */}
           <div className="lg:col-span-5">
-            <div className="relative">
-              <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.57rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
-                Destacado DTF
-              </span>
-              <div className="grid grid-cols-2 gap-4">
-                {spotlight.slice(0, 4).map((product, index) => (
-                  <Link
-                    key={product.id}
-                    href={`/producto/${product.slug}`}
-                    title={product.name}
-                    className="group relative block aspect-square overflow-hidden rounded-xl border border-white/10 bg-ink-900 transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember"
-                  >
-                    {product.images[0] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.images[0].url}
-                        alt={product.name}
-                        loading={index < 2 ? "eager" : "lazy"}
-                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+              <div className="relative">
+                <span className="absolute -top-3 right-3 z-10 rounded-full bg-ember-600 px-3 py-1 font-mono text-[0.57rem] font-bold tracking-[0.18em] text-paper uppercase shadow-ember">
+                  Destacado DTF
+                </span>
+                <div className="grid grid-cols-2 gap-4">
+                  {spotlight.map((product, index) => (
+                    <Link
+                      key={product.id}
+                      href={`/producto/${product.slug}`}
+                      title={product.name}
+                      className="group relative block aspect-square overflow-hidden rounded-xl border border-white/10 bg-ink-900 transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember"
+                    >
+                      {product.images[0] ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={product.images[0].url}
+                          alt={product.name}
+                          loading={index < 2 ? "eager" : "lazy"}
+                          className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="grid size-full place-items-center text-ink-400">
+                          <ImageOff className="size-7" />
+                        </span>
+                      )}
+                      {product.discount_percent > 0 && (
+                        <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.57rem] font-bold text-paper shadow-ember">
+                          −{product.discount_percent}%
+                        </span>
+                      )}
+                      {/* Velo para que el nombre se lea sobre cualquier diseño. */}
+                      <span
+                        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/90 via-black/45 to-transparent"
+                        aria-hidden
                       />
-                    ) : (
-                      <span className="grid size-full place-items-center text-ink-400">
-                        <ImageOff className="size-7" />
+                      <span className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
+                        <span className="block truncate font-display text-sm text-white">
+                          {product.name}
+                        </span>
                       </span>
-                    )}
-                    {product.discount_percent > 0 && (
-                      <span className="absolute top-3 left-3 rounded-full bg-ember-600 px-2.5 py-1 font-mono text-[0.57rem] font-bold text-paper shadow-ember">
-                        −{product.discount_percent}%
-                      </span>
-                    )}
-                    {/* Velo para que el nombre se lea sobre cualquier diseño. */}
-                    <span
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/90 via-black/45 to-transparent"
-                      aria-hidden
-                    />
-                    <span className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
-                      <span className="block truncate font-display text-sm text-white">
-                        {product.name}
-                      </span>
+                    </Link>
+                  ))}
+
+                  {/* La cuarta casilla no se deja vacía: cierra la cuadrícula
+                      con la salida al catálogo, del mismo tamaño que las otras. */}
+                  <Link
+                    href="/catalogo"
+                    className="group relative flex aspect-square flex-col items-start justify-end overflow-hidden rounded-xl border border-white/15 bg-ink-900 p-5 transition-colors hover:border-ember-400/60"
+                  >
+                    <span className="font-mono text-[0.57rem] font-bold tracking-[0.18em] text-ember-300 uppercase">
+                      Catálogo
+                    </span>
+                    <span className="mt-2 flex items-center gap-2 font-display text-xl text-paper">
+                      Ver todo
+                      <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                    <span className="mt-1 text-xs text-ink-300">
+                      {catalog.length} modelos listos
                     </span>
                   </Link>
-                ))}
+                </div>
+                <p className="mt-4 flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.16em] text-ink-300/90 uppercase">
+                  <Sparkles className="size-3.5" />
+                  Se estampa al pedido · DTF y sublimación
+                </p>
               </div>
-              <p className="mt-4 flex items-center gap-2 font-mono text-[0.62rem] tracking-[0.16em] text-ink-300/90 uppercase">
-                <Sparkles className="size-3.5" />
-                Se estampa al pedido · DTF y sublimación
-              </p>
             </div>
           </div>
         </div>
