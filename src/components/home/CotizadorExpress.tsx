@@ -323,7 +323,9 @@ export function CotizadorExpress({ whatsapp }: { whatsapp: string }) {
           {VENTAJAS.map((item) => (
             <div key={item.title} className="bg-ink-900 p-5">
               <item.icon className="size-5 text-ember-400" />
-              <h3 className="mt-3 text-[0.95rem] font-bold text-paper">{item.title}</h3>
+              <h3 className="mt-3 font-mono text-[0.6rem] tracking-[0.28em] text-ember-300 uppercase">
+                {item.title}
+              </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-ink-200">{item.body}</p>
             </div>
           ))}

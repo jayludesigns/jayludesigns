@@ -103,7 +103,7 @@ export function CartClient({
                       type="button"
                       onClick={() => setQuantity(item.key, item.quantity - 1)}
                       aria-label="Quitar una unidad"
-                      className="grid size-8 place-items-center rounded-full transition-colors hover:bg-ember-600 hover:text-paper"
+                      className="grid size-8 place-items-center rounded-full text-paper transition-colors hover:bg-paper hover:text-ember-600 active:bg-paper active:text-ember-600 focus-visible:bg-paper focus-visible:text-ember-600"
                     >
                       <Minus className="size-3" />
                     </button>
@@ -115,7 +115,7 @@ export function CartClient({
                       onClick={() => setQuantity(item.key, item.quantity + 1)}
                       disabled={item.quantity >= item.maxQuantity}
                       aria-label="Añadir una unidad"
-                      className="grid size-8 place-items-center rounded-full transition-colors hover:bg-ember-600 hover:text-paper disabled:opacity-30"
+                      className="grid size-8 place-items-center rounded-full text-paper transition-colors hover:bg-paper hover:text-ember-600 active:bg-paper active:text-ember-600 focus-visible:bg-paper focus-visible:text-ember-600 disabled:opacity-30"
                     >
                       <Plus className="size-3" />
                     </button>

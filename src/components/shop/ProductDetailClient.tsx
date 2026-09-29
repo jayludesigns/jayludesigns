@@ -247,7 +247,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               disabled={quantity <= 1}
               aria-label="Quitar una unidad"
-              className="grid size-11 place-items-center rounded-full transition-colors hover:bg-ember-600 hover:text-paper disabled:opacity-30"
+              className="grid size-11 place-items-center rounded-full text-paper transition-colors hover:border-paper hover:bg-paper hover:text-ember-600 active:border-paper active:bg-paper active:text-ember-600 focus-visible:border-paper focus-visible:bg-paper focus-visible:text-ember-600 disabled:opacity-30"
             >
               <Minus className="size-3.5" />
             </button>
@@ -259,7 +259,7 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
               onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
               disabled={quantity >= maxQuantity}
               aria-label="Añadir una unidad"
-              className="grid size-11 place-items-center rounded-full transition-colors hover:bg-ember-600 hover:text-paper disabled:opacity-30"
+              className="grid size-11 place-items-center rounded-full text-paper transition-colors hover:border-paper hover:bg-paper hover:text-ember-600 active:border-paper active:bg-paper active:text-ember-600 focus-visible:border-paper focus-visible:bg-paper focus-visible:text-ember-600 disabled:opacity-30"
             >
               <Plus className="size-3.5" />
             </button>

@@ -40,7 +40,7 @@ export function QuickAdd({ product }: { product: CardProduct }) {
       type="button"
       onClick={onClick}
       aria-label={`Añadir ${product.name} al carrito`}
-      className="grid size-9 shrink-0 place-items-center rounded-full border border-ink-200 text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-ember-600 hover:bg-ember-600 hover:text-paper hover:shadow-ember"
+      className="grid size-9 shrink-0 place-items-center rounded-full border border-ink-200 text-paper transition-all duration-200 hover:-translate-y-0.5 hover:border-paper hover:bg-paper hover:text-ember-600 active:border-paper active:bg-paper active:text-ember-600 focus-visible:border-paper focus-visible:bg-paper focus-visible:text-ember-600"
     >
       <Plus
         className={`size-4 transition-transform duration-300 ${added ? "rotate-45" : ""}`}
