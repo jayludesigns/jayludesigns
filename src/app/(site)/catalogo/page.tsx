@@ -100,41 +100,39 @@ export default async function CatalogPage({
               categories={categories.map((c) => ({ slug: c.slug, name: c.name }))}
               collections={collections.map((c) => ({ slug: c.slug, name: c.name }))}
               total={products.length}
-            />
+            >
+              {products.length > 0 ? (
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+                  {products.map((product, index) => (
+                    <ProductCard
+                      key={product.id}
+                      product={toCardProduct(product)}
+                      priority={index < 4}
+                      dark
+                    />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  dark
+                  icon={SearchX}
+                  title="No encontramos nada con eso"
+                  description="Prueba quitando algún filtro. Si buscas algo puntual que no está en el catálogo, pídelo a medida y lo hacemos."
+                  actions={
+                    <>
+                      <Link href="/catalogo" className="btn btn-solid">
+                        Limpiar filtros
+                      </Link>
+                      <Link href="/diseno-a-medida" className="btn btn-ghost-light">
+                        Pedir diseño a medida
+                      </Link>
+                    </>
+                  }
+                />
+              )}
+            </CatalogFilters>
           </Suspense>
         </div>
-
-        {products.length > 0 ? (
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-            {products.map((product, index) => (
-              <ProductCard
-                key={product.id}
-                product={toCardProduct(product)}
-                priority={index < 4}
-                dark
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-10">
-            <EmptyState
-              dark
-              icon={SearchX}
-              title="No encontramos nada con eso"
-              description="Prueba quitando algún filtro. Si buscas algo puntual que no está en el catálogo, pídelo a medida y lo hacemos."
-              actions={
-                <>
-                  <Link href="/catalogo" className="btn btn-solid">
-                    Limpiar filtros
-                  </Link>
-                  <Link href="/diseno-a-medida" className="btn btn-ghost-light">
-                    Pedir diseño a medida
-                  </Link>
-                </>
-              }
-            />
-          </div>
-        )}
       </div>
     </section>
   );

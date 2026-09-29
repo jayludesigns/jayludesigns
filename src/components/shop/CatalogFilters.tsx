@@ -1,7 +1,15 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+  type ReactNode,
+} from "react";
 import { Loader2, Search, SlidersHorizontal, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,16 +33,44 @@ export function CatalogFilters({
   categories,
   collections,
   total,
+  children,
 }: {
   facets: Facets;
   categories: { slug: string; name: string }[];
   collections: { slug: string; name: string }[];
   total: number;
+  /** Productos filtrados: el grid (o el estado vacío) se pinta a la derecha
+   *  del sidebar, dentro de la misma columna que la búsqueda desplegable. */
+  children: ReactNode;
 }) {
   const router = useRouter();
   const params = useSearchParams();
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+
+  // Búsqueda desplegable del catálogo (escritorio): entra de izquierda a
+  // derecha al pulsar «Buscar» y el grid se comprime hacia la derecha para no
+  // dejar espacio muerto. Si ya hay una consulta activa (q) arranca abierta
+  // para poder refinarla. En móvil la búsqueda vive en el drawer de filtros.
+  const [searchOpen, setSearchOpen] = useState(false);
+  // Solo se autoabre al llegar con una consulta activa; si el usuario lo
+  // cierra no vuelve a abrirse en cada navegación de filtros.
+  const autoOpened = useRef(false);
+
+  useEffect(() => {
+    if (!autoOpened.current && params.get("q")) {
+      autoOpened.current = true;
+      setSearchOpen(true);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    // En escritorio el campo vive en el cajón lateral; en móvil/tablet en el
+    // cajón que cae desde la barra superior. Enfocamos el que corresponda.
+    const fieldId = window.matchMedia("(min-width: 1024px)").matches ? "q-desk" : "q-movil";
+    (document.getElementById(fieldId) as HTMLInputElement | null)?.focus();
+  }, [searchOpen]);
 
   const current = useMemo(
     () => ({
@@ -84,39 +120,38 @@ export function CatalogFilters({
     (current.stock ? 1 : 0) +
     (current.min || current.max ? 1 : 0);
 
+  // Formulario de búsqueda reutilizado: dentro del cajón desplegable del
+  // catálogo (escritorio) y al inicio del drawer de filtros (móvil). Recibe el
+  // id del input para que ambos campos convivan sin colisionar.
+  const searchForm = (fieldId: string) => (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const value = new FormData(event.currentTarget).get("q")?.toString() ?? "";
+        apply((next) => (value ? next.set("q", value) : next.delete("q")));
+      }}
+      className="flex items-center gap-2"
+    >
+      <input
+        id={fieldId}
+        name="q"
+        type="search"
+        defaultValue={current.q}
+        placeholder="Jujutsu, dragón, uniforme…"
+        className="field min-w-0 flex-1 text-sm"
+      />
+      <button
+        type="submit"
+        className="grid size-11 shrink-0 place-items-center rounded-full bg-ember-600 text-paper shadow-ember transition-all duration-200 hover:-translate-y-0.5 hover:bg-ember-700"
+        aria-label="Buscar"
+      >
+        <Search className="size-4" />
+      </button>
+    </form>
+  );
+
   const filterBody = (
     <div className="space-y-6">
-      {/* Búsqueda */}
-      <div>
-        <label htmlFor="q" className="label">
-          Buscar
-        </label>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const value = new FormData(event.currentTarget).get("q")?.toString() ?? "";
-            apply((next) => (value ? next.set("q", value) : next.delete("q")));
-          }}
-          className="flex items-center gap-2"
-        >
-          <input
-            id="q"
-            name="q"
-            type="search"
-            defaultValue={current.q}
-            placeholder="Jujutsu, dragón, uniforme…"
-            className="field min-w-0 flex-1 text-sm"
-          />
-          <button
-            type="submit"
-            className="grid size-11 shrink-0 place-items-center rounded-full bg-ember-600 text-paper shadow-ember transition-all duration-200 hover:-translate-y-0.5 hover:bg-ember-700"
-            aria-label="Buscar"
-          >
-            <Search className="size-4" />
-          </button>
-        </form>
-      </div>
-
       {/* Categoría */}
       {categories.length > 0 && (
         <div>
@@ -313,17 +348,32 @@ export function CatalogFilters({
 
   return (
     <div>
-      {/* Orden + móvil */}
+      {/* Orden + móvil + búsqueda desplegable */}
       <div className="mb-4 flex items-center justify-between gap-3 border-y border-ink-800 py-2.5">
-        <p className="font-mono text-[0.62rem] tracking-[0.14em] text-ink-300 uppercase">
-          {pending ? (
-            <span className="inline-flex items-center gap-1.5">
-              <Loader2 className="size-3 animate-spin" /> filtrando
-            </span>
-          ) : (
-            `${total} ${total === 1 ? "prenda" : "prendas"}`
-          )}
-        </p>
+        <div className="flex min-w-0 items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setSearchOpen((v) => !v)}
+            aria-expanded={searchOpen}
+            aria-controls="cajon-busqueda"
+            className={cn(
+              "btn btn-sm shrink-0",
+              searchOpen ? "btn-solid" : "btn-ghost-light",
+            )}
+          >
+            {searchOpen ? <X className="size-3" /> : <Search className="size-3" />}
+            <span className="hidden sm:inline">Buscar</span>
+          </button>
+          <p className="font-mono text-[0.62rem] tracking-[0.14em] text-ink-300 uppercase">
+            {pending ? (
+              <span className="inline-flex items-center gap-1.5">
+                <Loader2 className="size-3 animate-spin" /> filtrando
+              </span>
+            ) : (
+              `${total} ${total === 1 ? "prenda" : "prendas"}`
+            )}
+          </p>
+        </div>
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -358,6 +408,31 @@ export function CatalogFilters({
         </div>
       </div>
 
+      {/* Cajón de búsqueda móvil/tablet: cae desde la barra superior hacia
+          abajo y empuja el contenido (grid) que le sigue, sin tocar la
+          posición de las prendas. En escritorio se usa el cajón lateral. */}
+      {searchOpen && (
+        <div
+          className="mb-4 animate-slide-in-down rounded-2xl border border-ink-800 bg-ink-900/60 p-4 lg:hidden"
+          id="cajon-busqueda-movil"
+        >
+          <div className="flex items-center justify-between gap-2">
+            <label htmlFor="q-movil" className="label mb-0">
+              Buscar en el catálogo
+            </label>
+            <button
+              type="button"
+              onClick={() => setSearchOpen(false)}
+              aria-label="Cerrar búsqueda"
+              className="grid size-8 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+          {searchForm("q-movil")}
+        </div>
+      )}
+
       <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <div className="sticky top-32 max-h-[calc(100dvh-9rem)] overflow-y-auto pr-2">
@@ -379,7 +454,13 @@ export function CatalogFilters({
               </button>
             </div>
             <div className="px-4 py-5">
-              {filterBody}
+              <div className="space-y-3">
+                <label htmlFor="q-drawer" className="label">
+                  Buscar
+                </label>
+                {searchForm("q-drawer")}
+              </div>
+              <div className="mt-6">{filterBody}</div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -391,15 +472,43 @@ export function CatalogFilters({
           </div>
         )}
 
+        {/* Columna de productos: en escritorio la búsqueda entra de izquierda a
+            derecha y el grid se comprime a la derecha para no dejar espacio
+            muerto. En móvil/tablet el cajón cae desde la barra superior
+            (arriba) y la búsqueda vive también en el drawer de filtros. */}
         <div className="min-w-0">
           <CatalogResults total={total} />
+          <div className="flex items-start gap-6">
+            {searchOpen && (
+              <div
+                id="cajon-busqueda"
+                className="hidden w-full max-w-72 shrink-0 animate-slide-in-left rounded-2xl border border-ink-800 bg-ink-900/60 p-4 lg:block"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <label htmlFor="q-desk" className="label mb-0">
+                    Buscar en el catálogo
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(false)}
+                    aria-label="Cerrar búsqueda"
+                    className="grid size-8 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                </div>
+                {searchForm("q-desk")}
+              </div>
+            )}
+            <div className="min-w-0 flex-1">{children}</div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-/** Marcador para el grid: el servidor ya renderizó los productos debajo. */
+/** Marcador accesible de resultados (sr-only) dentro de la columna. */
 function CatalogResults({ total }: { total: number }) {
   return (
     <p className="sr-only" role="status">
