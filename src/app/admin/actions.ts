@@ -312,7 +312,7 @@ export async function deleteImageAction(
   _previous: AdminResult,
   formData: FormData,
 ): Promise<AdminResult> {
-  return guard(["/admin/productos", "/producto"], async (form) => {
+  return guard(["/admin/productos", "/", "/producto"], async (form) => {
     const imageId = text(form, "image_id");
     // Si la imagen vive en nuestro almacenamiento local (/uploads), el
     // archivo en disco se borra junto con la fila para no dejar huérfanos.
@@ -341,7 +341,7 @@ export async function setCoverImageAction(
   _previous: AdminResult,
   formData: FormData,
 ): Promise<AdminResult> {
-  return guard(["/admin/productos", "/catalogo", "/producto"], async (form) => {
+  return guard(["/admin/productos", "/", "/catalogo", "/producto"], async (form) => {
     try {
       await setCoverImage(text(form, "image_id"));
     } catch (error) {

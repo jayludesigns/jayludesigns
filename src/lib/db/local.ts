@@ -19,16 +19,39 @@ const DB_FILE = path.join(DATA_DIR, "db.json");
 type Db = Record<string, Row[]>;
 
 let cache: Db | null = null;
+let cacheMtime: number | null = null;
 /** Serializa escrituras para evitar carreras entre requests concurrentes. */
 let writeChain: Promise<unknown> = Promise.resolve();
 
 async function load(): Promise<Db> {
-  if (cache) return cache;
-  let loaded: Db;
+  // En desarrollo, Next puede mantener más de una instancia de este módulo
+  // (páginas, server actions y route handlers), cada una con su propia
+  // memoria. El archivo en disco es la única verdad compartida: si cambió su
+  // fecha de modificación, se vuelve a leer para que la tienda refleje al
+  // instante lo que se edita en el panel (subir o borrar imágenes, precios…)
+  // sin necesidad de reiniciar el servidor.
+  let raw: string | null = null;
+  let mtime: number | null = null;
   try {
-    const raw = await fs.readFile(DB_FILE, "utf8");
-    loaded = JSON.parse(raw) as Db;
+    const st = await fs.stat(DB_FILE);
+    mtime = st.mtimeMs;
+    raw = await fs.readFile(DB_FILE, "utf8");
   } catch {
+    // Archivo ausente o ilegible: quedarse con lo que ya hay en memoria.
+  }
+
+  if (cache && (raw === null || mtime === cacheMtime)) return cache;
+
+  let loaded: Db;
+  if (raw !== null) {
+    try {
+      loaded = JSON.parse(raw) as Db;
+    } catch {
+      // Escritura a medias por otra instancia: conservar el último estado bueno.
+      if (cache) return cache;
+      loaded = buildSeedData() as unknown as Db;
+    }
+  } else {
     loaded = buildSeedData() as unknown as Db;
   }
   // Asegura que existan todas las tablas aunque el archivo sea viejo.
@@ -36,6 +59,7 @@ async function load(): Promise<Db> {
     if (!loaded[table]) loaded[table] = [];
   }
   cache = loaded;
+  cacheMtime = mtime;
   if (!existsSync(DB_FILE)) await persist(loaded);
   return loaded;
 }

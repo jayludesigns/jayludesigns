@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const description =
     product.seo_description ??
     product.subtitle ??
-    `${product.name} · ${product.garment_type} de ${product.material ?? "algodón"}. Vista 360° y precio en bolívares y euros.`;
+    `${product.name} · ${product.garment_type} de ${product.material ?? "algodón"}. Precio en bolívares y euros.`;
   const image = product.images[0]?.url;
 
   return {
