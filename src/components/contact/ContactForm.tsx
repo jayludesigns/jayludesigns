@@ -22,16 +22,16 @@ export function ContactForm() {
 
   if (state.status === "ok") {
     return (
-      <div className="border-2 border-ink p-8 text-center">
-        <span className="mx-auto grid size-14 place-items-center border-2 border-ink">
+      <div className="card-dark p-8 text-center">
+        <span className="mx-auto grid size-14 place-items-center border-2 border-ink-700">
           <Check className="size-7" strokeWidth={2.5} />
         </span>
         <h2 className="mt-5 font-display text-3xl">Mensaje recibido</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm text-ink-600">{state.message}</p>
+        <p className="mx-auto mt-3 max-w-md text-sm text-ink-300">{state.message}</p>
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="btn mt-6"
+          className="btn btn-ghost-light mt-6"
         >
           Escribir otro mensaje
         </button>
@@ -56,7 +56,7 @@ export function ContactForm() {
             className={cn("field", errorFor("name") && "border-2 border-ember-600")}
           />
           {errorFor("name") && (
-            <p role="alert" className="mt-1 text-xs font-bold">
+            <p role="alert" className="mt-1 text-xs font-bold text-ember-300">
               {errorFor("name")}
             </p>
           )}
@@ -87,7 +87,7 @@ export function ContactForm() {
             placeholder="tu@correo.com"
           />
           {errorFor("email") && (
-            <p role="alert" className="mt-1 text-xs font-bold">
+            <p role="alert" className="mt-1 text-xs font-bold text-ember-300">
               {errorFor("email")}
             </p>
           )}
@@ -120,7 +120,7 @@ export function ContactForm() {
           className={cn("field resize-y", errorFor("message") && "border-2 border-ember-600")}
         />
         {errorFor("message") && (
-          <p role="alert" className="mt-1 text-xs font-bold">
+          <p role="alert" className="mt-1 text-xs font-bold text-ember-300">
             {errorFor("message")}
           </p>
         )}
@@ -129,7 +129,7 @@ export function ContactForm() {
       {state.status === "error" && state.message && (
         <p
           role="alert"
-          className="flex items-start gap-2.5 rounded-xl border-2 border-ember-600 bg-ember-50 p-3 text-sm font-bold"
+          className="flex items-start gap-2.5 rounded-xl border-2 border-ember-600 bg-ember-950/70 p-3 text-sm font-bold text-ember-200"
         >
           <TriangleAlert className="mt-0.5 size-4 shrink-0" />
           {state.message}

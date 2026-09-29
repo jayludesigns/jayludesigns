@@ -45,7 +45,8 @@ export default async function CollectionPage({ params }: { params: Params }) {
 
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-ink-200">
+      {/* Portada de la colección: el banner ya trae su propio fondo oscuro. */}
+      <section className="relative overflow-hidden border-b border-ink-800">
         {collection.banner_url && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -102,47 +103,54 @@ export default async function CollectionPage({ params }: { params: Params }) {
         </div>
       </section>
 
-      <div className="wrap py-12">
-        {products.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {products.map((product, index) => (
-              <ProductCard
-                key={product.id}
-                product={toCardProduct(product)}
-                priority={index < 4}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="card p-10 text-center">
-            <p className="font-display text-3xl">Todavía no hay prendas aquí</p>
-            <p className="mt-3 text-sm text-ink-600">
-              Estamos terminando los diseños de esta colección.
-            </p>
-          </div>
-        )}
+      <div className="divider-glow" aria-hidden />
 
-        <div className="mt-14 card p-8 sm:p-10">
-          <h2 className="text-3xl sm:text-4xl">
-            ¿Quieres esta colección
-            <br />
-            para tu grupo o colegio?
-          </h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-600">
-            Hacemos versiones personalizadas con tu logo, tu nombre o el de tu
-            curso, con precios por volumen y entrega por lotes.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/diseno-a-medida" className="btn btn-solid">
-              Pedir cotización
-              <ArrowRight className="size-3.5" />
-            </Link>
-            <Link href="/colecciones" className="btn">
-              Ver otras colecciones
-            </Link>
+      {/* Prendas de la colección */}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+        <div className="wrap relative py-12">
+          {products.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {products.map((product, index) => (
+                <ProductCard
+                  key={product.id}
+                  product={toCardProduct(product)}
+                  priority={index < 4}
+                  dark
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="card-dark p-10 text-center">
+              <p className="font-display text-3xl">Todavía no hay prendas aquí</p>
+              <p className="mt-3 text-sm text-ink-400">
+                Estamos terminando los diseños de esta colección.
+              </p>
+            </div>
+          )}
+
+          <div className="card-dark mt-14 p-8 sm:p-10">
+            <h2 className="text-3xl sm:text-4xl">
+              ¿Quieres esta colección
+              <br />
+              para tu grupo o colegio?
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-300">
+              Hacemos versiones personalizadas con tu logo, tu nombre o el de tu
+              curso, con precios por volumen y entrega por lotes.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/diseno-a-medida" className="btn btn-solid">
+                Pedir cotización
+                <ArrowRight className="size-3.5" />
+              </Link>
+              <Link href="/colecciones" className="btn btn-ghost-light">
+                Ver otras colecciones
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

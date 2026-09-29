@@ -19,96 +19,107 @@ export default async function CollectionsPage() {
 
   return (
     <div>
-      <div className="relative overflow-hidden border-b border-ink-200">
-        <div className="halftone absolute inset-0 opacity-[0.07]" aria-hidden />
+      {/* Portada */}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.05]" aria-hidden />
         <div className="wrap relative py-12">
-          <Breadcrumbs items={[{ href: "/", label: "Inicio" }, { href: "/colecciones", label: "Colecciones" }]} />
+          <Breadcrumbs
+            invert
+            items={[{ href: "/", label: "Inicio" }, { href: "/colecciones", label: "Colecciones" }]}
+          />
           <h1 className="mt-5 text-5xl sm:text-6xl lg:text-7xl">Colecciones</h1>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-700 sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink-300 sm:text-base">
             No publicamos prendas sueltas: publicamos Universos. Cada colección
             tiene su propia promoción, se puede programar por fecha y puede
-           discountar todo lo que contiene con un solo clic desde el panel.
+            descontar todo lo que contiene con un solo clic desde el panel.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="wrap py-12">
-        {collections.length === 0 ? (
-          <p className="text-ink-600">Todavía no hay colecciones publicadas.</p>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {collections.map((collection, index) => {
-              const live =
-                collection.status === "published" &&
-                (!collection.starts_at || new Date(collection.starts_at) <= new Date()) &&
-                (!collection.ends_at || new Date(collection.ends_at) >= new Date());
+      <div className="divider-glow" aria-hidden />
 
-              return (
-                <article
-                  key={collection.id}
-                  className="card card-hover group relative flex min-h-80 flex-col justify-end overflow-hidden"
-                >
-                  {collection.banner_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={collection.banner_url}
-                      alt=""
-                      loading={index < 3 ? "eager" : "lazy"}
-                      className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+      {/* Universos */}
+      <section className="relative overflow-hidden bg-ink-950">
+        <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
+        <div className="wrap relative py-12">
+          {collections.length === 0 ? (
+            <p className="text-ink-400">Todavía no hay colecciones publicadas.</p>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {collections.map((collection, index) => {
+                const live =
+                  collection.status === "published" &&
+                  (!collection.starts_at || new Date(collection.starts_at) <= new Date()) &&
+                  (!collection.ends_at || new Date(collection.ends_at) >= new Date());
+
+                return (
+                  <article
+                    key={collection.id}
+                    className="card-dark card-hover group relative flex min-h-80 flex-col justify-end overflow-hidden"
+                  >
+                    {collection.banner_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={collection.banner_url}
+                        alt=""
+                        loading={index < 3 ? "eager" : "lazy"}
+                        className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
+                    <span
+                      className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"
+                      aria-hidden
                     />
-                  )}
-                  <span
-                    className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"
-                    aria-hidden
-                  />
 
-                  <span className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                    <span className="tag border-white/60 text-white">
-                      {THEME_LABEL.get(collection.theme) ?? collection.theme}
+                    <span className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                      <span className="tag border-white/60 text-white">
+                        {THEME_LABEL.get(collection.theme) ?? collection.theme}
+                      </span>
+                      {collection.active_promotion && live && (
+                        <span className="tag border-white bg-white text-black">
+                          −
+                          {collection.active_promotion.kind === "percent"
+                            ? `${collection.active_promotion.value}%`
+                            : "Oferta"}
+                        </span>
+                      )}
+                      {!live && (
+                        <span className="tag border-white/60 text-white/80">
+                          {collection.status === "published" ? "Fuera de fecha" : "Borrador"}
+                        </span>
+                      )}
                     </span>
-                    {collection.active_promotion && live && (
-                      <span className="tag border-white bg-white text-black">
-                        −
-                        {collection.active_promotion.kind === "percent"
-                          ? `${collection.active_promotion.value}%`
-                          : "Oferta"}
-                      </span>
-                    )}
-                    {!live && (
-                      <span className="tag border-white/60 text-white/80">
-                        {collection.status === "published" ? "Fuera de fecha" : "Borrador"}
-                      </span>
-                    )}
-                  </span>
 
-                  <span className="relative p-5">
-                    <h2 className="font-display text-3xl text-white">
-                      <a href={`/colecciones/${collection.slug}`} className="after:absolute after:inset-0">
-                        {collection.name}
-                      </a>
-                    </h2>
-                    {collection.tagline && (
-                      <p className="mt-1.5 text-sm text-white/75">{collection.tagline}</p>
-                    )}
-                    <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[0.58rem] tracking-[0.14em] text-white/60 uppercase">
-                      <span>{collection.product_count} modelos</span>
-                      {collection.ends_at && <span>Hasta el {formatDate(collection.ends_at)}</span>}
-                    </p>
-                  </span>
-                </article>
-              );
-            })}
+                    <span className="relative p-5">
+                      <h2 className="font-display text-3xl text-white">
+                        <a href={`/colecciones/${collection.slug}`} className="after:absolute after:inset-0">
+                          {collection.name}
+                        </a>
+                      </h2>
+                      {collection.tagline && (
+                        <p className="mt-1.5 text-sm text-white/75">{collection.tagline}</p>
+                      )}
+                      <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[0.58rem] tracking-[0.14em] text-white/60 uppercase">
+                        <span>{collection.product_count} modelos</span>
+                        {collection.ends_at && <span>Hasta el {formatDate(collection.ends_at)}</span>}
+                      </p>
+                    </span>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-14">
+            <SectionHeading
+              invert
+              eyebrow="Cómo funciona"
+              title="Promociones por colección"
+              description="Desde el panel defines un descuento del 10 %, 20 % o una cantidad fija y lo aplicas a toda una colección o a un producto puntual. Gana siempre la promoción de mayor prioridad."
+            />
           </div>
-        )}
-
-        <div className="mt-14">
-          <SectionHeading
-            eyebrow="Cómo funciona"
-            title="Promociones por colección"
-            description="Desde el panel defines un descuento del 10 %, 20 % o una cantidad fija y lo aplicas a toda una colección o a un producto puntual. Gana siempre la promoción de mayor prioridad."
-          />
         </div>
-      </div>
+      </section>
     </div>
   );
 }
