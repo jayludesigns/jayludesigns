@@ -12,6 +12,9 @@ import {
 import { Loader2, Search, SlidersHorizontal, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/** Punto de corte de Tailwind `lg`, compartido por el botón y el listener. */
+const CONSULTA_ESCRITORIO = "(min-width: 1024px)";
+
 export interface Facets {
   sizes: string[];
   colors: { name: string; hex: string }[];
@@ -47,22 +50,49 @@ export function CatalogFilters({
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  // El botón «Buscar» despliega y repliega a la vez el campo de búsqueda y la
+  // El botón «Filtrar» despliega y repliega a la vez el campo de búsqueda y la
   // barra de filtros. En reposo el catálogo ocupa todo el ancho; al pulsarlo,
-  // la barra entra de izquierda a derecha hasta su posición y el grid se
-  // comprime hacia la derecha. En móvil/tablet el campo cae desde la barra
-  // superior y los filtros siguen en su drawer propio. No se autoabre al
-  // llegar con ?q= ni con filtros puestos: si hay filtros activos, el botón
-  // muestra cuántos para que no queden invisibles con la barra cerrada.
+  // la barra de filtros entra de izquierda a derecha hasta su posición y el
+  // campo de búsqueda cae desde el botón, arriba de las prendas y en su misma
+  // columna, para que el único panel que les robe ancho sea la barra. No se
+  // autoabre al llegar con ?q= ni con filtros puestos: si hay filtros activos,
+  // el botón muestra cuántos para que no queden invisibles con la barra
+  // cerrada.
   const [searchOpen, setSearchOpen] = useState(false);
 
+  // «Filtrar» es un solo botón para los dos tamaños: en escritorio abre y
+  // cierra la barra lateral de filtros; en móvil/tablet abre el drawer a
+  // pantalla completa, que ya lleva el buscador arriba. Así el nombre dice
+  // lo mismo en todas partes y no hay dos botones de filtros en móvil.
+  const esEscritorio = () => window.matchMedia(CONSULTA_ESCRITORIO).matches;
+  const panelAbierto = searchOpen || open;
+  const togglePanel = () => {
+    if (esEscritorio()) setSearchOpen((v) => !v);
+    else setOpen((v) => !v);
+  };
+
   useEffect(() => {
-    if (!searchOpen) return;
-    // En escritorio el campo vive en el cajón lateral; en móvil/tablet en el
-    // cajón que cae desde la barra superior. Enfocamos el que corresponda.
-    const fieldId = window.matchMedia("(min-width: 1024px)").matches ? "q-desk" : "q-movil";
-    (document.getElementById(fieldId) as HTMLInputElement | null)?.focus();
-  }, [searchOpen]);
+    // En escritorio el campo vive en la barra que cae sobre las prendas; en
+    // móvil/tablet, dentro del drawer de filtros. Enfocamos el que corresponda.
+    if (searchOpen) {
+      (document.getElementById("q-desk") as HTMLInputElement | null)?.focus();
+    }
+    if (open) {
+      (document.getElementById("q-drawer") as HTMLInputElement | null)?.focus();
+    }
+  }, [searchOpen, open]);
+
+  // El drawer de móvil es `lg:hidden`: si alguien filtra en el móvil y rota la
+  // tableta a horizontal, cerramos para no dejar el estado colgado con el
+  // panel invisible.
+  useEffect(() => {
+    const consulta = window.matchMedia(CONSULTA_ESCRITORIO);
+    const alCambiar = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+    consulta.addEventListener("change", alCambiar);
+    return () => consulta.removeEventListener("change", alCambiar);
+  }, []);
 
   const current = useMemo(
     () => ({
@@ -340,22 +370,22 @@ export function CatalogFilters({
 
   return (
     <div>
-      {/* Orden + móvil + búsqueda desplegable */}
+      {/* Orden + botón «Filtrar» (barra de filtros y campo de búsqueda) */}
       <div className="mb-4 flex items-center justify-between gap-3 border-y border-ink-800 py-2.5">
         <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
-            onClick={() => setSearchOpen((v) => !v)}
-            aria-expanded={searchOpen}
-            aria-controls="cajon-busqueda"
+            onClick={togglePanel}
+            aria-expanded={panelAbierto}
+            aria-controls="barra-filtros cajon-filtros-movil"
             className={cn(
               "btn btn-sm shrink-0",
-              searchOpen ? "btn-solid" : "btn-ghost-light",
+              panelAbierto ? "btn-solid" : "btn-ghost-light",
             )}
           >
-            {searchOpen ? <X className="size-3" /> : <Search className="size-3" />}
-            <span className="hidden sm:inline">Buscar</span>
-            {!searchOpen && activeCount > 0 && (
+            {panelAbierto ? <X className="size-3" /> : <SlidersHorizontal className="size-3" />}
+            <span className="hidden sm:inline">Filtrar</span>
+            {!panelAbierto && activeCount > 0 && (
               <span className="grid size-5 place-items-center rounded-full bg-ember-600 font-mono text-[0.62rem] font-bold text-paper">
                 {activeCount}
               </span>
@@ -372,15 +402,6 @@ export function CatalogFilters({
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            className="btn btn-sm btn-ghost-light lg:hidden"
-          >
-            <SlidersHorizontal className="size-3" />
-            Filtros{activeCount ? ` (${activeCount})` : ""}
-          </button>
           <label className="flex items-center gap-2">
             <span className="font-mono text-[0.62rem] tracking-wider text-ink-400 uppercase">
               Orden
@@ -405,33 +426,8 @@ export function CatalogFilters({
         </div>
       </div>
 
-      {/* Cajón de búsqueda móvil/tablet: cae desde la barra superior hacia
-          abajo y empuja el contenido (grid) que le sigue, sin tocar la
-          posición de las prendas. En escritorio se usa el cajón lateral. */}
-      {searchOpen && (
-        <div
-          className="mb-4 animate-slide-in-down rounded-2xl border border-ink-800 bg-ink-900/60 p-4 lg:hidden"
-          id="cajon-busqueda-movil"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <label htmlFor="q-movil" className="label mb-0">
-              Buscar en el catálogo
-            </label>
-            <button
-              type="button"
-              onClick={() => setSearchOpen(false)}
-              aria-label="Cerrar búsqueda"
-              className="grid size-8 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
-            >
-              <X className="size-3.5" />
-            </button>
-          </div>
-          {searchForm("q-movil")}
-        </div>
-      )}
-
-      {/* La barra de filtros está oculta mientras no se busca: el grid de
-          prendas usa todo el ancho. Al pulsar «Buscar» aparece y se desliza
+      {/* La barra de filtros está oculta mientras no se filtra: el grid de
+          prendas usa todo el ancho. Al pulsar «Filtrar» aparece y se desliza
           de izquierda a derecha hasta el sitio que ocupa, y el grid se
           comprime a la derecha. */}
       <div
@@ -441,7 +437,7 @@ export function CatalogFilters({
         )}
       >
         {searchOpen && (
-          <aside className="hidden lg:block">
+          <aside className="hidden lg:block" id="barra-filtros">
             <div className="sticky top-32 max-h-[calc(100dvh-9rem)] animate-slide-in-left overflow-y-auto pr-2">
               {filterBody}
             </div>
@@ -449,7 +445,10 @@ export function CatalogFilters({
         )}
 
         {open && (
-          <div className="animate-fade-in fixed inset-0 z-90 overflow-y-auto bg-ink-950 lg:hidden">
+          <div
+            className="animate-fade-in fixed inset-0 z-90 overflow-y-auto bg-ink-950 lg:hidden"
+            id="cajon-filtros-movil"
+          >
             <div className="flex items-center justify-between rounded-t-xl border-b border-ink-800 bg-ink-950 px-4 py-3">
               <span className="font-display text-2xl text-paper">Filtros</span>
               <button
@@ -480,36 +479,34 @@ export function CatalogFilters({
           </div>
         )}
 
-        {/* Columna de productos: en escritorio la búsqueda entra de izquierda a
-            derecha y el grid se comprime a la derecha para no dejar espacio
-            muerto. En móvil/tablet el cajón cae desde la barra superior
-            (arriba) y la búsqueda vive también en el drawer de filtros. */}
+        {/* Columna de productos. La barra de escritura cae desde el botón
+            «Filtrar» y se queda aquí arriba, en la misma columna que las
+            prendas y sobre ellas: no se abre a la derecha, así que el único
+            panel que le roba ancho al grid es la barra de filtros. */}
         <div className="min-w-0">
           <CatalogResults total={total} />
-          <div className="flex items-start gap-6">
-            {searchOpen && (
-              <div
-                id="cajon-busqueda"
-                className="hidden w-full max-w-72 shrink-0 animate-slide-in-left rounded-2xl border border-ink-800 bg-ink-900/60 p-4 lg:block"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <label htmlFor="q-desk" className="label mb-0">
-                    Buscar en el catálogo
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setSearchOpen(false)}
-                    aria-label="Cerrar búsqueda"
-                    className="grid size-8 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
-                  >
-                    <X className="size-3.5" />
-                  </button>
-                </div>
-                {searchForm("q-desk")}
+          {searchOpen && (
+            <div
+              id="cajon-busqueda"
+              className="mb-4 hidden animate-slide-in-down rounded-2xl border border-ink-800 bg-ink-900/60 p-4 lg:block"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <label htmlFor="q-desk" className="label mb-0">
+                  Buscar en el catálogo
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  aria-label="Cerrar búsqueda"
+                  className="grid size-8 place-items-center rounded-full border border-ink-700 text-ink-200 transition-colors hover:border-ember-400 hover:text-ember-400"
+                >
+                  <X className="size-3.5" />
+                </button>
               </div>
-            )}
-            <div className="min-w-0 flex-1">{children}</div>
-          </div>
+              {searchForm("q-desk")}
+            </div>
+          )}
+          {children}
         </div>
       </div>
     </div>
