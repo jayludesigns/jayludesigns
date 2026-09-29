@@ -59,7 +59,11 @@ export default async function CollectionPage({ params }: { params: Params }) {
           className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/30"
           aria-hidden
         />
-        <div className="wrap relative py-14 sm:py-20">
+        {/* Arriba `pt-8`, el mismo aire que dejan la barra de navegación y las
+            migas en catálogo, contacto, colecciones, favoritos, nosotros y
+            diseño a medida. El de abajo se deja como estaba, que aquí separa
+            las migas del bloque sobre la foto. */}
+        <div className="wrap relative pt-8 pb-14 sm:pb-20">
           <Breadcrumbs
             invert
             items={[

@@ -12,7 +12,11 @@ export default function FavoritesPage() {
     <div>
       <section className="relative overflow-hidden border-b border-ink-200">
         <div className="halftone absolute inset-0 opacity-[0.06]" aria-hidden />
-        <div className="wrap relative py-12 sm:py-16">
+        {/* Arriba `pt-8`, el mismo aire que dejan la barra de navegación y las
+            migas en catálogo, contacto, colecciones, nosotros y diseño a
+            medida. El de abajo se deja como estaba: separa el título del
+            bloque. */}
+        <div className="wrap relative pt-8 pb-12 sm:pb-16">
           <Breadcrumbs
             items={[{ href: "/", label: "Inicio" }, { href: "/favoritos", label: "Favoritos" }]}
           />
