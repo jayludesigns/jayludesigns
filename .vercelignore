@@ -1,0 +1,16 @@
+# La CLI de Vercel sube la carpeta de trabajo, no el repositorio: hace caso a
+# este archivo, no al .gitignore. Sin lo de abajo, cada despliegue arrastra
+# datos que no deberían salir de tu máquina.
+#
+# .data/db.json     catálogo real, pedidos y clientes del panel
+# public/uploads/   fotos subidas desde el panel
+#
+# Los dos van juntos a propósito: el catálogo real apunta a /uploads/... y
+# desplegar uno sin el otro deja la tienda con imágenes rotas. En producción
+# los datos y las imágenes tienen que vivir fuera del disco (Supabase), que es
+# de solo lectura en Vercel.
+.data/
+public/uploads/
+
+# Documento de trabajo personal, no forma parte del sitio.
+tienda_de_franelas_personalizadas.html
