@@ -101,7 +101,11 @@ export default async function ProductPage({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="wrap relative py-8">
+      {/* 84 rem = 80 rem de contenido: exactamente lo que ocupa la rejilla de
+          la ficha (38 + 1,5 + 21 + 1,5 + 17,5 rem). Así la foto y los bloques
+          quedan a ras de las migas, de las garantías y de los relacionados, y
+          la página entera se ve centrada con el mismo aire a los dos lados. */}
+      <div className="wrap relative max-w-[84rem] py-8">
         <Breadcrumbs
           invert
           items={[
