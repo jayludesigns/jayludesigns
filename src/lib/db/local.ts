@@ -60,7 +60,17 @@ async function load(): Promise<Db> {
   }
   cache = loaded;
   cacheMtime = mtime;
-  if (!existsSync(DB_FILE)) await persist(loaded);
+  // En un entorno de solo lectura (Vercel, Lambda) no hay dónde dejar la
+  // semilla, pero eso no debe tumbar la petición: el catálogo de demostración
+  // vive en memoria y la tienda se sirve igual. Lo que sí debe fallar loudly
+  // son las escrituras de `mutate`, para no perder cambios en silencio.
+  if (!existsSync(DB_FILE)) {
+    try {
+      await persist(loaded);
+    } catch (err) {
+      console.warn("[db local] no se pudo escribir .data/db.json; se sigue en memoria.", err);
+    }
+  }
   return loaded;
 }
 
