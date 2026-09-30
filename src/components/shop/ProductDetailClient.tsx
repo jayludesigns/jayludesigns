@@ -174,9 +174,9 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
   ].filter(([, value]) => Boolean(value)) as [string, string][];
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_25rem] xl:gap-7">
+    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:gap-x-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,21rem)_minmax(0,17.5rem)]">
       {/* --------- Fotos: una grande y las miniaturas; al pulsar, la lupa --- */}
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-2.5 lg:row-span-2 xl:row-span-1">
         <div className="flex justify-center">
           <button
             type="button"
@@ -241,8 +241,8 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
         )}
       </div>
 
-      {/* --------- Compra --------- */}
-      <div className="lg:sticky lg:top-28 lg:self-start">
+      {/* --------- Compra: de la colección al precio por volumen ---------- */}
+      <div>
         {product.collections.length > 0 && (
           <div className="mb-2 flex flex-wrap gap-1.5">
             {product.collections.map((collection) => (
@@ -443,36 +443,12 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
             </ul>
           </div>
         )}
+      </div>
 
-        {/* Ficha técnica: plegada para que el bloque de compra entre entero */}
-        {ficha.length > 0 && (
-          <details className="group mt-4 border-t border-ink-800 pt-2.5">
-            <summary className="flex cursor-pointer list-none items-center justify-between font-mono text-[0.64rem] font-bold tracking-[0.16em] text-ink-300 uppercase transition-colors hover:text-paper [&::-webkit-details-marker]:hidden">
-              Ficha técnica
-              <span aria-hidden className="text-ember-400 transition-all group-open:rotate-45">
-                +
-              </span>
-            </summary>
-            <dl className="mt-2.5 grid grid-cols-2 gap-x-5 gap-y-1">
-              {ficha.map(([label, value]) => (
-                <div
-                  key={label}
-                  className="flex items-baseline justify-between gap-2 border-b border-ink-800/70 pb-1"
-                >
-                  <dt className="font-mono text-[0.6rem] tracking-wider text-ink-400 uppercase">
-                    {label}
-                  </dt>
-                  <dd className="truncate text-right text-sm font-medium text-ink-200">
-                    {value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </details>
-        )}
-
+      {/* --------- Detalle: descripción, ficha técnica y cuidado ---------- */}
+      <div className="lg:mt-5 xl:mt-0">
         {product.description && (
-          <div className="mt-4">
+          <div>
             <h2 className="mb-1.5 font-display text-lg">El detalle</h2>
             <p className="text-sm leading-relaxed whitespace-pre-line text-ink-300">
               {product.description}
@@ -480,8 +456,33 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
           </div>
         )}
 
+        {/* Ficha técnica: abierta, sin desplegar. La letra sube 0,06 rem para
+            que se lea al mismo aire que el resto del bloque. */}
+        {ficha.length > 0 && (
+          <div className="mt-4">
+            <p className="font-mono text-[0.7rem] font-bold tracking-[0.16em] text-ink-300 uppercase">
+              Ficha técnica
+            </p>
+            <dl className="mt-2.5">
+              {ficha.map(([label, value]) => (
+                <div
+                  key={label}
+                  className="flex items-baseline justify-between gap-3 border-b border-ink-800/70 pb-1.5"
+                >
+                  <dt className="font-mono text-[0.66rem] tracking-wider text-ink-400 uppercase">
+                    {label}
+                  </dt>
+                  <dd className="truncate text-right text-[0.94rem] font-medium text-ink-200">
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
         {product.care_instructions && (
-          <p className="hint mt-3 rounded-xl bg-ink-900/60 p-3 text-ink-300">
+          <p className="hint mt-4 rounded-xl bg-ink-900/60 p-3 text-ink-300">
             <strong className="font-bold uppercase">Cuidado:</strong> {product.care_instructions}
           </p>
         )}
