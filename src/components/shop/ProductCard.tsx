@@ -20,7 +20,11 @@ export function toCardProduct(product: PricedProduct) {
     listPrice: product.list_price_ves,
     variantId: available?.id ?? null,
     variantLabel: available
-      ? `${available.size ?? "Única"}${available.color ? ` · ${available.color}` : ""}`
+      ? `${available.size ?? "Única"}${
+          available.color
+            ? ` · ${available.color.charAt(0).toLocaleUpperCase("es")}${available.color.slice(1)}`
+            : ""
+        }`
       : "",
     maxQuantity: Math.min(10, available ? available.stock - available.reserved_stock : 0),
     collection: product.collections[0]?.name ?? null,
@@ -79,15 +83,18 @@ export function ProductCard({
             loading={priority ? "eager" : "lazy"}
             decoding="async"
             className={cn(
+              // 4:5 es la proporción con la que se fotografiaron todas las
+              // prendas (1080×1350), así que el cuadro no recorta nada: la
+              // franela entera se ve de la cabeza al bajo.
               "w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]",
-              size === "sm" ? "aspect-square" : size === "lg" ? "aspect-4/5" : "aspect-square",
+              size === "sm" ? "aspect-4/5" : size === "lg" ? "aspect-4/5" : "aspect-4/5",
             )}
           />
         ) : (
           <span
             className={cn(
               "grid place-items-center text-ink-300",
-              size === "sm" ? "aspect-square" : size === "lg" ? "aspect-4/5" : "aspect-square",
+              "aspect-4/5",
             )}
           >
             <ImageOff className="size-8" />
@@ -108,7 +115,12 @@ export function ProductCard({
 
       <WishlistHeart product={product} />
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div
+        className={cn(
+          "flex flex-1 flex-col gap-2",
+          size === "sm" ? "p-3" : size === "lg" ? "p-5" : "p-4",
+        )}
+      >
         {product.collection && (
           <p
             className={cn(
@@ -119,7 +131,12 @@ export function ProductCard({
             {product.collection}
           </p>
         )}
-        <h3 className="font-display text-lg leading-tight">
+        <h3
+          className={cn(
+            "font-display leading-tight",
+            size === "sm" ? "text-base" : size === "lg" ? "text-xl" : "text-lg",
+          )}
+        >
           <Link href={`/producto/${product.slug}`} className="link-underline">
             {product.name}
           </Link>
@@ -143,16 +160,18 @@ export function ProductCard({
           <PriceDisplay
             ves={product.unitPrice}
             size="md"
+            strike={hasDiscount}
+            dim={dark}
             className={cn(
               // El precio es el acento más repetido de la tienda: con el
               // burdeos, la vista va directo a la cifra sin tener que leer
               // el nombre. El tachado se apaga para no competir.
               dark
                 ? hasDiscount
-                  ? "[&>span:first-child]:text-ink-400 [&>span:first-child]:line-through [&>span:last-child]:text-ink-400"
-                  : "text-ember-400 [&>span:last-child]:text-ink-400"
+                  ? "text-ink-400"
+                  : "text-ember-400"
                 : hasDiscount
-                  ? "[&>span:first-child]:text-ink-500 [&>span:first-child]:line-through"
+                  ? "text-ink-500"
                   : "text-ember-600",
             )}
           />

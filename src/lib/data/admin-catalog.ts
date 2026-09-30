@@ -349,12 +349,29 @@ export async function syncProductVariants(productId: string) {
   const wanted = new Set<string>();
   const created: Variant[] = [];
 
+  // La comparación ignora mayúsculas, espacios de sobra y acentos: si no, una
+  // variante escrita a mano como "negro" no se reconocía como la "Negro" que
+  // declara el producto y «Generar» creaba las dos (y la tienda las mostraba
+  // como dos colores distintos en la lista de color).
+  const norm = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .toLowerCase();
+  const yaExiste = (size: string, color: string) => {
+    const clave = `${norm(size)}|${norm(color)}`;
+    return existing.some(
+      (v) => `${norm(v.size ?? "Única")}|${norm(v.color ?? "Único")}` === clave,
+    );
+  };
+
   for (const color of product.colors.length ? product.colors : [{ name: "Único", hex: "#FFFFFF" }]) {
     for (const size of product.sizes.length ? product.sizes : ["Única"]) {
       const key = `${size}|${color.name}`;
       wanted.add(key);
-      const found = existing.find((v) => `${v.size}|${v.color}` === key);
-      if (found) continue;
+      if (yaExiste(size, color.name)) continue;
       created.push({
         id: newId(),
         product_id: productId,

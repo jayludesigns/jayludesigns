@@ -7,7 +7,7 @@ import { useCart } from "@/components/cart/CartContext";
 import { EmptyState } from "@/components/shop/EmptyState";
 import { PriceDisplay } from "@/components/currency/PriceDisplay";
 import { useToast } from "@/components/ui/Toast";
-import { formatVes, round2 } from "@/lib/utils";
+import { round2 } from "@/lib/utils";
 
 export function CartClient({
   shippingFlat,
@@ -62,7 +62,7 @@ export function CartClient({
                   <img
                     src={item.image}
                     alt=""
-                    className="aspect-square w-full object-cover"
+                    className="aspect-4/5 w-full object-cover"
                   />
                 ) : null}
               </Link>
@@ -130,7 +130,13 @@ export function CartClient({
                     />
                     {item.quantity > 1 && (
                       <p className="font-mono text-[0.6rem] text-ink-400">
-                        {formatVes(item.unitPrice)} c/u
+                        <PriceDisplay
+                          ves={item.unitPrice}
+                          size="sm"
+                          inline
+                          className="[&>span]:font-mono [&>span]:text-[0.68rem]"
+                        />{" "}
+                        c/u
                       </p>
                     )}
                   </div>
@@ -167,19 +173,23 @@ export function CartClient({
           <div className="space-y-2.5 p-4 text-sm">
             <div className="flex justify-between">
               <span className="text-ink-300">Subtotal</span>
-              <span className="font-semibold tabular">{formatVes(subtotal)}</span>
+              <PriceDisplay ves={subtotal} size="sm" inline className="font-semibold" />
             </div>
             {savings > 0 && (
               <div className="flex justify-between">
                 <span className="text-ink-300">Ahorras con promociones</span>
-                <span className="font-semibold text-ember-400 tabular">−{formatVes(savings)}</span>
+                <span className="font-semibold text-ember-400">
+                  −<PriceDisplay ves={savings} size="sm" inline className="font-semibold" />
+                </span>
               </div>
             )}
             <div className="flex justify-between">
               <span className="text-ink-300">Envío</span>
-              <span className="font-semibold tabular">
-                {shipping === 0 ? "Gratis" : formatVes(shipping)}
-              </span>
+              {shipping === 0 ? (
+                <span className="font-semibold">Gratis</span>
+              ) : (
+                <PriceDisplay ves={shipping} size="sm" inline className="font-semibold" />
+              )}
             </div>
             <div className="mt-3 flex items-baseline justify-between border-t border-ink-800 pt-3">
               <span className="font-bold">Total estimado</span>
@@ -195,8 +205,15 @@ export function CartClient({
           {freeOver > 0 && missingForFree > 0 && (
             <p className="border-t border-ink-800 bg-ember-950/70 px-4 py-3 text-xs text-ember-200">
               Te faltan{" "}
-              <strong className="tabular">{formatVes(missingForFree)}</strong> para el
-              envío gratis.
+              <strong>
+                <PriceDisplay
+                  ves={missingForFree}
+                  size="sm"
+                  inline
+                  className="[&>span]:font-bold"
+                />
+              </strong>{" "}
+              para el envío gratis.
             </p>
           )}
 

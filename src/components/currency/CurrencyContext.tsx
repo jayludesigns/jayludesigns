@@ -24,10 +24,12 @@ export function CurrencyProvider({
   updatedAt,
   stale,
 }: { children: ReactNode } & Omit<CurrencyValue, "mode" | "setMode">) {
-  // Se parte de "ambos" (el valor por defecto) para que el HTML del servidor
-  // y la hidratación coincidan; la preferencia guardada se lee tras el
-  // montaje, sin provocar "hydration mismatch".
-  const [mode, setModeState] = useState<CurrencyMode>("ambos");
+  // La tienda muestra los precios en euros: la tasa BCV llega del servidor y
+  // el visitante puede pedir bolívares o las dos monedas desde la barra
+  // superior. Se parte de "eur" (el valor por defecto) para que el HTML del
+  // servidor y la hidratación coincidan; la preferencia guardada se lee tras
+  // el montaje, sin provocar "hydration mismatch".
+  const [mode, setModeState] = useState<CurrencyMode>("eur");
 
   useEffect(() => {
     try {

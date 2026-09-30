@@ -130,7 +130,7 @@ export default async function HomePage() {
                       key={product.id}
                       href={`/producto/${product.slug}`}
                       title={product.name}
-                      className="group relative block aspect-square overflow-hidden rounded-xl border border-white/10 bg-ink-900 transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember"
+                      className="group relative block aspect-4/5 overflow-hidden rounded-xl border border-white/10 bg-ink-900 transition-all duration-300 hover:-translate-y-1 hover:border-ember-400/60 hover:shadow-ember"
                     >
                       {product.images[0] ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -167,7 +167,7 @@ export default async function HomePage() {
                       con la salida al catálogo, del mismo tamaño que las otras. */}
                   <Link
                     href="/catalogo"
-                    className="group relative flex aspect-square flex-col items-start justify-end overflow-hidden rounded-xl border border-white/15 bg-ink-900 p-5 transition-colors hover:border-ember-400/60"
+                    className="group relative flex aspect-4/5 flex-col items-start justify-end overflow-hidden rounded-xl border border-white/15 bg-ink-900 p-5 transition-colors hover:border-ember-400/60"
                   >
                     <span className="font-mono text-[0.57rem] font-bold tracking-[0.18em] text-ember-300 uppercase">
                       Catálogo

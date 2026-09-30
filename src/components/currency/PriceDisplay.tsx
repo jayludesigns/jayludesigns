@@ -10,8 +10,13 @@ const MODES: { value: CurrencyMode; label: string }[] = [
 ];
 
 /**
- * Muestra un precio en bolívares y/o euros según lo que el visitante elija.
+ * Muestra un precio en euros y/o bolívares según lo que elija el visitante.
  * La conversión usa la tasa BCV que llega por props desde el servidor.
+ *
+ * La línea grande es siempre la de la moneda activa: con el modo euro el euro
+ * va arriba y los bolívares en pequeño debajo, y al revés. Así el color de
+ * acento y el tachado caen sobre el número que el visitante está leyendo,
+ * en vez de sobre una posición fija del HTML.
  */
 export function PriceDisplay({
   ves,
@@ -19,15 +24,39 @@ export function PriceDisplay({
   className,
   showRate = false,
   align = "left",
+  strike = false,
+  dim = false,
+  inline = false,
+  secondaryClassName,
+  rate: rateProp,
 }: {
   ves: number;
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
   showRate?: boolean;
   align?: "left" | "right" | "center";
+  /** Tacha la línea principal: para el precio de comparación. */
+  strike?: boolean;
+  /** Apaga la línea secundaria: para tarjetas sobre fondo oscuro. */
+  dim?: boolean;
+  /** Versión en una sola línea, para poder escribir el precio dentro de un texto. */
+  inline?: boolean;
+  /** Color exacto de la línea secundaria, cuando el fondo no es el habitual. */
+  secondaryClassName?: string;
+  /**
+   * Tasa propia para convertir. La usan los pedidos ya registrados: el euro
+   * se calcula con la tasa del día en que se hizo la compra, no con la de hoy.
+   */
+  rate?: number;
 }) {
   const { mode, rate, stale, source } = useCurrency();
-  const eur = rate > 0 ? ves / rate : 0;
+  const tasa = rateProp ?? rate;
+  const hayTasa = tasa > 0;
+
+  // Sin tasa no hay conversión posible, así que se queda con los bolívares
+  // (el precio original) en vez de dejar el hueco vacío.
+  const efectivo: CurrencyMode = mode === "eur" && !hayTasa ? "ves" : mode;
+  const principal: "ves" | "eur" = efectivo === "eur" ? "eur" : "ves";
 
   const sizes = {
     sm: "text-sm",
@@ -36,36 +65,45 @@ export function PriceDisplay({
     xl: "text-3xl sm:text-4xl",
   };
 
-  const vesText = formatVes(ves);
-  const eurText = formatEur(eur);
+  const lineas: { key: "ves" | "eur"; texto: string }[] = [];
+  if (efectivo !== "eur") lineas.push({ key: "ves", texto: formatVes(ves) });
+  if (efectivo !== "ves" && hayTasa) {
+    lineas.push({ key: "eur", texto: formatEur(ves / tasa) });
+  }
 
   return (
     <span
       className={cn(
-        "tabular flex flex-col leading-tight",
+        "tabular leading-tight",
+        inline
+          ? "inline-flex items-baseline gap-1.5 whitespace-nowrap"
+          : "flex flex-col",
         align === "right" && "items-end text-right",
         align === "center" && "items-center text-center",
         className,
       )}
     >
-      {mode !== "eur" && (
-        <span className={cn("font-semibold", sizes[size])}>
-          {vesText}
-        </span>
-      )}
-      {mode !== "ves" && rate > 0 && (
+      {lineas.map((linea) => (
         <span
+          key={linea.key}
           className={cn(
-            "font-normal text-ink-500",
-            size === "sm" ? "text-[0.7rem]" : "text-xs sm:text-sm",
+            linea.key === principal
+              ? cn("font-semibold", sizes[size], strike && "line-through")
+              : cn(
+                  "font-normal",
+                  size === "sm" ? "text-[0.7rem]" : "text-xs sm:text-sm",
+                  dim ? "text-ink-400" : "text-ink-500",
+                  secondaryClassName,
+                ),
           )}
         >
-          {eurText}
+          {linea.texto}
         </span>
-      )}
-      {showRate && mode !== "ves" && rate > 0 && (
+      ))}
+      {showRate && efectivo !== "ves" && hayTasa && (
         <span className="mt-0.5 text-[0.62rem] tracking-wide text-ink-500">
-          1 € = {formatVes(rate, "Bs", false)} {stale ? "· tasa orientativa" : `· ${source}`}
+          1 € = {formatVes(tasa, "Bs", false)}{" "}
+          {stale && !rateProp ? "· tasa orientativa" : `· ${source}`}
         </span>
       )}
     </span>

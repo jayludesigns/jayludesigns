@@ -191,7 +191,8 @@ export async function SiteFooter() {
               Precios
             </p>
             <p className="mt-1.5 text-sm text-paper/80">
-              Mostramos bolívares y euros con la tasa BCV del día.
+              Los precios van en euros, con la tasa BCV del día. Si prefieres ver
+              los bolívares, cámbialo arriba.
             </p>
             <p className="mt-1 font-mono text-[0.67rem] text-paper/50">
               1 € = {settings.bcv_rate} Bs · {settings.bcv_source}

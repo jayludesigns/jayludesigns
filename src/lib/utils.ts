@@ -27,9 +27,14 @@ export function formatVes(amount: number, symbol = "Bs.", withDecimals = true): 
 }
 
 export function formatEur(amount: number, withDecimals = true): string {
+  // "narrowSymbol" a propósito: en es-VE el símbolo del euro no está
+  // registrado y Intl cae en el código ("EUR 1,64"). Con narrow sale "€1,64",
+  // y se mantiene la misma regla de miles que los bolívares (1.234,50) para
+  // que las dos monedas se lean igual.
   return new Intl.NumberFormat(LOCALE, {
     style: "currency",
     currency: "EUR",
+    currencyDisplay: "narrowSymbol",
     minimumFractionDigits: withDecimals ? 2 : 0,
     maximumFractionDigits: withDecimals ? 2 : 0,
   }).format(amount);

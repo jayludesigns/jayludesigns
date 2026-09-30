@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -90,7 +91,12 @@ export default async function OrderPage({ params, searchParams }: { params: Para
             </p>
           </div>
           <div className="text-right">
-            <PriceDisplay ves={order.total_ves} size="xl" align="right" />
+            <PriceDisplay
+              ves={order.total_ves}
+              size="xl"
+              align="right"
+              rate={order.bcv_rate}
+            />
             <p className="mt-1 font-mono text-[0.62rem] text-ink-500">
               Tasa del pedido: {formatVes(order.bcv_rate, "Bs/€", false)}
             </p>
@@ -166,14 +172,34 @@ export default async function OrderPage({ params, searchParams }: { params: Para
                       {item.sku ? ` · ${item.sku}` : ""}
                     </p>
                     <p className="mt-1 font-mono text-[0.64rem] text-ink-500">
-                      {item.quantity} × {formatVes(item.unit_price_ves)}
+                      {item.quantity} ×{" "}
+                      <PriceDisplay
+                        ves={item.unit_price_ves}
+                        size="sm"
+                        inline
+                        rate={order.bcv_rate}
+                        className="[&>span]:font-mono [&>span]:text-[0.64rem]"
+                      />
                     </p>
                   </div>
                   <div className="shrink-0 text-right">
-                    <p className="font-semibold tabular">{formatVes(item.subtotal_ves)}</p>
+                    <PriceDisplay
+                      ves={item.subtotal_ves}
+                      size="sm"
+                      inline
+                      rate={order.bcv_rate}
+                      className="font-semibold"
+                    />
                     {item.discount_ves > 0 && (
                       <p className="font-mono text-[0.62rem] text-ink-500">
-                        −{formatVes(item.discount_ves)}
+                        −
+                        <PriceDisplay
+                          ves={item.discount_ves}
+                          size="sm"
+                          inline
+                          rate={order.bcv_rate}
+                          className="[&>span]:font-mono [&>span]:text-[0.62rem]"
+                        />
                       </p>
                     )}
                   </div>
@@ -181,20 +207,62 @@ export default async function OrderPage({ params, searchParams }: { params: Para
               ))}
             </ul>
             <dl className="space-y-2 border-t border-ink-200 p-4 text-sm">
-              <Row label="Subtotal" value={formatVes(order.items_subtotal_ves)} />
+              <Row
+                label="Subtotal"
+                value={
+                  <PriceDisplay
+                    ves={order.items_subtotal_ves}
+                    size="sm"
+                    inline
+                    rate={order.bcv_rate}
+                    className="font-semibold"
+                  />
+                }
+              />
               {order.discount_ves > 0 && (
                 <Row
                   label={`Descuento${order.coupon_code ? ` (${order.coupon_code})` : ""}`}
-                  value={`−${formatVes(order.discount_ves)}`}
+                  value={
+                    <span className="font-semibold">
+                      −
+                      <PriceDisplay
+                        ves={order.discount_ves}
+                        size="sm"
+                        inline
+                        rate={order.bcv_rate}
+                        className="font-semibold"
+                      />
+                    </span>
+                  }
                 />
               )}
               <Row
                 label="Envío"
-                value={order.shipping_ves === 0 ? "Gratis" : formatVes(order.shipping_ves)}
+                value={
+                  order.shipping_ves === 0 ? (
+                    "Gratis"
+                  ) : (
+                    <PriceDisplay
+                      ves={order.shipping_ves}
+                      size="sm"
+                      inline
+                      rate={order.bcv_rate}
+                      className="font-semibold"
+                    />
+                  )
+                }
               />
               <div className="flex justify-between border-t border-ink-200 pt-2 font-bold">
                 <dt>Total</dt>
-                <dd className="tabular">{formatVes(order.total_ves)}</dd>
+                <dd>
+                  <PriceDisplay
+                    ves={order.total_ves}
+                    size="sm"
+                    inline
+                    rate={order.bcv_rate}
+                    className="font-bold"
+                  />
+                </dd>
               </div>
             </dl>
           </section>
@@ -288,7 +356,7 @@ export default async function OrderPage({ params, searchParams }: { params: Para
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="flex justify-between">
       <dt className="text-ink-600">{label}</dt>

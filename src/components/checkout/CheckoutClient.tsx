@@ -20,7 +20,7 @@ import { EmptyState } from "@/components/shop/EmptyState";
 import { useToast } from "@/components/ui/Toast";
 import { PriceDisplay } from "@/components/currency/PriceDisplay";
 import { submitOrder, idleState, type FormState } from "@/lib/actions/store";
-import { cn, formatVes, round2 } from "@/lib/utils";
+import { cn, round2 } from "@/lib/utils";
 import { PAYMENT_METHOD_LABELS, type PaymentMethod } from "@/lib/types";
 
 interface PaymentDetails {
@@ -285,7 +285,13 @@ export function CheckoutClient({
           ) : (
             <>
               <Lock className="size-4" />
-              Confirmar pedido · {formatVes(total)}
+              Confirmar pedido ·{" "}
+              <PriceDisplay
+                ves={total}
+                size="md"
+                inline
+                secondaryClassName="text-paper/70"
+              />
             </>
           )}
         </button>
@@ -308,18 +314,27 @@ export function CheckoutClient({
                 <span className="w-16 shrink-0 overflow-hidden rounded-lg bg-ink-50">
                   {item.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.image} alt="" className="aspect-square w-full object-cover" />
+                    <img src={item.image} alt="" className="aspect-4/5 w-full object-cover" />
                   ) : null}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-bold">{item.name}</span>
                   <span className="block font-mono text-[0.62rem] text-ink-500">
-                    {item.variantLabel} · {item.quantity} × {formatVes(item.unitPrice)}
+                    {item.variantLabel} · {item.quantity} ×{" "}
+                    <PriceDisplay
+                      ves={item.unitPrice}
+                      size="sm"
+                      inline
+                      className="[&>span]:font-mono [&>span]:text-[0.62rem]"
+                    />
                   </span>
                 </span>
-                <span className="shrink-0 text-sm font-semibold tabular">
-                  {formatVes(round2(item.unitPrice * item.quantity))}
-                </span>
+                <PriceDisplay
+                  ves={round2(item.unitPrice * item.quantity)}
+                  size="sm"
+                  inline
+                  className="shrink-0 font-semibold"
+                />
               </li>
             ))}
           </ul>
@@ -327,7 +342,7 @@ export function CheckoutClient({
           <div className="space-y-2 border-t border-ink-100 p-4 text-sm">
             <div className="flex justify-between">
               <span className="text-ink-600">Subtotal</span>
-              <span className="font-semibold tabular">{formatVes(subtotal)}</span>
+              <PriceDisplay ves={subtotal} size="sm" inline className="font-semibold" />
             </div>
             {couponCode && (
               <div className="flex justify-between">
@@ -339,9 +354,11 @@ export function CheckoutClient({
             )}
             <div className="flex justify-between">
               <span className="text-ink-600">Envío</span>
-              <span className="font-semibold tabular">
-                {shipping === 0 ? "Gratis" : formatVes(shipping)}
-              </span>
+              {shipping === 0 ? (
+                <span className="font-semibold">Gratis</span>
+              ) : (
+                <PriceDisplay ves={shipping} size="sm" inline className="font-semibold" />
+              )}
             </div>
             <div className="mt-3 flex items-baseline justify-between border-t border-ink-100 pt-3">
               <span className="font-bold">Total</span>

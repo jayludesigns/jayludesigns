@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { Logo } from "@/components/site/Logo";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import { getStoreSettings } from "@/lib/db";
-import { formatVes } from "@/lib/utils";
+import { formatEur, formatVes } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -148,7 +148,7 @@ export default async function AboutPage() {
                     ["Fundación", "Maracay, estado Aragua"],
                     ["Pedido mínimo", "1 unidad"],
                     ["Producción", "3 a 5 días hábiles"],
-                    ["Envío gratis", `desde ${formatVes(settings.free_shipping_over_ves)}`],
+                    ["Envío gratis", `desde ${formatEur(settings.free_shipping_over_ves / settings.bcv_rate)}`],
                     ["Tasa BCV", `1 € = ${formatVes(settings.bcv_rate, "Bs", false)}`],
                   ].map(([label, value]) => (
                     <div key={label} className="flex justify-between gap-3 border-b border-ink-800 pb-2.5">
