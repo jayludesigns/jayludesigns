@@ -174,7 +174,11 @@ export function ProductDetailClient({ product }: { product: PricedProduct }) {
   ].filter(([, value]) => Boolean(value)) as [string, string][];
 
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] lg:gap-x-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,21rem)_minmax(0,17.5rem)]">
+    // La foto manda: su columna se ajusta a lo que la prenda ocupa de alto
+    // (4:5, la proporción con la que se fotografió) en vez de repartirse el
+    // sobrante. Así los bloques de la derecha quedan pegados a la imagen y el
+    // aire que sobra se va al borde derecho, que es lo que se veía raro.
+    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,min(61vh,38rem))_minmax(0,21rem)] lg:gap-x-6 xl:grid-cols-[minmax(0,min(61vh,38rem))_minmax(0,21rem)_minmax(0,17.5rem)]">
       {/* --------- Fotos: una grande y las miniaturas; al pulsar, la lupa --- */}
       <div className="flex flex-col gap-2.5 lg:row-span-2 xl:row-span-1">
         <div className="flex justify-center">

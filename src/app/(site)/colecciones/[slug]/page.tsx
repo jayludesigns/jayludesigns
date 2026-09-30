@@ -114,7 +114,7 @@ export default async function CollectionPage({ params }: { params: Params }) {
         <div className="halftone-light absolute inset-0 opacity-[0.04]" aria-hidden />
         <div className="wrap relative py-12">
           {products.length > 0 ? (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               {products.map((product, index) => (
                 <ProductCard
                   key={product.id}

@@ -78,7 +78,7 @@ export function FeaturedTabs({
         </a>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-3">
         {shown.map((product) => (
           <ProductCard key={product.id} product={product} size="lg" dark={dark} />
         ))}

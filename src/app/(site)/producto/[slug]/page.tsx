@@ -224,7 +224,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               title="Del mismo universo"
               action={{ href: "/catalogo", label: "Ver todo" }}
             />
-            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
               {related.map((item) => (
                 <ProductCard key={item.id} product={toCardProduct(item)} size="sm" dark />
               ))}

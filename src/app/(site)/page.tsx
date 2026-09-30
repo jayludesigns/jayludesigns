@@ -438,7 +438,7 @@ export default async function HomePage() {
             title="Lo último del taller"
             action={{ href: "/catalogo?orden=nuevos", label: "Ver novedades" }}
           />
-          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
             {fresh.map((product) => (
               <ProductCard key={product.id} product={toCardProduct(product)} size="sm" dark />
             ))}
