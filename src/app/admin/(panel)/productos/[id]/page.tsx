@@ -113,7 +113,7 @@ export default async function EditProductPage({ params }: { params: Params }) {
         <aside className="space-y-4">
           <Card
             title={`Variantes (${variants.length})`}
-            hint="Existencias por talla y color."
+            hint="Existencias por talla y color. Solo «Existencias» decide lo que se puede vender: «Aviso bajo» solo marca la variante en el inventario y «Costo» va al margen del pedido."
             action={
               <ActionForm
                 action={syncVariantsAction}
@@ -172,27 +172,42 @@ export default async function EditProductPage({ params }: { params: Params }) {
                         name="size"
                         value={variant.size ?? ""}
                       />
-                      <input
-                        aria-label={`Stock de ${variant.size ?? "esta variante"}`}
-                        name="stock"
-                        type="number"
-                        defaultValue={variant.stock}
-                        className="field px-1.5 py-1 text-center font-mono text-xs"
-                      />
-                      <input
-                        aria-label="Mínimo"
-                        name="min_stock"
-                        type="number"
-                        defaultValue={variant.min_stock}
-                        className="field px-1.5 py-1 text-center font-mono text-xs"
-                      />
-                      <input
-                        aria-label="Costo"
-                        name="cost_ves"
-                        type="number"
-                        defaultValue={variant.cost_ves}
-                        className="field px-1.5 py-1 text-center font-mono text-xs"
-                      />
+                      {/* Antes eran tres casillas idénticas y sin nombre: solo
+                          «Existencias» decide lo que se puede vender. «Aviso
+                          bajo» solo marca la variante para el inventario
+                          (inventory.ts: available <= min_stock) y «Costo» va al
+                          margen del pedido (finance.ts: unitCost). */}
+                      <label>
+                        <span className="label">Existencias</span>
+                        <input
+                          name="stock"
+                          type="number"
+                          min={0}
+                          defaultValue={variant.stock}
+                          className="field px-1.5 py-1 text-center font-mono text-xs"
+                        />
+                      </label>
+                      <label>
+                        <span className="label">Aviso bajo</span>
+                        <input
+                          name="min_stock"
+                          type="number"
+                          min={0}
+                          defaultValue={variant.min_stock}
+                          className="field px-1.5 py-1 text-center font-mono text-xs"
+                        />
+                      </label>
+                      <label>
+                        <span className="label">Costo</span>
+                        <input
+                          name="cost_ves"
+                          type="number"
+                          min={0}
+                          step="0.01"
+                          defaultValue={variant.cost_ves}
+                          className="field px-1.5 py-1 text-center font-mono text-xs"
+                        />
+                      </label>
                       <button type="submit" className="btn btn-sm col-span-3">
                         Guardar
                       </button>
@@ -219,60 +234,80 @@ export default async function EditProductPage({ params }: { params: Params }) {
           <Card title="Añadir variante" hint="Para tallas o colores sueltos.">
             <ActionForm action={saveVariantAction} hiddenFields={{ product_id: product.id }}>
               <div className="grid grid-cols-2 gap-2">
-                <input
-                  aria-label="Talla"
-                  name="size"
-                  placeholder="Talla"
-                  className="field px-2 py-1.5 text-sm"
-                />
-                <input
-                  aria-label="Color"
-                  name="color"
-                  placeholder="Color"
-                  className="field px-2 py-1.5 text-sm"
-                />
-                <input
-                  aria-label="Hex"
-                  name="color_hex"
-                  type="text"
-                  placeholder="#000000"
-                  className="field px-2 py-1.5 font-mono text-xs"
-                />
-                <input
-                  aria-label="Stock"
-                  name="stock"
-                  type="number"
-                  defaultValue={0}
-                  className="field px-2 py-1.5 font-mono text-xs"
-                />
-                <input
-                  aria-label="Mínimo"
-                  name="min_stock"
-                  type="number"
-                  defaultValue={2}
-                  className="field px-2 py-1.5 font-mono text-xs"
-                />
-                <input
-                  aria-label="Costo"
-                  name="cost_ves"
-                  type="number"
-                  defaultValue={0}
-                  className="field px-2 py-1.5 font-mono text-xs"
-                />
-                <input
-                  aria-label="Diferencia de precio"
-                  name="price_delta_ves"
-                  type="number"
-                  defaultValue={0}
-                  className="field px-2 py-1.5 font-mono text-xs"
-                />
-                <input
-                  aria-label="Activa"
-                  name="is_active"
-                  type="checkbox"
-                  defaultChecked
-                  className="size-4 accent-[#6b201a]"
-                />
+                <label>
+                  <span className="label">Talla</span>
+                  <input
+                    name="size"
+                    placeholder="M, G, XL"
+                    className="field px-2 py-1.5 text-sm"
+                  />
+                </label>
+                <label>
+                  <span className="label">Color</span>
+                  <input
+                    name="color"
+                    placeholder="Negro"
+                    className="field px-2 py-1.5 text-sm"
+                  />
+                </label>
+                <label>
+                  <span className="label">Color hex</span>
+                  <input
+                    name="color_hex"
+                    type="text"
+                    placeholder="#000000"
+                    className="field px-2 py-1.5 font-mono text-xs"
+                  />
+                </label>
+                <label>
+                  <span className="label">Existencias</span>
+                  <input
+                    name="stock"
+                    type="number"
+                    min={0}
+                    defaultValue={0}
+                    className="field px-2 py-1.5 font-mono text-xs"
+                  />
+                </label>
+                <label>
+                  <span className="label">Aviso bajo</span>
+                  <input
+                    name="min_stock"
+                    type="number"
+                    min={0}
+                    defaultValue={2}
+                    className="field px-2 py-1.5 font-mono text-xs"
+                  />
+                </label>
+                <label>
+                  <span className="label">Costo</span>
+                  <input
+                    name="cost_ves"
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    defaultValue={0}
+                    className="field px-2 py-1.5 font-mono text-xs"
+                  />
+                </label>
+                <label>
+                  <span className="label">Precio extra</span>
+                  <input
+                    name="price_delta_ves"
+                    type="number"
+                    defaultValue={0}
+                    className="field px-2 py-1.5 font-mono text-xs"
+                  />
+                </label>
+                <label className="flex items-center gap-2 self-end pb-1.5">
+                  <input
+                    name="is_active"
+                    type="checkbox"
+                    defaultChecked
+                    className="size-4 accent-[#6b201a]"
+                  />
+                  <span className="label mb-0">Activa</span>
+                </label>
               </div>
               <button type="submit" className="btn btn-sm btn-solid mt-3 w-full">
                 Añadir variante
