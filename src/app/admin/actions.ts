@@ -17,12 +17,11 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { rm } from "node:fs/promises";
-import path from "node:path";
 
 import { ADMIN_COOKIE, checkCredentials, requireAdmin, sessionCookieOptions } from "@/lib/auth";
 import { saveStoreSettings, getBackend } from "@/lib/db";
 import { refreshBcvRate } from "@/lib/bcv";
+import { deleteImage } from "@/lib/storage";
 import type { ProductImage, RawMaterial } from "@/lib/types";
 import type { AdminResult } from "@/components/admin/ActionForm";
 
@@ -357,19 +356,16 @@ export async function deleteImageAction(
 ): Promise<AdminResult> {
   return guard(["/admin/productos", "/", "/producto"], async (form) => {
     const imageId = text(form, "image_id");
-    // Si la imagen vive en nuestro almacenamiento local (/uploads), el
-    // archivo en disco se borra junto con la fila para no dejar huérfanos.
+    // Si la imagen es nuestra, el archivo se borra junto con la fila para no
+    // dejar huérfanos: en el bucket de Supabase o en el disco local, según
+    // dónde esté (ver `src/lib/storage.ts`).
     try {
       const backend = getBackend();
       const [image] = await backend.list<ProductImage>("product_images", {
         where: [{ column: "id", op: "eq", value: imageId }],
       });
       await removeProductImage(imageId);
-      if (image?.url?.startsWith("/uploads/")) {
-        const filePath = path.join(process.cwd(), "public", image.url);
-        await rm(filePath, { force: true });
-        await rm(path.dirname(filePath), { force: true, recursive: true }).catch(() => {});
-      }
+      if (image?.url) await deleteImage(image.url);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "No se pudo quitar la imagen.";

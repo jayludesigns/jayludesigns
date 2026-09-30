@@ -24,6 +24,14 @@ function client(): SupabaseClient {
 }
 
 /**
+ * Cliente sin envolver, para lo que no sea una consulta a una tabla: subir
+ * imágenes a Storage, sobre todo. Comparte credenciales con `client()`.
+ */
+export function supabaseService(): SupabaseClient {
+  return client();
+}
+
+/**
  * Subconjunto de la API de PostgREST que usamos, para poder encadenar filtros
  * sin depender de los tipos internos de @supabase/postgrest-js.
  */

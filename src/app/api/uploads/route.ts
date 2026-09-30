@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { getAdminSession } from "@/lib/auth";
 import { addProductImage } from "@/lib/data/admin-catalog";
+import { storeImage } from "@/lib/storage";
 
 export const runtime = "nodejs";
 
@@ -33,21 +32,20 @@ async function readImage(form: FormData) {
   if (raw.size > MAX_IMAGE_BYTES) {
     return { ok: false as const, error: "La imagen supera el máximo de 6 MB." };
   }
-  return { ok: true as const, ext, buffer: Buffer.from(await raw.arrayBuffer()), name: raw.name };
-}
-
-/** Escribe el archivo en `public/uploads/<carpeta>/` y devuelve su URL. */
-async function store(folder: string, ext: string, buffer: Buffer) {
-  const dir = path.join(process.cwd(), "public", "uploads", folder);
-  await mkdir(dir, { recursive: true });
-  const name = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  await writeFile(path.join(dir, name), buffer);
-  return `/uploads/${folder}/${name}`;
+  return {
+    ok: true as const,
+    ext,
+    mime: raw.type,
+    buffer: Buffer.from(await raw.arrayBuffer()),
+    name: raw.name,
+  };
 }
 
 /**
- * Sube una imagen desde el panel al almacenamiento local
- * (`public/uploads/<producto>/`) y la registra como imagen del producto.
+ * Sube una imagen desde el panel y la registra como imagen del producto.
+ *
+ * Va al bucket `product-images` de Supabase Storage cuando está configurado, y
+ * a `public/uploads/<carpeta>/` en local (ver `src/lib/storage.ts`).
  *
  * Es un route handler (no una server action) porque Next no serializa
  * archivos a través de server actions: con multipart y `request.formData()`
@@ -72,7 +70,7 @@ export async function POST(request: Request) {
       const image = await readImage(form);
       if (!image.ok) return json({ error: image.error }, 400);
       const folder = target === "coleccion" ? "colecciones" : "pendientes";
-      const url = await store(folder, image.ext, image.buffer);
+      const url = await storeImage(folder, image.ext, image.buffer, image.mime);
 
       if (target === "coleccion") {
         revalidatePath("/admin/colecciones");
@@ -100,7 +98,7 @@ export async function POST(request: Request) {
     const image = await readImage(form);
     if (!image.ok) return json({ error: image.error }, 400);
 
-    const url = await store(productId, image.ext, image.buffer);
+    const url = await storeImage(productId, image.ext, image.buffer, image.mime);
     const saved = await addProductImage({
       product_id: productId,
       url,

@@ -31,8 +31,16 @@ const DAY = 86_400_000;
 const base = new Date("2026-01-06T09:00:00.000Z").getTime();
 const iso = (daysAgo: number) => new Date(base - daysAgo * DAY).toISOString();
 
-const spin = (slug: string, frames = 36): ProductSpin360 => ({
-  product_id: `prd_${slug.replace(/-/g, "_")}`,
+/**
+ * Fila del visor 360° de un producto.
+ *
+ * El `productId` se pasa aparte del slug a propósito: reconstruirlo con
+ * `prd_${slug}` solo funciona mientras el id sea el slug con guiones, y hay
+ * productos cuyo id no sigue esa regla (`uniforme-escolar-jb` es
+ * `prd_uniforme_escolar`). Adivinarlo dejaba claves foráneas rotas.
+ */
+const spin = (productId: string, slug: string, frames = 36): ProductSpin360 => ({
+  product_id: productId,
   frames: Array.from({ length: frames }, (_, i) => `/demo/spin/${slug}/${String(i).padStart(2, "0")}.svg`),
   frame_count: frames,
   poster_url: `/demo/spin/${slug}/00.svg`,
@@ -335,7 +343,7 @@ const variants: Variant[] = productSeeds.flatMap((p) => {
 
 const product_spin360 = productSeeds
   .filter((p) => !p.customOnly)
-  .map((p) => spin(p.slug));
+  .map((p) => spin(p.id, p.slug));
 
 /* ------------------------------------------------------------------ */
 
