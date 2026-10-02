@@ -134,16 +134,25 @@ export async function adjustVariantStock(input: {
   if (!variant) throw new Error("Variante no encontrada");
 
   const next = Math.max(0, variant.stock + input.delta);
+  // Se anota el delta realmente aplicado, no el pedido. Si hay 3 unidades y
+  // se restan 10, la existencia queda en 0 pero el movimiento diría -10 y el
+  // libro dejaría de cuadrar con el stock. Un movimiento que no cambia nada
+  // tampoco se escribe: `stock_movements` exige quantity <> 0.
+  const applied = next - variant.stock;
+  if (applied === 0) {
+    throw new Error(
+      `El ajuste no cambiaría el stock: hay ${variant.stock} unidades y pediste ${input.delta}.`,
+    );
+  }
   await backend.update<Variant>("variants", variant.id, {
     stock: next,
     updated_at: new Date().toISOString(),
   });
-  const type =
-    input.delta > 0 ? "in" : input.delta < 0 ? "out" : "adjust";
+  const type = applied > 0 ? "in" : applied < 0 ? "out" : "adjust";
   await backend.insert<StockMovement>("stock_movements", {
     variant_id: variant.id,
     type,
-    quantity: input.delta,
+    quantity: applied,
     reason: input.reason,
     order_id: input.orderId ?? null,
     user_id: input.userId ?? null,
@@ -256,14 +265,22 @@ export async function adjustMaterialStock(input: {
   if (!material) throw new Error("Material no encontrado");
 
   const next = Math.max(0, Math.round((material.stock + input.delta) * 1000) / 1000);
+  // Igual que en las variantes: al libro va lo que se aplicó de verdad, para
+  // que el historial cuadre con la existencia aunque se topa en cero.
+  const applied = Math.round((next - material.stock) * 1000) / 1000;
+  if (applied === 0) {
+    throw new Error(
+      `El ajuste no cambiaría la existencia: hay ${material.stock} y pediste ${input.delta}.`,
+    );
+  }
   await backend.update<RawMaterial>("raw_materials", material.id, {
     stock: next,
     updated_at: new Date().toISOString(),
   });
   await backend.insert<MaterialMovement>("material_movements", {
     material_id: material.id,
-    type: input.type ?? (input.delta > 0 ? "in" : input.delta < 0 ? "out" : "adjust"),
-    quantity: input.delta,
+    type: input.type ?? (applied > 0 ? "in" : applied < 0 ? "out" : "adjust"),
+    quantity: applied,
     reason: input.reason,
     order_id: input.orderId ?? null,
     user_id: input.userId ?? null,

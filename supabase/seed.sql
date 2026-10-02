@@ -353,7 +353,7 @@ insert into public.stock_movements (id, variant_id, type, quantity, reason, orde
   ('sm_05', 'var_prd_dragon_ashes_1_2', 'out', -1, 'Pedido JLY-260114', 'ord_JLY-260114', null, null, '2025-12-23T09:00:00.000Z'::timestamptz),
   ('sm_06', 'var_prd_hoodie_ronin_1_0', 'out', -1, 'Pedido JLY-260110', 'ord_JLY-260110', null, null, '2025-12-03T09:00:00.000Z'::timestamptz),
   ('sm_07', 'var_prd_mono_logo_1_0', 'out', -1, 'Pedido JLY-260112', 'ord_JLY-260112', null, null, '2026-01-03T09:00:00.000Z'::timestamptz),
-  ('sm_08', 'var_prd_pedido_grupos_0_0', 'adjust', 0, 'Ajuste de conteo físico', null, null, null, '2025-12-27T09:00:00.000Z'::timestamptz)
+  ('sm_08', 'var_prd_polo_corporativo_0_0', 'adjust', -2, 'Ajuste de conteo físico', null, null, 'Dos unidades menos de las esperadas', '2025-12-27T09:00:00.000Z'::timestamptz)
 on conflict do nothing;
 
 -- ---------------------------------------------------------------------------

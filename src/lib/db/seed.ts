@@ -486,7 +486,7 @@ const stock_movements: StockMovement[] = [
   { id: "sm_05", variant_id: "var_prd_dragon_ashes_1_2", type: "out", quantity: -1, reason: "Pedido JLY-260114", order_id: "ord_JLY-260114", user_id: null, note: null, created_at: iso(14) },
   { id: "sm_06", variant_id: "var_prd_hoodie_ronin_1_0", type: "out", quantity: -1, reason: "Pedido JLY-260110", order_id: "ord_JLY-260110", user_id: null, note: null, created_at: iso(34) },
   { id: "sm_07", variant_id: "var_prd_mono_logo_1_0", type: "out", quantity: -1, reason: "Pedido JLY-260112", order_id: "ord_JLY-260112", user_id: null, note: null, created_at: iso(3) },
-  { id: "sm_08", variant_id: "var_prd_pedido_grupos_0_0", type: "adjust", quantity: 0, reason: "Ajuste de conteo físico", order_id: null, user_id: null, note: null, created_at: iso(10) },
+  { id: "sm_08", variant_id: "var_prd_polo_corporativo_0_0", type: "adjust", quantity: -2, reason: "Ajuste de conteo físico", order_id: null, user_id: null, note: "Dos unidades menos de las esperadas", created_at: iso(10) },
 ];
 
 const custom_designs: CustomDesign[] = [
