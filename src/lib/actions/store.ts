@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createOrder, type CheckoutLine } from "@/lib/data/orders";
 import { createDesignRequest, createLead } from "@/lib/data/designs";
 import { getStoreSettings } from "@/lib/db";
+import { LIMITES, clientKey, consumirIntento, errorAlCliente, type Limite } from "@/lib/security";
 import { isValidEmail, normalizePhone } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
@@ -78,10 +79,28 @@ function fieldErrors(error: z.ZodError): Record<string, string> {
   return out;
 }
 
+/**
+ * Frena el envío automatizado. Devuelve el estado ya listo para devolver si la
+ * ventana está cerrada, o null si se puede seguir.
+ */
+async function sinCupo(cubo: string, limite: Limite): Promise<FormState | null> {
+  const clave = await clientKey();
+  const restantes = await consumirIntento(`${cubo}:${clave}`, limite);
+  if (restantes === 0) return null;
+  const minutos = Math.max(1, Math.ceil(restantes / 60));
+  return {
+    status: "error",
+    message: `Has enviado demasiados formularios. Vuelve a intentarlo en ${minutos} ${minutos === 1 ? "minuto" : "minutos"}.`,
+  };
+}
+
 export async function submitOrder(
   _prev: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  const sinCupoPedido = await sinCupo("pedido", LIMITES.pedido);
+  if (sinCupoPedido) return sinCupoPedido;
+
   let lines: CheckoutLine[] = [];
   try {
     const raw = formData.get("lines");
@@ -147,7 +166,14 @@ export async function submitOrder(
       warnings,
     };
   } catch (error) {
-    return { status: "error", message: (error as Error).message };
+    return {
+      status: "error",
+      message: errorAlCliente(
+        error,
+        "pedido",
+        "No pudimos registrar tu pedido. Escríbenos por WhatsApp y lo hacemos al momento.",
+      ),
+    };
   }
 }
 
@@ -180,6 +206,9 @@ export async function submitDesignRequest(
   _prev: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  const sinCupoDiseno = await sinCupo("diseno", LIMITES.diseno);
+  if (sinCupoDiseno) return sinCupoDiseno;
+
   const referenceImages: string[] = [];
   const rawRefs = formData.get("referenceImages");
   if (typeof rawRefs === "string" && rawRefs.trim()) {
@@ -253,7 +282,14 @@ export async function submitDesignRequest(
       designCode: design.code,
     };
   } catch (error) {
-    return { status: "error", message: (error as Error).message };
+    return {
+      status: "error",
+      message: errorAlCliente(
+        error,
+        "diseno",
+        "No pudimos registrar tu idea. Intenta otra vez en un momento.",
+      ),
+    };
   }
 }
 
@@ -288,6 +324,9 @@ export async function submitContact(
   _prev: FormState,
   formData: FormData,
 ): Promise<FormState> {
+  const sinCupoContacto = await sinCupo("contacto", LIMITES.contacto);
+  if (sinCupoContacto) return sinCupoContacto;
+
   const parsed = contactSchema.safeParse({
     name: formData.get("name") ?? "",
     email: formData.get("email") ?? "",
@@ -312,7 +351,14 @@ export async function submitContact(
       message: "Mensaje recibido. Te respondemos por WhatsApp o correo en menos de 24 h.",
     };
   } catch (error) {
-    return { status: "error", message: (error as Error).message };
+    return {
+      status: "error",
+      message: errorAlCliente(
+        error,
+        "contacto",
+        "No pudimos enviar tu mensaje. Intenta otra vez en un momento.",
+      ),
+    };
   }
 }
 

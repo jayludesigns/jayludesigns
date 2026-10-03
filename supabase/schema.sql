@@ -643,9 +643,32 @@ create policy "catalogo publico: membresias" on public.product_collections
     where c.id = product_collections.collection_id and c.status = 'published'
   ));
 
--- Notas: los pedidos ya se sirven desde el servidor con la clave de servicio, así
--- que no hace falta abrir nada aquí. Para consultas analíticas se puede crear
--- una vista con solo las columnas públicas en vez de dar acceso a `products`.
+-- --- Qué columnas ve la clave anónima --------------------------------------
+--
+-- RLS decide qué FILAS puede leer `anon`, pero no qué columnas: el permiso por
+-- tabla viene por defecto con acceso completo. Por eso `cost_ves`, que es el
+-- coste de fábrica y la base del margen, se quitaría aquí para que la promesa del
+-- comentario de arriba sea cierta también cuando alguien usa la API a mano.
+--
+-- El servidor nunca pasa por aquí: usa la clave de servicio, que sí tiene todo.
+
+revoke select on public.products          from anon, authenticated;
+grant  select (id, slug, sku, name, subtitle, description, category_id,
+               base_price_ves, compare_at_ves, garment_type, material,
+               print_technique, fit, care_instructions, sizes, colors,
+               is_active, is_featured, is_custom_only, min_order_qty,
+               bulk_prices, lead_time_days, weight_grams, tags,
+               seo_title, seo_description, created_at, updated_at)
+  on public.products to anon, authenticated;
+
+-- Las de las que no hay que quitar ninguna columna, pero que conviene dejar
+-- escritas para que quede claro que el acceso es a propósito.
+grant select on public.categories, public.collections, public.product_images,
+               public.product_spin360, public.product_collections
+  to anon, authenticated;
+
+-- Nada de escritura desde el navegador. El panel sube con la clave de servicio.
+revoke insert, update, delete on all tables in schema public from anon, authenticated;
 
 -- --- Todo lo demás cerrado --------------------------------------------------
 --

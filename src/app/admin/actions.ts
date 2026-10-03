@@ -21,6 +21,7 @@ import { z } from "zod";
 import { ADMIN_COOKIE, checkCredentials, requireAdmin, sessionCookieOptions } from "@/lib/auth";
 import { saveStoreSettings, getBackend } from "@/lib/db";
 import { refreshBcvRate } from "@/lib/bcv";
+import { LIMITES, anotarFallo, clientKey, segundosBloqueados } from "@/lib/security";
 import { deleteImage } from "@/lib/storage";
 import type { ProductImage, RawMaterial } from "@/lib/types";
 import type { AdminResult } from "@/components/admin/ActionForm";
@@ -213,6 +214,16 @@ export async function loginAction(
   _previous: { error?: string } | null,
   formData: FormData,
 ): Promise<{ error?: string }> {
+  const clave = await clientKey();
+  const cubo = `panel:${clave}`;
+
+  // Cuenta los fallos, no los aciertos: así el administrador que se equivoca dos
+  // veces seguidas y luego entra bien no se queda fuera.
+  const bloqueado = await segundosBloqueados(cubo, LIMITES.panel);
+  if (bloqueado > 0) {
+    return { error: `Demasiados intentos. Espera ${formatoEspera(bloqueado)}.` };
+  }
+
   const parsed = loginSchema.safeParse({
     email: text(formData, "email"),
     password: text(formData, "password"),
@@ -223,6 +234,7 @@ export async function loginAction(
 
   const result = checkCredentials(parsed.data.email, parsed.data.password);
   if (!result.ok || !result.token) {
+    await anotarFallo(cubo, LIMITES.panel);
     return { error: result.error ?? "No pudimos iniciar sesión." };
   }
 
@@ -233,6 +245,13 @@ export async function loginAction(
   redirect(
     next.startsWith("/admin") && !next.startsWith("//") ? next : "/admin",
   );
+}
+
+/** "3 minutos" / "40 segundos", para el mensaje de espera. */
+function formatoEspera(segundos: number): string {
+  if (segundos < 60) return `${segundos} segundos`;
+  const minutos = Math.ceil(segundos / 60);
+  return `${minutos} ${minutos === 1 ? "minuto" : "minutos"}`;
 }
 
 /* ------------------------------------------------------------------ */

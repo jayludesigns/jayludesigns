@@ -14,22 +14,33 @@ let supabaseInstance: SupabaseBackend | null = null;
  * - Con NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY → Postgres (Supabase).
  * - Sin esas variables → archivo local `.data/db.json`, ideal para desarrollo
  *   y para probar el panel de administración sin conexión.
+ *
+ * La clave de servicio es la única que vale aquí a propósito. La clave anónima
+ * es pública por diseño y está sujeta a las políticas de RLS, así que usarla en
+ * el servidor haría que el panel leyera de más o de menos sin que nada lo
+ * dijera. Si falta, se avisa en el registro en vez de degradar en silencio.
  */
 export function getBackend(): Backend {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (url && key) {
     supabaseInstance ??= new SupabaseBackend();
     return supabaseInstance;
   }
+  if (url && !key && !avisado) {
+    avisado = true;
+    console.error(
+      "[db] NEXT_PUBLIC_SUPABASE_URL está definida pero SUPABASE_SERVICE_ROLE_KEY no. " +
+        "Se usará el archivo local; define la clave de servicio para que el panel escriba de verdad.",
+    );
+  }
   return localBackend;
 }
 
+let avisado = false;
+
 export function isSupabaseConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      (process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
-  );
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
 /* ------------------------------------------------------------------ */

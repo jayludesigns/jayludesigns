@@ -21,12 +21,25 @@ export interface AdminSession {
   exp: number;
 }
 
+/**
+ * Clave de firma.
+ *
+ * En producción no hay valor por defecto a propósito: si `ADMIN_SESSION_SECRET`
+ * no está definida, firmar con una constante que vive en el repositorio público
+ * permitiría a cualquiera falsificar una sesión de administrador y los enlaces
+ * privados de pedido. Es preferible que el panel se caiga con un error claro a
+ * que quede abierto. En desarrollo sí hay red de seguridad para no tener que
+ * definir nada.
+ */
 function secret(): string {
-  return (
-    process.env.ADMIN_SESSION_SECRET ??
-    process.env.ADMIN_PASSWORD ??
-    "jaylu-desarrollo-cambia-esto"
-  );
+  const configured = process.env.ADMIN_SESSION_SECRET?.trim();
+  if (configured) return configured;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(
+      "Falta ADMIN_SESSION_SECRET. Sin ella no se puede firmar nada de forma segura.",
+    );
+  }
+  return process.env.ADMIN_PASSWORD ?? "jaylu-desarrollo-cambia-esto";
 }
 
 function sign(payload: string): string {
@@ -85,9 +98,15 @@ export const sessionCookieOptions = {
 /* ------------------------------------------------------------------ */
 
 export function adminCredentials() {
+  const password = process.env.ADMIN_PASSWORD?.trim();
+  if (!password && process.env.NODE_ENV === "production") {
+    throw new Error(
+      "Falta ADMIN_PASSWORD. Sin ella el panel no se puede abrir de forma segura.",
+    );
+  }
   return {
     email: (process.env.ADMIN_EMAIL ?? "admin@jaylu.ve").toLowerCase(),
-    password: process.env.ADMIN_PASSWORD ?? "jaylu2026",
+    password: password ?? "jaylu2026",
   };
 }
 
